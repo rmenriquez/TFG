@@ -10,145 +10,148 @@ USE `tfg`;
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `usuario`
+-- Estructura de tabla para la tabla `user`
 --
-DROP TABLE IF EXISTS `usuario`;
-CREATE TABLE IF NOT EXISTS `usuario` (
-`id_usuario` int(11) NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `usuario` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+`id_user` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `user` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `n_cli_bodas` int(3) NULL,
-  `n_cli_bautizos` int(3) NULL,
-  `n_cli_comuniones` int(3) NULL,
-  `n_cli_otros` int(3) NULL,
-  PRIMARY KEY (id_usuario)
+  `n_cli_wedding` int(3) NULL,
+  `n_cli_christening` int(3) NULL,
+  `n_cli_communion` int(3) NULL,
+  `n_cli_others` int(3) NULL,
+  PRIMARY KEY (id_user)
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `comida`
+-- Estructura de tabla para la tabla `food`
 --
-DROP TABLE IF EXISTS `comida`;
-CREATE TABLE IF NOT EXISTS `comida` (
-  `id_comida` int(11) NOT NULL,
-  `titulo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
-  `imagen` varchar(255) NULL,
-  `restaurante` int(11) NOT NULL,
-  PRIMARY KEY (id_comida),
-  FOREIGN KEY (restaurante) REFERENCES usuario(id_usuario) ON DELETE CASCADE
+DROP TABLE IF EXISTS `food`;
+CREATE TABLE IF NOT EXISTS `food` (
+  `id_food` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `description` text COLLATE utf8_spanish_ci NOT NULL,
+  `image` varchar(255) NULL,
+  `restaurant` int(11) NOT NULL,
+  `price` DECIMAL (4,2) NULL,
+  PRIMARY KEY (id_food),
+  FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `alergeno`
+-- Estructura de tabla para la tabla `allergen`
 --
-DROP TABLE IF EXISTS `alergeno`;
-CREATE TABLE IF NOT EXISTS `alergeno` (
-	`id_alergeno` int(11) NOT NULL,
-	`nombre_alergeno` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-	PRIMARY KEY (id_alergeno)
+DROP TABLE IF EXISTS `allergen`;
+CREATE TABLE IF NOT EXISTS `allergen` (
+	`id_allergen` int(11) NOT NULL,
+	`name_allergen` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+	PRIMARY KEY (id_allergen)
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `comida_con_alergeno`
+-- Estructura de tabla para la tabla `food_allergen`
 --
-DROP TABLE IF EXISTS `comida_alergeno`;
-CREATE TABLE IF NOT EXISTS `comida_alergeno` (
-	id_comida int(11) NOT NULL,
-	id_alergeno int(11) NOT NULL,
-	PRIMARY KEY (id_comida, id_alergeno),
-	FOREIGN KEY (id_comida) REFERENCES comida(id_comida) ON DELETE CASCADE,
-	FOREIGN KEY (id_alergeno) REFERENCES alergeno(id_alergeno) ON DELETE CASCADE
+DROP TABLE IF EXISTS `food_allergen`;
+CREATE TABLE IF NOT EXISTS `food_allergen` (
+	id_food int(11) NOT NULL,
+	id_allergen int(11) NOT NULL,
+	PRIMARY KEY (id_food, id_allergen),
+	FOREIGN KEY (id_food) REFERENCES food(id_food) ON DELETE CASCADE,
+	FOREIGN KEY (id_allergen) REFERENCES allergen(id_allergen) ON DELETE CASCADE
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `personal`
+-- Estructura de tabla para la tabla `stuff`
 --
-DROP TABLE IF EXISTS `personal`;
-CREATE TABLE IF NOT EXISTS `personal` (
-	`id_personal` varchar(9) NOT NULL,
-	`nombre` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-	`apellidos` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
-	`fecha_nacimiento` date NULL,
-	`restaurante` int(11) NOT NULL,
-	PRIMARY KEY (id_personal),
-	FOREIGN KEY (restaurante) REFERENCES usuario(id_usuario) ON DELETE CASCADE
+DROP TABLE IF EXISTS `stuff`;
+CREATE TABLE IF NOT EXISTS `stuff` (
+	`id_stuff` varchar(9) NOT NULL,
+	`name` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+	`surnames` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
+	`birthdate` date NULL,
+	`email` varchar(150) NOT NULL,
+	`restaurant` int(11) NOT NULL,
+	PRIMARY KEY (id_stuff),
+	FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `evento`
+-- Estructura de tabla para la tabla `event`
 --
-DROP TABLE IF EXISTS `evento`;
-CREATE TABLE IF NOT EXISTS `evento` (
-	`id_evento` int(10) NOT NULL,
-	`tipo` varchar(8) NOT NULL,
-	`nombre` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-	`fecha` date NOT NULL,
-	`num_invitados` int(3) NOT NULL,
-	`num_ninos` int(3) NOT NULL,
-	`mesa_dulce_propia` boolean NULL,
-	`observaciones` text NOT NULL,
-	`restaurante` int(11) NOT NULL,
-	`telefono` int(13) NOT NULL,	
-	PRIMARY KEY (id_evento),
-	FOREIGN KEY (restaurante) REFERENCES usuario(id_usuario) ON DELETE CASCADE
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE IF NOT EXISTS `event` (
+	`id_event` int(10) NOT NULL AUTO_INCREMENT,
+	`type` varchar(8) NOT NULL,
+	`name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+	`date` date NOT NULL,
+	`guests` int(3) NOT NULL,
+	`children` int(3) NOT NULL,
+	`own_sweet_table` boolean NULL,
+	`observations` text NOT NULL,
+	`restaurant` int(11) NOT NULL,
+	`phone` int(13) NOT NULL,
+  `price` DECIMAL (4,2) NULL,
+	PRIMARY KEY (id_event),
+	FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `personal_evento`
+-- Estructura de tabla para la tabla `stuff_event`
 --
-DROP TABLE IF EXISTS `personal_evento`;
-CREATE TABLE IF NOT EXISTS `personal_evento` (
-	`personal` varchar(9) NOT NULL,
-	`evento` int(10) NOT NULL,
-	PRIMARY KEY (personal, evento),
-	FOREIGN KEY (personal) REFERENCES personal(id_personal) ON DELETE CASCADE,
-	FOREIGN KEY (evento) REFERENCES evento(id_evento) ON DELETE CASCADE
+DROP TABLE IF EXISTS `stuff_event`;
+CREATE TABLE IF NOT EXISTS `stuff_event` (
+	`stuff` varchar(9) NOT NULL,
+	`event` int(10) NOT NULL,
+	PRIMARY KEY (stuff, event),
+	FOREIGN KEY (stuff) REFERENCES stuff(id_stuff) ON DELETE CASCADE,
+	FOREIGN KEY (event) REFERENCES event(id_event) ON DELETE CASCADE
 );
 
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `comida_evento`
+-- Estructura de tabla para la tabla `food_event`
 --
-DROP TABLE IF EXISTS `comida_evento`;
-CREATE TABLE IF NOT EXISTS `comida_evento` (
-	`comida` int(11) NOT NULL,
-	`evento` int(10) NOT NULL,
-	`pinzar` boolean NOT NULL,
-	PRIMARY KEY (comida, evento),
-	FOREIGN KEY (comida) REFERENCES comida(id_comida) ON DELETE CASCADE,
-	FOREIGN KEY (evento) REFERENCES evento(id_evento) ON DELETE CASCADE
+DROP TABLE IF EXISTS `food_event`;
+CREATE TABLE IF NOT EXISTS `food_event` (
+	`food` int(11) NOT NULL,
+	`event` int(10) NOT NULL,
+	`clamp` boolean NOT NULL,
+	PRIMARY KEY (food, event),
+	FOREIGN KEY (food) REFERENCES food(id_food) ON DELETE CASCADE,
+	FOREIGN KEY (event) REFERENCES event(id_event) ON DELETE CASCADE
 );
 
 
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Volcado de datos para la tabla `user`
 -- Por cada 20 personas, atienden n_cli_X camareros 
-INSERT INTO `usuario` (`id_usuario`, `nombre`, `usuario`, `password`, `n_cli_bodas`, `n_cli_bautizos`, `n_cli_comuniones`, `n_cli_otros`) VALUES
+INSERT INTO `user` (`id_user`, `name`, `user`, `password`, `n_cli_wedding`, `n_cli_christening`, `n_cli_communion`, `n_cli_others`) VALUES
 (1, 'Raquel', 'Novaiño', 'novaiño', 1, 1, 1, 1),
 (2, 'Sandra', 'PazoMonterrey', 'monterrey', 2, 1, 1, 1),
 (3, 'Fabio', 'Galileo', 'galileo', 3, 2, 2, 2);
 
 --
--- Volcado de datos para la tabla `comida`
+-- Volcado de datos para la tabla `food`
 --
-INSERT INTO `comida` (`id_comida`, `titulo`, `descripcion`, `imagen`, `restaurante`) VALUES
-(1, 'Huevos fritos', '- Huevos de gallina\r\n- Aceite\r\n', 'https://www.iglesiaenaragon.com/wp-content/uploads/2018/02/huevo_frito_con_puntillas.jpg', 1),
-(2, 'Salpicón de marisco', '- Buey de mar o Centolla\r\n- Langostinos\r\n- Huevo\r\n- Cebolleta\r\n- Pimiento verde italiano \r\n- Pimiento rojo \r\n- Aceite de oliva virgen extra \r\n- Vinagre', 'http://estoyhechouncocinillas.com/wp-content/uploads/2017/10/salpicon-de-pescado-y-marisco.jpg', 1),
-(3, 'Ravioli formaggi','Pasta fresca del día rellena de queso formaggi, adornada con nueces y perejil', 'https://www.gustissimo.it/articoli/ricette/gnocchi/ravioli-con-salsa-di-formaggio-e-noci.jpg', 3);
+INSERT INTO `food` (`id_food`, `title`, `description`, `image`, `restaurant`, `price`) VALUES
+(1, 'Huevos fritos', '- Huevos de gallina\r\n- Aceite\r\n', 'https://www.iglesiaenaragon.com/wp-content/uploads/2018/02/huevo_frito_con_puntillas.jpg', 1, 3.50),
+(2, 'Salpicón de marisco', '- Buey de mar o Centolla\r\n- Langostinos\r\n- Huevo\r\n- Cebolleta\r\n- Pimiento verde italiano \r\n- Pimiento rojo \r\n- Aceite de oliva virgen extra \r\n- Vinagre', 'http://estoyhechouncocinillas.com/wp-content/uploads/2017/10/salpicon-de-pescado-y-marisco.jpg', 1, 5.50),
+(3, 'Ravioli formaggi','Pasta fresca del día rellena de queso formaggi, adornada con nueces y perejil', 'https://www.gustissimo.it/articoli/ricette/gnocchi/ravioli-con-salsa-di-formaggio-e-noci.jpg', 3, 4.25);
 
 --
--- Volcado de datos para la tabla `alergeno`
+-- Volcado de datos para la tabla `allergen`
 --
-INSERT INTO `alergeno` (`id_alergeno`,`nombre_alergeno`) VALUES
+INSERT INTO `allergen` (`id_allergen`,`name_allergen`) VALUES
 (1, 'Gluten'),
 (2, 'Crustáceos y productos a base de crustáceos'),
 (3, 'Huevos y productos a base de huevos'),
@@ -165,9 +168,9 @@ INSERT INTO `alergeno` (`id_alergeno`,`nombre_alergeno`) VALUES
 (14, 'Moluscos y productos a base de moluscos');
 
 --
--- Volcado de datos para la tabla `comida_alergeno`
+-- Volcado de datos para la tabla `food_allergen`
 --
-INSERT INTO `comida_alergeno` (`id_comida`, `id_alergeno`) VALUES
+INSERT INTO `food_allergen` (`id_food`, `id_allergen`) VALUES
 (1, 3),
 (2, 2),
 (2, 4),
@@ -177,26 +180,26 @@ INSERT INTO `comida_alergeno` (`id_comida`, `id_alergeno`) VALUES
 (3, 8);
 
 --
--- Volcado de datos para la tabla `personal`
+-- Volcado de datos para la tabla `stuff`
 --
-INSERT INTO `personal` (`id_personal`,`nombre`,`apellidos`,`fecha_nacimiento`,`restaurante`) VALUES
-('44489093D','Raquel','Marcos Enríquez','1992-02-20',1),
-('44489094D','Javier','Martinez Suarez','1981-10-06',1),
-('44489095D','Hugo','Marquez Da Silva','1981-10-09',1),
-('44489096D','Luis','Álvarez Pérez','1965-12-23',2),
-('44489097D','Omar','Sánchez Rois',' 1988-08-06',2),
-('44489098D','María','Jiménez Ortega','1975-04-04',2),
-('44489099D','Laura','González González','1995-03-19',2),
-('44489100D','Pablo','López Oubiña','1990-11-12',2),
-('44489101D','Elsa','Cid Álvarez','1994-12-06',3),
-('44489102D','Miguel','Crespo Peiteado','1991-07.15',3),
-('44489103D','Joaquina','Moranda Fernández','1977-05-09',3);
+INSERT INTO `stuff` (`id_stuff`,`name`,`surnames`,`email`, `birthdate`,`restaurant`) VALUES
+('44489093D','Raquel','Marcos Enríquez','b14raquel@gmail.com','1992-02-20',1),
+('44489094D','Javier','Martinez Suarez','b14raquel@gmail.com','1981-10-06',1),
+('44489095D','Hugo','Marquez Da Silva','b14raquel@gmail.com','1981-10-09',1),
+('44489096D','Luis','Álvarez Pérez','b14raquel@gmail.com','1965-12-23',2),
+('44489097D','Omar','Sánchez Rois','b14raquel@gmail.com',' 1988-08-06',2),
+('44489098D','María','Jiménez Ortega','b14raquel@gmail.com','1975-04-04',2),
+('44489099D','Laura','González González','b14raquel@gmail.com','1995-03-19',2),
+('44489100D','Pablo','López Oubiña','b14raquel@gmail.com','1990-11-12',2),
+('44489101D','Elsa','Cid Álvarez','b14raquel@gmail.com','1994-12-06',3),
+('44489102D','Miguel','Crespo Peiteado','b14raquel@gmail.com','1991-07.15',3),
+('44489103D','Joaquina','Moranda Fernández','b14raquel@gmail.com','1977-05-09',3);
 
 --
--- Volcado de datos para la tabla `evento`
+-- Volcado de datos para la tabla `event`
 --
-INSERT INTO `evento` (`id_evento`,`tipo`,`nombre`,`fecha`,`num_invitados`,`num_ninos`,`mesa_dulce_propia`,`observaciones`, `telefono`, `restaurante`) VALUES
-(1,'Boda','Raúl y Sofía','2019-06-15',110,10,true,'Boda de tarde, previsión de llegada al restaurante a las 8 de la tarde.','678889764',1),
+INSERT INTO `event` (`id_event`,`type`,`name`,`date`,`guests`,`children`,`own sweet table`,`observations`, `phone`, `restaurant`) VALUES
+(1,'Boda','Raúl y Sofía','2019-06-15',110,10,true,'Boda de tarde, previsión de llegada al restaurant a las 8 de la tarde.','678889764',1),
 (2,'Bautizo','Juan','2019-06-16',90,3,false,'Hay un alérgico a la lactosa, dos al marisco y uno al gluten. Preguntar a cada uno qué quieren.','654673421',1),
 (3,'Comunión','Ainara','2019-07-27',53,15,true,'Hora prevista de llegada: 14:00.','655643101',1),
 (4,'Otro','Cena de empresa - Mesidana','2018-02-11',26,0,false,'Quieren barra libre con reservas, 3 horas máximo desde el café.','988345444',2),
@@ -204,9 +207,9 @@ INSERT INTO `evento` (`id_evento`,`tipo`,`nombre`,`fecha`,`num_invitados`,`num_n
 (6,'Boda','Paco y Miguel','2019-08-14',88,7,false,'Boda de mañana. Por favor, llamar al autobús a las 01:30.','680009989',3);
 
 --
--- Volcado de datos para la tabla `personal_evento`
+-- Volcado de datos para la tabla `stuff_event`
 --
-INSERT INTO `personal_evento`(`personal`,`evento`) VALUES 
+INSERT INTO `stuff_event`(`stuff`,`event`) VALUES
 ('44489093D',1),
 ('44489094D',1),
 ('44489095D',1),
@@ -220,9 +223,9 @@ INSERT INTO `personal_evento`(`personal`,`evento`) VALUES
 ('44489103D',6);
 
 --
--- Volcado de datos para la tabla `comida_evento`
+-- Volcado de datos para la tabla `food_event`
 --
-INSERT INTO `comida_evento` (`comida`,`evento`,`pinzar`) VALUES
+INSERT INTO `food_event` (`food`,`event`,`clamp`) VALUES
 (2,1,false),
 (3,1,true),
 (2,2,false),
