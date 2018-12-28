@@ -17,19 +17,19 @@ class Event
 
     /**
      * The type of the event: wedding, christening, communion or others
-     * @var varchar
+     * @var string
      */
     private $type;
 
     /**
      * The name of the event
-     * @var varchar
+     * @var string
      */
     private $name;
 
     /**
      * The date of the event
-     * @var date
+     * @var Date
      */
     private $date;
 
@@ -53,7 +53,7 @@ class Event
 
     /**
      * Observations for the event
-     * @var varchar
+     * @var string
      */
     private $observations;
 
@@ -101,7 +101,8 @@ class Event
     }
 
     /**
-     * @param null $id_event
+     * Sets the id for the event
+     * @param int $id_event
      */
     public function setIdEvent($id_event)
     {
@@ -109,7 +110,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the type of the event
+     * @return string
      */
     public function getType()
     {
@@ -117,7 +119,8 @@ class Event
     }
 
     /**
-     * @param null $type
+     * Sets the type for the event
+     * @param string $type
      */
     public function setType($type)
     {
@@ -125,6 +128,7 @@ class Event
     }
 
     /**
+     * Gets the name of the event
      * @return null
      */
     public function getName()
@@ -133,7 +137,8 @@ class Event
     }
 
     /**
-     * @param null $name
+     * Sets the name for the event
+     * @param string $name
      */
     public function setName($name)
     {
@@ -141,7 +146,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the date of the event
+     * @return date
      */
     public function getDate()
     {
@@ -149,7 +155,8 @@ class Event
     }
 
     /**
-     * @param null $date
+     * Sets the date for the event
+     * @param date $date
      */
     public function setDate($date)
     {
@@ -157,7 +164,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the number of the guests of the event
+     * @return int
      */
     public function getGests()
     {
@@ -165,7 +173,8 @@ class Event
     }
 
     /**
-     * @param null $gests
+     * Sets the number of the guests for the event
+     * @param int $gests
      */
     public function setGests($gests)
     {
@@ -173,7 +182,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the number of children in the guests of the event
+     * @return int
      */
     public function getChildren()
     {
@@ -181,7 +191,8 @@ class Event
     }
 
     /**
-     * @param null $children
+     * Sets the number of the children in the guests of the event
+     * @param int $children
      */
     public function setChildren($children)
     {
@@ -189,7 +200,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the sweet table is by restaurant (false) or by external part (true)
+     * @return boolean
      */
     public function getOwnSweetTable()
     {
@@ -197,7 +209,8 @@ class Event
     }
 
     /**
-     * @param null $own_sweet_table
+     * Sets that the sweet table is by restaurant (false) or by external part (true)
+     * @param boolean $own_sweet_table
      */
     public function setOwnSweetTable($own_sweet_table)
     {
@@ -205,7 +218,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the observations of the event
+     * @return string
      */
     public function getObservations()
     {
@@ -213,7 +227,8 @@ class Event
     }
 
     /**
-     * @param null $observations
+     * Sets the observations for the event
+     * @param string $observations
      */
     public function setObservations($observations)
     {
@@ -221,7 +236,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the code of the restaurant where the event will be
+     * @return int
      */
     public function getRestaurant()
     {
@@ -229,7 +245,8 @@ class Event
     }
 
     /**
-     * @param null $restaurant
+     * Sets the code of the restaurat where the event will be
+     * @param int $restaurant
      */
     public function setRestaurant($restaurant)
     {
@@ -237,7 +254,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the event organizer phone
+     * @return int
      */
     public function getPhone()
     {
@@ -245,7 +263,8 @@ class Event
     }
 
     /**
-     * @param null $phone
+     * Sets the event organizer phone
+     * @param int $phone
      */
     public function setPhone($phone)
     {
@@ -253,7 +272,8 @@ class Event
     }
 
     /**
-     * @return null
+     * Gets the total price of the event
+     * @return double
      */
     public function getPrice()
     {
@@ -261,7 +281,8 @@ class Event
     }
 
     /**
-     * @param null $price
+     * Sets the total price for the event
+     * @param double $price
      */
     public function setPrice($price)
     {

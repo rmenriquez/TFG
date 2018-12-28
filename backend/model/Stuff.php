@@ -57,7 +57,7 @@ class Stuff
 
     /**
      * Gets the Id of this stuff (DNI)
-     * @return varchar The id of this stuff (DNI)
+     * @return string The id of this stuff (DNI)
      */
     public function getIdStuff()
     {
@@ -66,7 +66,7 @@ class Stuff
 
     /**
      * Sets the id for this stuff
-     * @param varchar $id_stuff
+     * @param string $id_stuff
      */
     public function setIdStuff($id_stuff)
     {
@@ -75,7 +75,7 @@ class Stuff
 
     /**
      * Gets the name of this stuff
-     * @return varchar The name of this stuff
+     * @return string The name of this stuff
      */
     public function getName()
     {
@@ -84,7 +84,7 @@ class Stuff
 
     /**
      * Sets the name for this stuff
-     * @param varchar $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -93,7 +93,7 @@ class Stuff
 
     /**
      * Gets the surnames of this stuff
-     * @return varchar
+     * @return string
      */
     public function getSurnames()
     {
@@ -102,7 +102,7 @@ class Stuff
 
     /**
      * Sets the surnames for this stuff
-     * @param varchar $surnames
+     * @param string $surnames
      */
     public function setSurnames($surnames)
     {
@@ -129,7 +129,7 @@ class Stuff
 
     /**
      * Sets the email of this stuff
-     * @return varchar
+     * @return string
      */
     public function getEmail()
     {
@@ -138,7 +138,7 @@ class Stuff
 
     /**
      * Sets the email for this stuff
-     * @param varchar $email
+     * @param string $email
      */
     public function setEmail($email)
     {
