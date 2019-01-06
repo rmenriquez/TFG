@@ -147,6 +147,17 @@ class EventMapper
         $stmt = $this->db->prepare("SELECT name, surnames FROM stuff
                                     WHERE id_stuff IN (SELECT stuff FROM stuff_event WHERE event =?)");
         $stmt->execute(array($event->getIdEvent()));
+        $stuffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stuffs = array();
+
+        foreach ($stuffs_db as $stuff) {
+            $author = new User($note["username"]);
+            array_push($notes, new Food($note["id_note"], $note["title"], $note["content"],$note["creation_date"], $author));
+
+        }
+
+        return $notes;
     }
 
     /**
@@ -157,6 +168,27 @@ class EventMapper
     public function setStuffEvent(Event $event, $id_stuff){
         $stmt = $this->db->prepare("INSERT INTO stuff_event(stuff, event) VALUES (?,?)");
         $stmt->execute(array($id_stuff, $event->getIdEvent() ));
+    }
 
+    public function AllFoodEvent($event){
+        $stmt = $this->db->prepare("SELECT id_food, title, description, image, restaurant, price, clamp
+                                    FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =1");
+        $stmt->execute(array($event));
+        $foodsEvent_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $events = array();
+
+        foreach ($foodsEvent_db as $foodEvent) {
+            array_push($events, $foodEvent["id_note"], $foodEvent["title"], $foodEvent["description"],
+                $foodEvent["image"], $foodEvent["restaurant"], $foodEvent["price"], $foodEvent["clamp"]);
+
+        }
+
+        return $events;
+    }
+
+    public function setFoodEvent($id_food, $id_event, $clamp){
+        $stmt = $this->db->prepare("INSERT INTO food_event (food,event,clamp) values (?,?,?)");
+        $stmt->execute(array($id_food,$id_event, $clamp));
     }
 }
