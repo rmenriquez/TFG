@@ -57,6 +57,32 @@ class UserMapper {
 		}
 	}
 
+//Funciona
+	public function getIdUserAux($user){
+	    $stmt = $this->db->prepare("SELECT id_user FROM user WHERE user.user =?");
+	    $stmt->execute(array($user));
+	    $id_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+	    if($id_user != null){
+	        return $id_user['id_user'];
+        }else{
+	        return NULL;
+        }
+
+    }
+
+    //Editar
+    public function getUserComplete(User $user){
+        $stmt = $this->db->prepare("SELECT id_user FROM user WHERE user.user =?");
+        $stmt->execute(array($user));
+        $id_user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($id_user != null){
+            return $id_user['id_user'];
+        }else{
+
+        }}
+
     /*public function findAll(User $user,$note) {
         $stmt = $this->db->prepare("SELECT id_user,name,surname,username FROM user WHERE username!= ? AND id_user NOT IN (SELECT user FROM shared WHERE note = ? )");
         $stmt->execute(array($user->getUsername(),$note));

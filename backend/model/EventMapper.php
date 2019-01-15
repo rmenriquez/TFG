@@ -109,6 +109,31 @@ class EventMapper
         return $events;
     }
 
+
+    public function findById($idEvent){
+        $stmt = $this->db->prepare("SELECT event.id_event, event.type, event.name, event.date, event.guests, event.children, event.sweet_table, event.observations, event.phone, event.restaurant, event.price
+                                    FROM event, user WHERE event.id_event =? AND event.restaurant = user.id_user");
+        $stmt->execute(array($idEvent));
+        $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($event != null) {
+            return new Food(
+                $event["id_event"],
+                $event["type"],
+                $event["name"],
+                $event["date"],
+                $event["guests"],
+                $event["children"],
+                $event["sweet_table"],
+                $event["observations"],
+                $event["restaurant"],
+                $event["phone"],
+                $event["price"]);
+        } else {
+            return NULL;
+        }
+    }
+
     /**
      * Saves an Event into the database
      * @param Event $event
@@ -170,6 +195,10 @@ class EventMapper
         $stmt->execute(array($id_stuff, $event->getIdEvent() ));
     }
 
+    /**
+     * @param $event
+     * @return array
+     */
     public function AllFoodEvent($event){
         $stmt = $this->db->prepare("SELECT id_food, title, description, image, restaurant, price, clamp
                                     FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =1");
@@ -187,6 +216,11 @@ class EventMapper
         return $events;
     }
 
+    /**
+     * @param $id_food
+     * @param $id_event
+     * @param $clamp
+     */
     public function setFoodEvent($id_food, $id_event, $clamp){
         $stmt = $this->db->prepare("INSERT INTO food_event (food,event,clamp) values (?,?,?)");
         $stmt->execute(array($id_food,$id_event, $clamp));

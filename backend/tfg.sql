@@ -67,17 +67,17 @@ CREATE TABLE IF NOT EXISTS `food_allergen` (
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `stuff`
+-- Estructura de tabla para la tabla `staff`
 --
-DROP TABLE IF EXISTS `stuff`;
-CREATE TABLE IF NOT EXISTS `stuff` (
-	`id_stuff` varchar(9) NOT NULL,
+DROP TABLE IF EXISTS `staff`;
+CREATE TABLE IF NOT EXISTS `staff` (
+	`id_staff` varchar(9) NOT NULL,
 	`name` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
 	`surnames` varchar(150) COLLATE utf8_spanish_ci NOT NULL,
 	`birthdate` date NULL,
 	`email` varchar(150) NOT NULL,
 	`restaurant` int(11) NOT NULL,
-	PRIMARY KEY (id_stuff),
+	PRIMARY KEY (id_staff),
 	FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
 
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 	`date` date NOT NULL,
 	`guests` int(3) NOT NULL,
 	`children` int(3) NOT NULL,
-	`own_sweet_table` boolean NULL,
+	`sweet_table` boolean NULL,
 	`observations` text NOT NULL,
 	`restaurant` int(11) NOT NULL,
 	`phone` int(13) NOT NULL,
@@ -104,14 +104,14 @@ CREATE TABLE IF NOT EXISTS `event` (
 
 -- ----------------------
 --
--- Estructura de tabla para la tabla `stuff_event`
+-- Estructura de tabla para la tabla `staff_event`
 --
-DROP TABLE IF EXISTS `stuff_event`;
-CREATE TABLE IF NOT EXISTS `stuff_event` (
-	`stuff` varchar(9) NOT NULL,
+DROP TABLE IF EXISTS `staff_event`;
+CREATE TABLE IF NOT EXISTS `staff_event` (
+	`staff` varchar(9) NOT NULL,
 	`event` int(10) NOT NULL,
-	PRIMARY KEY (stuff, event),
-	FOREIGN KEY (stuff) REFERENCES stuff(id_stuff) ON DELETE CASCADE,
+	PRIMARY KEY (staff, event),
+	FOREIGN KEY (staff) REFERENCES staff(id_staff) ON DELETE CASCADE,
 	FOREIGN KEY (event) REFERENCES event(id_event) ON DELETE CASCADE
 );
 
@@ -180,9 +180,9 @@ INSERT INTO `food_allergen` (`id_food`, `id_allergen`) VALUES
 (3, 8);
 
 --
--- Volcado de datos para la tabla `stuff`
+-- Volcado de datos para la tabla `staff`
 --
-INSERT INTO `stuff` (`id_stuff`,`name`,`surnames`,`email`, `birthdate`,`restaurant`) VALUES
+INSERT INTO `staff` (`id_staff`,`name`,`surnames`,`email`, `birthdate`,`restaurant`) VALUES
 ('44489093D','Raquel','Marcos Enríquez','b14raquel@gmail.com','1992-02-20',1),
 ('44489094D','Javier','Martinez Suarez','b14raquel@gmail.com','1981-10-06',1),
 ('44489095D','Hugo','Marquez Da Silva','b14raquel@gmail.com','1981-10-09',1),
@@ -198,7 +198,7 @@ INSERT INTO `stuff` (`id_stuff`,`name`,`surnames`,`email`, `birthdate`,`restaura
 --
 -- Volcado de datos para la tabla `event`
 --
-INSERT INTO `event` (`id_event`,`type`,`name`,`date`,`guests`,`children`,`own sweet table`,`observations`, `phone`, `restaurant`) VALUES
+INSERT INTO `event` (`id_event`,`type`,`name`,`date`,`guests`,`children`,`sweet_table`,`observations`, `phone`, `restaurant`) VALUES
 (1,'Boda','Raúl y Sofía','2019-06-15',110,10,true,'Boda de tarde, previsión de llegada al restaurant a las 8 de la tarde.','678889764',1),
 (2,'Bautizo','Juan','2019-06-16',90,3,false,'Hay un alérgico a la lactosa, dos al marisco y uno al gluten. Preguntar a cada uno qué quieren.','654673421',1),
 (3,'Comunión','Ainara','2019-07-27',53,15,true,'Hora prevista de llegada: 14:00.','655643101',1),
@@ -207,9 +207,9 @@ INSERT INTO `event` (`id_event`,`type`,`name`,`date`,`guests`,`children`,`own sw
 (6,'Boda','Paco y Miguel','2019-08-14',88,7,false,'Boda de mañana. Por favor, llamar al autobús a las 01:30.','680009989',3);
 
 --
--- Volcado de datos para la tabla `stuff_event`
+-- Volcado de datos para la tabla `staff_event`
 --
-INSERT INTO `stuff_event`(`stuff`,`event`) VALUES
+INSERT INTO `staff_event`(`staff`,`event`) VALUES
 ('44489093D',1),
 ('44489094D',1),
 ('44489095D',1),

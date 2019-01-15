@@ -35,7 +35,6 @@ class FoodMapper
         foreach ($foods_db as $food){
             array_push($foods, new Food($food["id_food"], $food["title"], $food["description"]));
         }
-
         return $foods;
     }
 
@@ -45,7 +44,7 @@ class FoodMapper
      * @return array of allergens for food
      */
     public function getFoodAllergens($food){
-        $stmt = $this->db->prepare("SELECT name_allergen FROM food_allergen, allergen 
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
                                                 WHERE food_allergen.id_food = ? 
                                                 AND food_allergen.id_allergen = allergen.id_allergen");
         $stmt->execute(array($food));
@@ -116,5 +115,26 @@ class FoodMapper
         $stmt->execute(array($food->getIdFood()));
     }
 
+
+    public function findById($idFood){
+        $stmt = $this->db->prepare("SELECT food.id_food, food.title, food.description, food.image, 
+                                      food.restaurant, food.price 
+                                      FROM food, user 
+                                      WHERE food.id_food =? AND food.restaurant = user.id_user");
+        $stmt->execute(array($idFood));
+        $event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($event != null) {
+            return new Food(
+                $event["id_food"],
+                $event["title"],
+                $event["description"],
+                $event["image"],
+                $event["restaurant"],
+                $event["price"]);
+        } else {
+            return NULL;
+        }
+    }
 
 }

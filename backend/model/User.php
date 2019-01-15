@@ -64,7 +64,7 @@ class User {
      * @param int $n_cli_communion The number of waiters for every 20 guests
      * @param int $n_cli_others The number of waiters for every 20 guests
 	*/
-	public function __construct($id_user=NULL,$name=NULL,$user=NULL,$password=NULL, $n_cli_wedding=NULL, $n_cli_christening=NULL, $n_cli_communion=NULL, $n_cli_others=NULL) {
+	public function __construct($user=NULL,$id_user=NULL,$name=NULL,$password=NULL, $n_cli_wedding=NULL, $n_cli_christening=NULL, $n_cli_communion=NULL, $n_cli_others=NULL) {
 		$this->id_user=$id_user;
 		$this->name=$name;
 		$this->user = $user;
@@ -99,7 +99,7 @@ class User {
 	* @return string The username of this user
 	*/
 	public function getUser() {
-		return $this->username;
+		return $this->user;
 	}
 
     /**
