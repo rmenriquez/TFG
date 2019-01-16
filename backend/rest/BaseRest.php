@@ -45,8 +45,9 @@ class BaseRest
             if ($userMapper->isValidUser(
                 $_SERVER['PHP_AUTH_USER'],
                 $_SERVER['PHP_AUTH_PW'])) {
-                $idAux = $userMapper->getIdUserAux($_SERVER['PHP_AUTH_USER']);
-                return new User($_SERVER['PHP_AUTH_USER'], $idAux);
+
+                $userAux = $userMapper->getUserComplete($_SERVER['PHP_AUTH_USER']);
+                return $userAux;
             } else {
                 header($_SERVER['SERVER_PROTOCOL'].' 401 Unauthorized');
                 header('WWW-Authenticate: Basic realm="Rest API of TFG"');

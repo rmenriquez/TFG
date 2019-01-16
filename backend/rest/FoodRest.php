@@ -35,7 +35,6 @@ class FoodRest extends BaseRest{
     //Funciona a la perfección
     public function getFoods(){
         $currentUser = parent::authenticateUser();
-        var_dump($currentUser);
         $foods = $this->FoodMapper->findAll($currentUser->getIdUser());
 
         // json_encode Note objects.
@@ -103,7 +102,6 @@ class FoodRest extends BaseRest{
     //Funciona a la perfección
     public function viewFood($foodId){
         $currentUser = parent::authenticateUser();
-
         //find the Food object in the database
         $food = $this->FoodMapper->findById($foodId);
         if($food == NULL){
@@ -112,7 +110,7 @@ class FoodRest extends BaseRest{
         }
         if($food->getRestaurant() != $currentUser->getIdUser()){
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("You are not the authorized user for view this note");
+            echo("You are not the authorized user for view this food");
             return;
         }
 
@@ -136,7 +134,6 @@ class FoodRest extends BaseRest{
 
     public function updateFood($foodId, $data){
         $currentUser = parent::authenticateUser();
-
         //find the Food object in the database
         $food = $this->FoodMapper->findById($foodId);
         if($food == NULL){

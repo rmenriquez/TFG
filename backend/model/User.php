@@ -84,6 +84,16 @@ class User {
 		return $this->id_user;
 	}
 
+    /**
+     * Sets the id of this user
+     *
+     * @param int $id The id of this user
+     * @return void
+     */
+    public function setIdUser($id_user) {
+        $this->id_user = $id_user;
+    }
+
 	/**
 	* Gets the name of this user
 	*
@@ -92,6 +102,16 @@ class User {
 	public function getName() {
 		return $this->name;
 	}
+
+    /**
+     * Sets the name of this user
+     *
+     * @param string $name The name of this user
+     * @return void
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
 
 	/**
 	* Gets the username of this user
@@ -103,6 +123,16 @@ class User {
 	}
 
     /**
+     * Sets the username of this user
+     *
+     * @param string $username The username of this user
+     * @return void
+     */
+    public function setUser($user) {
+        $this->user = $user;
+    }
+
+    /**
      * Gets the password of this user
      *
      * @return string The password of this user
@@ -111,35 +141,15 @@ class User {
         return $this->passwd;
     }
 
-	/**
-	* Sets the id of this user
-	*
-	* @param int $id The id of this user
-	* @return void
-	*/
-	public function setIdUser($id) {
-		$this->id = $id;
-	}
-
-	/**
-	* Sets the name of this user
-	*
-	* @param string $name The name of this user
-	* @return void
-	*/
-	public function setName($name) {
-		$this->name = $name;
-	}
-
-	/**
-	* Sets the username of this user
-	*
-	* @param string $username The username of this user
-	* @return void
-	*/
-	public function setUser($user) {
-		$this->user = $user;
-	}
+    /**
+     * Sets the password of this user
+     *
+     * @param string $passwd The password of this user
+     * @return void
+     */
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 
     /**
      * Gets the number of waiters for every 20 guests
@@ -213,15 +223,7 @@ class User {
         $this->n_cli_others = $n_cli_others;
     }
 
-	/**
-	* Sets the password of this user
-	*
-	* @param string $passwd The password of this user
-	* @return void
-	*/
-	public function setPassword($password) {
-		$this->password = $password;
-	}
+
 
 	/**
 	* Checks if the current user instance is valid

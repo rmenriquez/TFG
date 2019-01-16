@@ -71,17 +71,32 @@ class UserMapper {
 
     }
 
-    //Editar
-    public function getUserComplete(User $user){
-        $stmt = $this->db->prepare("SELECT id_user FROM user WHERE user.user =?");
+    //Funciona
+    /**
+     * Returns the complete user for that username
+     *
+     * @param $user The Username for the current user
+     * @return null|User the user complete
+     */
+    public function getUserComplete($user){
+        $stmt = $this->db->prepare("SELECT * FROM user WHERE user.user =?");
         $stmt->execute(array($user));
-        $id_user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($id_user != null){
-            return $id_user['id_user'];
+        $userComplete = $stmt->fetch(PDO::FETCH_ASSOC);
+        $userAux = new User();
+        if($userComplete != null){
+            $userAux->setUser($user);
+            $userAux->setIdUser($userComplete['id_user']);
+            $userAux->setName($userComplete['name']);
+            $userAux->setNCliWedding($userComplete['n_cli_wedding']);
+            $userAux->setNCliChristening($userComplete['n_cli_christening']);
+            $userAux->setNCliCommunion($userComplete['n_cli_communion']);
+            $userAux->setNCliOthers($userComplete['n_cli_others']);
+            return $userAux;
         }else{
-
-        }}
+            echo("NO SE LOGRO RECUPERAR EL USUARIO COMPLETO");
+            return NULL;
+        }
+	}
 
     /*public function findAll(User $user,$note) {
         $stmt = $this->db->prepare("SELECT id_user,name,surname,username FROM user WHERE username!= ? AND id_user NOT IN (SELECT user FROM shared WHERE note = ? )");
