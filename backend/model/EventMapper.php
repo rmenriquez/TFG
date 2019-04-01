@@ -27,7 +27,7 @@ class EventMapper
      * @return array $events array of events
      */
     public function findAll($restaurant){
-        $stmt = $this->db->prepare("SELECT id_event, type, name, date, guests, children, own_sweet_table, 
+        $stmt = $this->db->prepare("SELECT id_event, type, name, date, guests, children, sweet_table, 
                                 observations, restaurant, phone, price FROM event WHERE restaurant =?");
         $stmt->execute(array($restaurant));
 
@@ -36,7 +36,7 @@ class EventMapper
 
         foreach ($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                    $event["guests"], $event["children"], $event["own_sweet_table"], $event["observations"],
+                    $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
                     $event["restaurant"], $event["phone"], $event["price"]));
         }
 
@@ -58,7 +58,7 @@ class EventMapper
 
         foreach($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                        $event["guests"], $event["children"], $event["own_sweet_table"], $event["observations"],
+                        $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
                         $event["restaurant"], $event["phone"],$event["price"] ));
         }
 
@@ -80,7 +80,7 @@ class EventMapper
 
         foreach($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                $event["guests"], $event["children"], $event["own_sweet_table"], $event["observations"],
+                $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
                 $event["restaurant"], $event["phone"],$event["price"] ));
         }
 
@@ -102,7 +102,7 @@ class EventMapper
 
         foreach($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                $event["guests"], $event["children"], $event["own_sweet_table"], $event["observations"],
+                $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
                 $event["restaurant"], $event["phone"],$event["price"] ));
         }
 
@@ -117,7 +117,7 @@ class EventMapper
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($event != null) {
-            return new Food(
+            return new Event(
                 $event["id_event"],
                 $event["type"],
                 $event["name"],
@@ -140,9 +140,9 @@ class EventMapper
      */
     public function save(Event $event){
         $stmt = $this->db->prepare("INSERT INTO event(id_event, type, name, date, guests, children, 
-                                  own_sweet_table, observations, restaurant, phone, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                                  sweet_table, observations, restaurant, phone, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
         $stmt->execute(array($event->getIdEvent(), $event->getType(), $event->getName(), $event->getDate(),
-                        $event->getGests(), $event->getChildren(), $event->getOwnSweetTable(), $event->getObservations(),
+                        $event->getGests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
                         $event->getRestaurant(), $event->getPhone(), $event->getPrice()));
     }
 
@@ -152,7 +152,7 @@ class EventMapper
      */
     public function update(Event $event){
         $stmt = $this->db->prepare("UPDATE event set type=?, name=?, date=?, guests=?, children=?, 
-                                    own_sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
+                                    sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
     }
 
     /**
@@ -177,12 +177,13 @@ class EventMapper
         $stuffs = array();
 
         foreach ($stuffs_db as $stuff) {
-            $author = new User($note["username"]);
-            array_push($notes, new Food($note["id_note"], $note["title"], $note["content"],$note["creation_date"], $author));
+            array_push($stuffs, new Event($stuff["id_event"], $stuff["type"], $stuff["name"],$stuff["date"],
+                $stuff["guests"], $stuff["children"], $stuff["sweet_table"], $stuff["observations"], $stuff["restaurant"],
+                $stuff["phone"], $stuff["price"]));
 
         }
 
-        return $notes;
+        return $stuffs;
     }
 
     /**

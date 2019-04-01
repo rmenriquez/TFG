@@ -64,6 +64,7 @@ class FoodRest extends BaseRest{
     public function createFood($data){
         $currentUser = parent::authenticateUser();
         $food = new Food();
+        $allergens = array();
 
         if(isset($data->title) && isset($data->description)){
             $food->setTitle($data->title);
@@ -71,6 +72,7 @@ class FoodRest extends BaseRest{
             $food->setImage($data->image);
             $food->setRestaurant($currentUser->getIdUser());
             $food->setPrice($data->price);
+            $allergens = $data->allergens;
         }
 
         try{
@@ -78,20 +80,34 @@ class FoodRest extends BaseRest{
             $food->checkIsValidForCreate();
 
             //Save the Post object into database
-            $foodId = $this->FoodMapper->save($food);
+            if($this->FoodMapper->foodExists($currentUser->getIdUser(), $data->title) == false){
+                echo "Food doesnt exist \n";
+                $foodId = $this->FoodMapper->save($food);
 
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
-            echo(json_encode(array(
-                "id_food"=>$foodId,
-                "title"=>$food->getTitle(),
-                "description" => $food->getDescription(),
-                "image" => $food->getImage(),
-                "restaurant" => $food->getRestaurant(),
-                "price" => $food->getPrice()
-            )));
+                //Save the allergens of food
+                $this->AllergenMapper->addAllergenToFood($allergens, $foodId);
+
+                //response OK. Also send post in content
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+                header('Content-Type: application/json');
+                echo(json_encode(array(
+                    "id_food"=>$foodId,
+                    "title"=>$food->getTitle(),
+                    "description" => $food->getDescription(),
+                    "image" => $food->getImage(),
+                    "restaurant" => $food->getRestaurant(),
+                    "price" => $food->getPrice(),
+                    "allergens"=> $allergens
+                )));
+            }else{
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                throw new Exception('The food already exists.');
+            }
+
+
+
         } catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');
@@ -131,7 +147,7 @@ class FoodRest extends BaseRest{
         echo(json_encode($food_array));
     }
 
-
+    //Funciona a la perfección
     public function updateFood($foodId, $data){
         $currentUser = parent::authenticateUser();
         //find the Food object in the database
@@ -163,7 +179,7 @@ class FoodRest extends BaseRest{
         }
     }
 
-
+    //Funciona a la perfección
     public function deleteFood($foodId){
         $currentUser = parent::authenticateUser();
         $food = $this->FoodMapper->findById($foodId);

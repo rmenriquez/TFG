@@ -33,4 +33,5 @@ try{
 }
 // debug
 //print_r($_SERVER);
+//echo("\n ahora va _get \n");
 //print_r($_GET);

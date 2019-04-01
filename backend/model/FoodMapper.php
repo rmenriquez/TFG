@@ -28,7 +28,10 @@ class FoodMapper
         $stmt = $this->db->prepare("SELECT id_food, title, description, image, price
                                                 FROM food, user WHERE restaurant = ? AND id_user = restaurant");
         $stmt->execute(array($restaurant));
+        print_r($stmt);
         $foods_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        print_r($foods_db);
 
         $foods = array();
 
@@ -135,6 +138,37 @@ class FoodMapper
         } else {
             return NULL;
         }
+    }
+
+    /**
+     * Check if the food exists for the restaurant logged in
+     * @param $restaurant
+     * @param $foodName
+     */
+    public function foodExists($restaurant, $foodName){
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM food WHERE title = ? AND restaurant = ?");
+        $stmt->execute(array($foodName, $restaurant));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo "\nprint_r de data[count]:\n";
+        print_r($data['count']);
+        echo "\n";
+
+
+        if($data['count'] == 0){
+            $exists = false;
+            echo "exists data == 0 =>";
+            print_r($exists);
+            echo "\n";
+        }else{
+            echo "exists data else ";
+            $exists = true;
+            print_r($exists);
+            echo "\n";
+        }
+        echo "\nprint_r de exists\n";
+        print_r($exists);
+        echo "\n";
+        return $exists;
     }
 
 }

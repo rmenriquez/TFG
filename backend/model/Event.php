@@ -37,7 +37,7 @@ class Event
      * The number of the event's guests
      * @var null
      */
-    private $gests;
+    private $guests;
 
     /**
      * The number of the event's children
@@ -49,7 +49,7 @@ class Event
      * If the sweet table is by restaurant (false) or by external part (true)
      * @var boolean
      */
-    private $own_sweet_table;
+    private $sweet_table;
 
     /**
      * Observations for the event
@@ -75,15 +75,15 @@ class Event
      */
     private $price;
 
-    public function __construct($id_event=NULL, $type=NULL, $name=NULL, $date=NULL, $guests=NULL, $children=NULL, $own_sweet_table=NULL, $observations=NULL, $restaurant=NULL, $phone=NULL, $price=NULL)
+    public function __construct($id_event=NULL, $type=NULL, $name=NULL, $date=NULL, $guests=NULL, $children=NULL, $sweet_table=NULL, $observations=NULL, $restaurant=NULL, $phone=NULL, $price=NULL)
     {
         $this->id_event = $id_event;
         $this->type = $type;
         $this->name = $name;
         $this->date = $date;
-        $this->gests = $guests;
+        $this->guests = $guests;
         $this->children = $children;
-        $this->own_sweet_table = $own_sweet_table;
+        $this->sweet_table = $sweet_table;
         $this->observations = $observations;
         $this->restaurant = $restaurant;
         $this->phone = $phone;
@@ -167,18 +167,18 @@ class Event
      * Gets the number of the guests of the event
      * @return int
      */
-    public function getGests()
+    public function getGuests()
     {
-        return $this->gests;
+        return $this->guests;
     }
 
     /**
      * Sets the number of the guests for the event
-     * @param int $gests
+     * @param int $guests
      */
-    public function setGests($gests)
+    public function setGuests($guests)
     {
-        $this->gests = $gests;
+        $this->guests = $guests;
     }
 
     /**
@@ -203,18 +203,18 @@ class Event
      * Gets the sweet table is by restaurant (false) or by external part (true)
      * @return boolean
      */
-    public function getOwnSweetTable()
+    public function getSweetTable()
     {
-        return $this->own_sweet_table;
+        return $this->sweet_table;
     }
 
     /**
      * Sets that the sweet table is by restaurant (false) or by external part (true)
      * @param boolean $own_sweet_table
      */
-    public function setOwnSweetTable($own_sweet_table)
+    public function setSweetTable($sweet_table)
     {
-        $this->own_sweet_table = $own_sweet_table;
+        $this->sweet_table = $sweet_table;
     }
 
     /**
@@ -290,4 +290,68 @@ class Event
     }
 
 
+    public function checkIsValidForCreate(){
+        $errors = array();
+        echo ("Estoy dentro de checkIsValidForCreate");
+        echo ("Type".$this->type . " fin \n");
+        echo ("Name".$this->name . " fin \n");
+        echo ("Date".$this->date . " fin \n");
+        echo ("Guests".$this->guests . " fin \n");
+        echo ("Children".$this->children . " fin \n");
+        echo ("Observations".$this->observations . " fin \n");
+        echo ("phone".$this->phone . " fin \n");
+        echo ("price".$this->price . " fin \n");
+        if(!preg_match("/^(boda|bautizo|otros|comuni[óo]n)$/i", $this->type)){
+            $errors["type"] = "type is mandatory or it is wrong";
+            echo("No tiene bien el tipo de evento");
+        }
+
+        if (strlen(trim($this->name)) == 0){
+            $errors["name"] = "name is mandatory";
+        }
+        //date
+        if($this->date == NULL || strlen(trim($this->date)) == 0){
+
+        }
+        //guests
+        if(preg_match("/\D/",$this->guests) || $this->guests == 0){
+            $errors["guests"] = "guests is mandatory and it need to be more than 0";
+        }
+        //children
+        if(preg_match("/\D/",$this->children)){
+            $errors["guests"] = "guests is mandatory";
+        }
+        //observations (barajar que pueda ser null al crearlo)
+        if(strlen(trim($this->observations)) == 0){
+            $errors["observations"] = "observations must be fulled";
+        }
+        //phone
+        if(!preg_match("/\d{9,13}/", $this->phone)){
+            $errors["phone"] = "phone is mandatory and it must have between 9 - 13 digits";
+        }
+        if(sizeof($errors) > 0){
+            throw new ValidationException($errors, "event is not valid");
+        }
+
+    }
+
+
+    public function checkIsValidForUpdate() {
+        $errors = array();
+
+        if (!isset($this->id)) {
+            $errors["id_event"] = "id is mandatory";
+        }
+
+        try{
+            $this->checkIsValidForCreate();
+        }catch(ValidationException $ex) {
+            foreach ($ex->getErrors() as $key=>$error) {
+                $errors[$key] = $error;
+            }
+        }
+        if (sizeof($errors) > 0) {
+            throw new ValidationException($errors, "event is not valid");
+        }
+    }
 }

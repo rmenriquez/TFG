@@ -76,5 +76,19 @@ class AllergenMapper
     //Dado un restaurante, devolver todas las comidas que contengan el alergeno X
 
 
+    /***
+     * Assigns allergens to food
+     * @param $allergen id of the allergen's food
+     * @param $food id of the food
+     */
+    public function addAllergenToFood($allergen, $food){
+        $stmt = $this->db->prepare("INSERT INTO food_allergen(id_food, id_allergen) values (?,?)");
+
+        $cnt = count($food);
+        for($i = 0; $i < $cnt; $i++){
+            $stmt->execute(array($allergen, $food[i]));
+        }
+        //$stmt->execute(array($allergen, $food));
+    }
 
 }
