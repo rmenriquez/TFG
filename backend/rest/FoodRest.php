@@ -84,9 +84,9 @@ class FoodRest extends BaseRest{
                 $foodId = $this->FoodMapper->save($food);
 
                 //Save the allergens of food
-                $this->AllergenMapper->addAllergenToFood($allergens, $foodId);
+                //$this->AllergenMapper->addAllergenToFood($allergens, $this->FoodMapper->getMaximumId()+1);
 
-                
+
                 //response OK. Also send post in content
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);

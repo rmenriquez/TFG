@@ -83,11 +83,6 @@ class AllergenMapper
      */
     public function addAllergenToFood($allergens, $food){
 
-        $sentencia = "INSERT INTO food_allergen(id_food, id_allergen) values (?,?)";
-        $cnt = count($allergens);
-        print_r($cnt);
-        print_r($allergens);
-
         $rowsToInsert = array();
         foreach ($allergens as $allergen){
             $aux = array('id_food' => $food, 'id_allergen' => $allergen);
@@ -113,18 +108,17 @@ class AllergenMapper
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
 
+        //print_r($rowsSQL);
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
 
-
         //Prepare our PDO statement.
         $stmt = $this->db->prepare($sql);
-
         //Bind our values.
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-
+        //print_r($toBind);
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
     }

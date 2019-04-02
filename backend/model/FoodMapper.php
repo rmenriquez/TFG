@@ -144,6 +144,7 @@ class FoodMapper
      * Check if the food exists for the restaurant logged in
      * @param $restaurant
      * @param $foodName
+     * @return boolean
      */
     public function foodExists($restaurant, $foodName){
         $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM food WHERE title = ? AND restaurant = ?");
@@ -159,4 +160,16 @@ class FoodMapper
         return $exists;
     }
 
+
+    /***
+     * Gets from the DB the maximum id of saved foods
+     */
+    public function getMaximumId(){
+        $stmt = $this->db->prepare("SELECT MAX(id_food) as max FROM food");
+        $stmt->execute();
+        $max = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aux = $max['max'];
+        print_r($aux);
+        return $aux;
+    }
 }
