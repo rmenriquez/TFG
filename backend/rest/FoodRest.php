@@ -72,7 +72,7 @@ class FoodRest extends BaseRest{
             $food->setImage($data->image);
             $food->setRestaurant($currentUser->getIdUser());
             $food->setPrice($data->price);
-            $allergens = $data->allergens;
+            $allergens = explode( ',', $data->allergens );
         }
 
         try{
@@ -81,12 +81,12 @@ class FoodRest extends BaseRest{
 
             //Save the Post object into database
             if($this->FoodMapper->foodExists($currentUser->getIdUser(), $data->title) == false){
-                echo "Food doesnt exist \n";
                 $foodId = $this->FoodMapper->save($food);
 
                 //Save the allergens of food
                 $this->AllergenMapper->addAllergenToFood($allergens, $foodId);
 
+                
                 //response OK. Also send post in content
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
