@@ -28,16 +28,16 @@ class FoodMapper
         $stmt = $this->db->prepare("SELECT id_food, title, description, image, price
                                                 FROM food, user WHERE restaurant = ? AND id_user = restaurant");
         $stmt->execute(array($restaurant));
-        print_r($stmt);
+        //print_r($stmt);
         $foods_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        print_r($foods_db);
-
+        //print_r($foods_db);
         $foods = array();
 
         foreach ($foods_db as $food){
-            array_push($foods, new Food($food["id_food"], $food["title"], $food["description"]));
+            array_push($foods, new Food($food["id_food"], $food["title"], $food["description"], $food["image"]));
         }
+        //print_r($foods);
         return $foods;
     }
 

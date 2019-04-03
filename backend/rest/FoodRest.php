@@ -43,16 +43,16 @@ class FoodRest extends BaseRest{
         // encode it finally
         $foods_array = array();
         foreach($foods as $food) {
-            echo ($food->getIdFood());
-            $allergen = $this->FoodMapper->getFoodAllergens($food->getIdFood());
+            //echo ($food->getIdFood());
+            //$allergen = $this->FoodMapper->getFoodAllergens($food->getIdFood());
             array_push($foods_array, array(
                 "id_food" => $food->getIdFood(),
                 "title" => $food->getTitle(),
                 "description" => $food->getDescription(),
-                "image" => $food->getImage(),
-                "restaurant" => $currentUser->getIdUser(),
-                "price" => $food->getPrice(),
-                "allergens" => $allergen
+                "image" => $food->getImage()
+                //"restaurant" => $currentUser->getIdUser(),
+                //"price" => $food->getPrice()
+                //"allergens" => $allergen
             ));
         }
 

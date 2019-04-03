@@ -36,6 +36,11 @@ class AllergenRest extends BaseRest
     public function getAllergens(){
         $currentUser = parent::authenticateUser();
         $allergens = $this->AllergenMapper->findAll();
+
+        $allergens_array = array();
+        foreach($allergens as $allergen){
+            arra
+        }
     }
 
 }
