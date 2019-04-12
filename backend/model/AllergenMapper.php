@@ -27,6 +27,10 @@ class AllergenMapper
     public function findAll(){
         $stmt = $this->db->prepare("SELECT * FROM allergen");
         $stmt->execute();
+
+        $allergens_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $allergens_db;
     }
 
     /**
@@ -73,21 +77,15 @@ class AllergenMapper
         }
     }
 
-    //Dado un restaurante, devolver todas las comidas que contengan el alergeno X
-
 
     /***
      * Assigns allergens to food
      * @param $allergen id of the allergen's food
      * @param $food id of the food
      */
-    public function addAllergenToFood($allergens, $food){
+    public function addAllergenToFood($allergens_food){
 
-        $rowsToInsert = array();
-        foreach ($allergens as $allergen){
-            $aux = array('id_food' => $food, 'id_allergen' => $allergen);
-            array_push($rowsToInsert,$aux);
-        }
+        // $rowsToInsert es $allergens_food
 
         $rowsSQL = array();
 
@@ -95,10 +93,10 @@ class AllergenMapper
         $toBind = array();
 
         //Get a list of column names to use in the SQL statement.
-        $columnNames = array_keys($rowsToInsert[0]);
+        $columnNames = array_keys($allergens_food[0]);
 
         //Loop through our $data array.
-        foreach($rowsToInsert as $arrayIndex => $row){
+        foreach($allergens_food as $arrayIndex => $row){
             $params = array();
             foreach($row as $columnName => $columnValue){
                 $param = ":" . $columnName . $arrayIndex;
@@ -107,8 +105,7 @@ class AllergenMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-
-        //print_r($rowsSQL);
+        //
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
 
@@ -121,6 +118,27 @@ class AllergenMapper
         //print_r($toBind);
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
+    }
+
+    /**
+     * Retrieves all allergens of food
+     * @param $food
+     * @return array of allergens for food
+     */
+    public function getFoodAllergens($food){
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
+                                                WHERE food_allergen.id_food = ? 
+                                                AND food_allergen.id_allergen = allergen.id_allergen");
+        $stmt->execute(array($food));
+        $allergens_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $allergens = array();
+
+        foreach($allergens_db as $allergen){
+            array_push($allergens, $allergen["id_allergen"], $allergen["name_allergen"]);
+        }
+
+        return $allergens;
     }
 
 }
