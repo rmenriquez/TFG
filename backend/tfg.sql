@@ -60,6 +60,7 @@ DROP TABLE IF EXISTS `food_allergen`;
 CREATE TABLE IF NOT EXISTS `food_allergen` (
 	id_food int(11) NOT NULL,
 	id_allergen int(11) NOT NULL,
+	enabled int(1) NOT NULL,
 	PRIMARY KEY (id_food, id_allergen),
 	FOREIGN KEY (id_food) REFERENCES food(id_food) ON DELETE CASCADE,
 	FOREIGN KEY (id_allergen) REFERENCES allergen(id_allergen) ON DELETE CASCADE
@@ -170,14 +171,14 @@ INSERT INTO `allergen` (`id_allergen`,`name_allergen`) VALUES
 --
 -- Volcado de datos para la tabla `food_allergen`
 --
-INSERT INTO `food_allergen` (`id_food`, `id_allergen`) VALUES
-(1, 3),
-(2, 2),
-(2, 4),
-(2, 14),
-(3, 3),
-(3, 7),
-(3, 8);
+INSERT INTO `food_allergen` (`id_food`, `id_allergen`, `enabled`) VALUES
+(1, 3, 1),
+(2, 2, 1),
+(2, 4, 1),
+(2, 14, 1),
+(3, 3, 1),
+(3, 7, 1),
+(3, 8, 1);
 
 --
 -- Volcado de datos para la tabla `staff`

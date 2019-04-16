@@ -53,20 +53,31 @@ class AllergenRest extends BaseRest
 
 
     public function setAllergenToFood($data){
+        //var_dump($data);
         $currentUser = parent::authenticateUser();
         $allergens_food_array = array();
-        //var_dump($data->allergens);
+        //echo "allergens\n";
         $allergens = explode( ',', $data->allergens);
         for($i =0; $i< count($allergens); $i++){
             $allergens[$i] = intval($allergens[$i]);
         }
         //var_dump($allergens);
-        if(isset($allergens)){
+
+        //echo "enable?\n";
+        $allergens_enabled = explode( ',', $data->enabled);
+        for($i =0; $i< count($allergens_enabled); $i++){
+            $allergens_enabled[$i] = intval($allergens_enabled[$i]);
+        }
+        //var_dump($allergens_enabled);
+
+        if(isset($allergens) && isset($allergens_enabled)){
+            $i=0;
             foreach ($allergens as $allergen){
                 array_push($allergens_food_array,
                     array('id_food'=>$this->FoodMapper->getMaximumId($currentUser->getIdUser()),
-                        'id_allergen'=>$allergen)
+                        'id_allergen'=>$allergen, 'enabled'=>$allergens_enabled[$i])
                 );
+                $i++;
             }
         }
         //var_dump($allergens_food_array);
@@ -86,9 +97,72 @@ class AllergenRest extends BaseRest
     }
 
 
-    public function updateFoodsAllergen($data){
+    public function updateFoodsAllergen($food_id,$data){
         $currentUser = parent::authenticateUser();
-        $allergens = $this->AllergenMapper->getFoodAllergens($data->id_food);
+        //var_dump($data);
+        $allergens_db = $this->AllergenMapper->getFoodAllergens($food_id);
+        $update = array();
+        $insert = array();
+
+        $enabled = explode(',', $data->enabled);
+        $allergens = explode( ',', $data->allergens);
+        for($i =0; $i< count($allergens); $i++){
+            $allergens[$i] = intval($allergens[$i]);
+        }
+
+        $allergens_array = array();
+        for($i=0; $i < count($allergens); $i++){
+            array_push($allergens_array, array(
+                'id_food'=>$food_id,
+                'id_allergen'=>$allergens[$i],
+                'enabled'=> $enabled[$i]
+            ));
+        }
+        //echo "Imprimo allergens_array\n";
+        //var_dump($allergens_array);
+
+        //echo "Imprimo allergens_bd\n";
+        //var_dump($allergens_db);
+
+        if (isset($data->allergens)) {
+            foreach ($allergens_db as $allergen){
+                foreach ($allergens_array as $toUpdate){
+                    if($allergen['id_allergen'] == $toUpdate['id_allergen']
+                        && $allergen['enabled'] != $toUpdate['enabled']){
+                        //echo "Actualizamos los alergenos\n";
+                        array_push($update, array(
+                            //'id_food'=> $toUpdate['id_food'],
+                            'id_allergen'=> $toUpdate['id_allergen'],
+                            'enabled'=>$toUpdate['enabled']));
+                    }
+                    if($toUpdate['id_allergen'] != $allergen['id_allergen']){
+          //              echo "Añadimos los alergenos\n";
+                        array_push($insert, array(
+                            'id_food'=> $toUpdate['id_food'],
+                            'id_allergen'=> $toUpdate['id_allergen'],
+                            'enabled'=>$toUpdate['enabled']
+                        ));
+                    }
+                }
+            }
+        }
+
+        try{
+            if(count($update) > 0){
+                $this->AllergenMapper->updateFoodAllergens($food_id,$update);
+            }
+            if(count($insert) >0){
+                $this->AllergenMapper->addAllergenToFood($insert);
+            }
+            //response OK. Also send post in content
+            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+            header('Content-Type: application/json');
+        }catch(ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
     }
 
 }
@@ -98,4 +172,5 @@ $allergenRest = new AllergenRest();
 URIDispatcher::getInstance()
     ->map("GET","/allergen", array($allergenRest, "getAllergens"))
     ->map("POST", "/allergen", array($allergenRest, "setAllergenToFood"))
+    ->map("PUT", "/allergen/$1", array($allergenRest, "updateFoodsAllergen"))
 ;

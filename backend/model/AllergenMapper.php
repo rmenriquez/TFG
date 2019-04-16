@@ -86,7 +86,6 @@ class AllergenMapper
     public function addAllergenToFood($allergens_food){
 
         // $rowsToInsert es $allergens_food
-
         $rowsSQL = array();
 
         //Will contain the values that we need to bind.
@@ -94,6 +93,7 @@ class AllergenMapper
 
         //Get a list of column names to use in the SQL statement.
         $columnNames = array_keys($allergens_food[0]);
+        //var_dump($columnNames);
 
         //Loop through our $data array.
         foreach($allergens_food as $arrayIndex => $row){
@@ -105,6 +105,7 @@ class AllergenMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
+        //var_dump($rowsSQL);
         //
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
@@ -126,7 +127,7 @@ class AllergenMapper
      * @return array of allergens for food
      */
     public function getFoodAllergens($food){
-        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen, food_allergen.enabled FROM food_allergen, allergen 
                                                 WHERE food_allergen.id_food = ? 
                                                 AND food_allergen.id_allergen = allergen.id_allergen");
         $stmt->execute(array($food));
@@ -135,10 +136,60 @@ class AllergenMapper
         $allergens = array();
 
         foreach($allergens_db as $allergen){
-            array_push($allergens, $allergen["id_allergen"], $allergen["name_allergen"]);
+            array_push($allergens, array("id_allergen"=>$allergen["id_allergen"], "name_allergen"=>$allergen["name_allergen"], "enabled"=>$allergen["enabled"]));
         }
 
         return $allergens;
+    }
+
+
+    public function updateFoodAllergens($food_id,$allergens_food){
+
+        //var_dump($allergens_food);
+       $cols = array();
+       foreach ($allergens_food as $entry){
+           foreach ($entry as $key=>$val){
+                $cols[] = "$key = $val";
+           }
+       }
+
+       $sql = "UPDATE `food_allergen` set ". implode(', ', $cols)." WHERE id_food=$food_id";
+       print_r($sql);
+        /*// $rowsToInsert es $allergens_food
+        $rowsSQL = array();
+
+        //Will contain the values that we need to bind.
+        $toBind = array();
+
+        //Get a list of column names to use in the SQL statement.
+        $columnNames = array_keys($allergens_food[0]);
+        //var_dump($columnNames);
+
+        //Loop through our $data array.
+        foreach($allergens_food as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+        }
+        //var_dump($rowsSQL);
+        //
+        //Construct our SQL statement
+        $sql = "UPDATE `food_allergen` set " . implode(", ", $columnNames) . " = " . implode(", ", $rowsSQL);
+
+        var_dump($sql);
+        //Prepare our PDO statement.
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        print_r($toBind);
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();*/
     }
 
 }
