@@ -142,20 +142,13 @@ class AllergenMapper
         return $allergens;
     }
 
-
+    /***
+     * Updates foods allegerns
+     * @param $food_id
+     * @param $allergens_food
+     */
     public function updateFoodAllergens($food_id,$allergens_food){
-
-        //var_dump($allergens_food);
-       $cols = array();
-       foreach ($allergens_food as $entry){
-           foreach ($entry as $key=>$val){
-                $cols[] = "$key = $val";
-           }
-       }
-
-       $sql = "UPDATE `food_allergen` set ". implode(', ', $cols)." WHERE id_food=$food_id";
-       print_r($sql);
-        /*// $rowsToInsert es $allergens_food
+        // $rowsToInsert es $allergens_food
         $rowsSQL = array();
 
         //Will contain the values that we need to bind.
@@ -173,23 +166,25 @@ class AllergenMapper
                 $params[] = $param;
                 $toBind[$param] = $columnValue;
             }
-            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+            $rowsSQL[] = "($food_id," . implode(", ", $params) . ")";
         }
-        //var_dump($rowsSQL);
-        //
-        //Construct our SQL statement
-        $sql = "UPDATE `food_allergen` set " . implode(", ", $columnNames) . " = " . implode(", ", $rowsSQL);
+            //
+            //Construct our SQL statement
+            $sql = "INSERT INTO `food_allergen` (id_food," . implode(", ", $columnNames) . ") VALUES " .
+                implode(", ", $rowsSQL) .
+                " ON DUPLICATE KEY UPDATE id_food=VALUES(id_food), id_allergen=VALUES(id_allergen), enabled=VALUES(enabled)";
 
-        var_dump($sql);
-        //Prepare our PDO statement.
-        $stmt = $this->db->prepare($sql);
-        //Bind our values.
-        foreach($toBind as $param => $val){
-            $stmt->bindValue($param, $val);
-        }
-        print_r($toBind);
+            //Prepare our PDO statement.
+            $stmt = $this->db->prepare($sql);
+            //Bind our values.
+            foreach($toBind as $param => $val){
+                $stmt->bindValue($param, $val);
+            }
+        //echo "toBind";
+        //print_r($toBind);
         //Execute our statement (i.e. insert the data).
-        $stmt->execute();*/
+        $stmt->execute();
+
     }
 
 }

@@ -100,9 +100,7 @@ class AllergenRest extends BaseRest
     public function updateFoodsAllergen($food_id,$data){
         $currentUser = parent::authenticateUser();
         //var_dump($data);
-        $allergens_db = $this->AllergenMapper->getFoodAllergens($food_id);
         $update = array();
-        $insert = array();
 
         $enabled = explode(',', $data->enabled);
         $allergens = explode( ',', $data->allergens);
@@ -118,42 +116,17 @@ class AllergenRest extends BaseRest
                 'enabled'=> $enabled[$i]
             ));
         }
-        //echo "Imprimo allergens_array\n";
-        //var_dump($allergens_array);
-
-        //echo "Imprimo allergens_bd\n";
-        //var_dump($allergens_db);
-
-        if (isset($data->allergens)) {
-            foreach ($allergens_db as $allergen){
-                foreach ($allergens_array as $toUpdate){
-                    if($allergen['id_allergen'] == $toUpdate['id_allergen']
-                        && $allergen['enabled'] != $toUpdate['enabled']){
-                        //echo "Actualizamos los alergenos\n";
-                        array_push($update, array(
-                            //'id_food'=> $toUpdate['id_food'],
-                            'id_allergen'=> $toUpdate['id_allergen'],
-                            'enabled'=>$toUpdate['enabled']));
-                    }
-                    if($toUpdate['id_allergen'] != $allergen['id_allergen']){
-          //              echo "Añadimos los alergenos\n";
-                        array_push($insert, array(
-                            'id_food'=> $toUpdate['id_food'],
-                            'id_allergen'=> $toUpdate['id_allergen'],
-                            'enabled'=>$toUpdate['enabled']
-                        ));
-                    }
-                }
-            }
-        }
-
+        echo "Imprimo allergens_array\n";
+        var_dump($allergens_array);
         try{
-            if(count($update) > 0){
-                $this->AllergenMapper->updateFoodAllergens($food_id,$update);
+            foreach ($allergens_array as $toUpdate){
+                array_push($update, array(
+                    'id_allergen'=> $toUpdate['id_allergen'],
+                    'enabled'=>$toUpdate['enabled']));
             }
-            if(count($insert) >0){
-                $this->AllergenMapper->addAllergenToFood($insert);
-            }
+
+            $this->AllergenMapper->updateFoodAllergens($food_id,$update);
+
             //response OK. Also send post in content
             header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
             //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
