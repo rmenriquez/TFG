@@ -139,11 +139,15 @@ class EventMapper
      * @param Event $event
      */
     public function save(Event $event){
-        $stmt = $this->db->prepare("INSERT INTO event(id_event, type, name, date, guests, children, 
-                                  sweet_table, observations, restaurant, phone, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-        $stmt->execute(array($event->getIdEvent(), $event->getType(), $event->getName(), $event->getDate(),
-                        $event->getGests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
+
+        $stmt = $this->db->prepare("INSERT INTO event(id_event, type, name, date, guests, children,
+                                  sweet_table, observations, restaurant, phone, price) VALUES (0,?,?,?,?,?,?,?,?,?,?)");
+
+        $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(),
+                        $event->getGuests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
                         $event->getRestaurant(), $event->getPhone(), $event->getPrice()));
+
+
     }
 
     /**
@@ -153,6 +157,9 @@ class EventMapper
     public function update(Event $event){
         $stmt = $this->db->prepare("UPDATE event set type=?, name=?, date=?, guests=?, children=?, 
                                     sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
+        $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(), $event->getGuests(), $event->getChildren(),
+            $event->getSweetTable(), $event->getObservations(), $event->getRestaurant(), $event->getPhone(),$event->getPrice(),$event->getRestaurant()));
+
     }
 
     /**
@@ -225,5 +232,23 @@ class EventMapper
     public function setFoodEvent($id_food, $id_event, $clamp){
         $stmt = $this->db->prepare("INSERT INTO food_event (food,event,clamp) values (?,?,?)");
         $stmt->execute(array($id_food,$id_event, $clamp));
+    }
+
+    /**
+     * Check if the event exists for the restaurant logged in
+     * @param $event
+     */
+    public function eventExists(Event $event){
+        //echo $event->getType();
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM event WHERE type = ? AND name = ? AND date = ? AND observations = ? AND guests = ?");
+        $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(), $event->getObservations(), $event->getGuests()));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($data['count'] == 0){
+            $exists = false;
+        }else{
+            $exists = true;
+        }
+        return $exists;
     }
 }

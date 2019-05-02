@@ -181,6 +181,7 @@ class FoodRest extends BaseRest{
 
     //Funciona a la perfección
     public function deleteFood($foodId){
+        //var_dump($foodId);
         $currentUser = parent::authenticateUser();
         $food = $this->FoodMapper->findById($foodId);
 
@@ -196,7 +197,7 @@ class FoodRest extends BaseRest{
             return;
         }
 
-        $this->FoodMapper->delete($foodId);
+        $this->FoodMapper->delete($food);
 
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
@@ -211,5 +212,4 @@ URIDispatcher::getInstance()
     ->map("GET", "/food/$1", array($foodRest, "viewFood"))
     ->map("POST", "/food", array($foodRest, "createFood"))
     ->map("PUT", "/food/$1", array($foodRest, "updateFood"))
-    ->map("DELETE", "food/$1", array($foodRest, "deleteFood"))
-    ;
+    ->map("DELETE", "/food/$1", array($foodRest, "deleteFood"));

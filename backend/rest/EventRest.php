@@ -18,17 +18,23 @@ require_once (__DIR__."/../model/FoodMapper.php");
 require_once (__DIR__."/../model/Staff.php");
 require_once (__DIR__."/../model/StaffMapper.php");
 
+require_once (__DIR__."/BaseRest.php");
+
+
 class EventRest extends BaseRest
 {
     private $eventMapper;
+    private $userMapper;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->eventMapper = new EventMapper();
+        $this->userMapper = new UserMapper();
     }
 
+    //Funciona a la perfección
     public function getEvents(){
         $currentUser = parent::authenticateUser();
 
@@ -50,23 +56,27 @@ class EventRest extends BaseRest
             ));
         }
 
-            header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
-            header('Content-Type: application/json');
-            echo(json_encode($events_array));
+        header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($events_array));
 
     }
 
+    //Funciona a la perfección
     public function createEvent($data){
         $currentUser = parent::authenticateUser();
         $event = new Event();
 
-        echo("var_dump de data en createEvent \n");
-        echo($data);
-
-        if(isset($data->type) && isset($data->name) && isset($data->date)
-        && isset($type->guests) && isset($type->children) && isset($type->sweet_table)
-        && isset($data->observations) && isset($data->phone)){
+        if(isset($data->type)){
+            /*
+             *  && isset($data->name) && isset($data->date)
+        && isset($type->guests) && isset($type->children)
+        && isset($data->observations) && isset($data->phone)
+             * */
+            //echo "HOLA GILIPOLLAS";
             $event->setType($data->type);
+            //echo "Imprimo data->type\n";
+            //print_r($event);
             $event->setName($data->name);
             $event->setDate($data->date);
             $event->setGuests($data->guests);
@@ -78,30 +88,35 @@ class EventRest extends BaseRest
             $event->setPrice($data->price);
         }
 
-        echo("\n Estoy en EventRest dentro de create \n");
-        var_dump($event);
         try{
             //Validate Post object
             $event->checkIsValidForCreate();
 
-            $eventId = $this->eventMapper->save($event);
+            if($this->eventMapper->eventExists($event) == false){
+                $eventId = $this->eventMapper->save($event);
 
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header('Location: '.$_SERVER['REQUEST_URI']."/".$eventId);
-            header('Content-Type: application/json');
-            echo(json_encode(array(
-                "id_event"=>$eventId,
-                "type"=>$event->getType(),
-                "name"=>$event->getName(),
-                "date"=>$event->getDate(),
-                "guests"=>$event->getGuests(),
-                "children"=>$event->getChildren(),
-                "sweet_table"=>$event->getSweetTable(),
-                "observations"=>$event->getObservations(),
-                "restaurant"=>$event->getRestaurant(),
-                "phone"=>$event->getPhone(),
-                "price"=>$event->getPrice()
-            )));
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                header('Location: '.$_SERVER['REQUEST_URI']."/".$eventId);
+                header('Content-Type: application/json');
+                echo(json_encode(array(
+                    "id_event"=>$eventId,
+                    "type"=>$event->getType(),
+                    "name"=>$event->getName(),
+                    "date"=>$event->getDate(),
+                    "guests"=>$event->getGuests(),
+                    "children"=>$event->getChildren(),
+                    "sweet_table"=>$event->getSweetTable(),
+                    "observations"=>$event->getObservations(),
+                    "restaurant"=>$event->getRestaurant(),
+                    "phone"=>$event->getPhone(),
+                    "price"=>$event->getPrice()
+                )));
+            }else{
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                throw new Exception('The event already exists.');
+            }
+
 
         }catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -110,7 +125,7 @@ class EventRest extends BaseRest
         }
     }
 
-
+//Funciona a la perfección
     public function viewEvent($eventId){
         $currentUser = parent::authenticateUser();
 
@@ -145,7 +160,7 @@ class EventRest extends BaseRest
         echo(json_encode($event_array));
     }
 
-
+//Funciona a la perfección
     public function updateEvent($eventId, $data){
         $currentUser = parent::authenticateUser();
 
@@ -182,7 +197,7 @@ class EventRest extends BaseRest
         }
     }
 
-
+    //Funciona a la perfección
     public function deleteEvent($eventId){
         $currentUser = parent::authenticateUser();
         $event = $this->eventMapper->findById($eventId);
@@ -204,15 +219,22 @@ class EventRest extends BaseRest
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 
+    public function setFoodToEvent($id_event, $data){
+        
+    }
+
+
 
 
 }
 
 // URI-MAPPING for this Rest endpoint
+//Tengo que probar POST event/$1/food
 $eventRest = new EventRest();
 URIDispatcher::getInstance()
     ->map("GET", "/event", array($eventRest,"getEvents"))
     ->map("GET", "/event/$1", array($eventRest, "viewEvent"))
     ->map("POST", "/event", array($eventRest, "createEvent"))
+    ->map("POST", "/event/$1/food", array($eventRest))
     ->map("PUT", "/event/$1", array($eventRest, "updateEvent"))
     ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"));

@@ -292,16 +292,8 @@ class Event
 
     public function checkIsValidForCreate(){
         $errors = array();
-        echo ("Estoy dentro de checkIsValidForCreate");
-        echo ("Type".$this->type . " fin \n");
-        echo ("Name".$this->name . " fin \n");
-        echo ("Date".$this->date . " fin \n");
-        echo ("Guests".$this->guests . " fin \n");
-        echo ("Children".$this->children . " fin \n");
-        echo ("Observations".$this->observations . " fin \n");
-        echo ("phone".$this->phone . " fin \n");
-        echo ("price".$this->price . " fin \n");
-        if(!preg_match("/^(boda|bautizo|otros|comuni[óo]n)$/i", $this->type)){
+
+        if(!preg_match("/^((b|B)oda|(b|B)autizo|(o|O)tros|(c|C)omuni[óo]n)$/i", $this->type)){
             $errors["type"] = "type is mandatory or it is wrong";
             echo("No tiene bien el tipo de evento");
         }
@@ -319,7 +311,7 @@ class Event
         }
         //children
         if(preg_match("/\D/",$this->children)){
-            $errors["guests"] = "guests is mandatory";
+            $errors["children"] = "children is mandatory";
         }
         //observations (barajar que pueda ser null al crearlo)
         if(strlen(trim($this->observations)) == 0){
@@ -339,7 +331,7 @@ class Event
     public function checkIsValidForUpdate() {
         $errors = array();
 
-        if (!isset($this->id)) {
+        if (!isset($this->id_event)) {
             $errors["id_event"] = "id is mandatory";
         }
 
