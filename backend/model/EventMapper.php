@@ -208,16 +208,16 @@ class EventMapper
      * @return array
      */
     public function AllFoodEvent($event){
-        $stmt = $this->db->prepare("SELECT id_food, title, description, image, restaurant, price, clamp
-                                    FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =1");
+        $stmt = $this->db->prepare("SELECT id_food, title, description, image, food.restaurant, food.price, clamp 
+                                    FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =?");
         $stmt->execute(array($event));
         $foodsEvent_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $events = array();
 
         foreach ($foodsEvent_db as $foodEvent) {
-            array_push($events, $foodEvent["id_note"], $foodEvent["title"], $foodEvent["description"],
-                $foodEvent["image"], $foodEvent["restaurant"], $foodEvent["price"], $foodEvent["clamp"]);
+            array_push($events, array("food" => new Food($foodEvent["id_food"], $foodEvent["title"], $foodEvent["description"],
+                $foodEvent["image"], $foodEvent["restaurant"], $foodEvent["price"]), "clamp" =>$foodEvent["clamp"]));
 
         }
 

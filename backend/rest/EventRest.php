@@ -219,8 +219,36 @@ class EventRest extends BaseRest
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 
-    public function setFoodToEvent($id_event, $data){
-        
+    /**
+     * @param $id_event
+     */
+    public function getFoodEvent($id_event){
+       // $currentUser = parent::authenticateUser();
+
+        try{
+            $foodsEvent = $this->eventMapper->AllFoodEvent($id_event);
+            //print_r($foodsEvent);
+            $foodEvent_array = array();
+            foreach ($foodsEvent as $foodEvent) {
+                array_push($foodEvent_array, array(
+                    "id_food"=>$foodEvent["food"]->getIdFood(),
+                    "title"=>$foodEvent["food"]->getTitle(),
+                    "description"=>$foodEvent["food"]->getDescription(),
+                    "image"=>$foodEvent["food"]->getimage(),
+                    "restaurant"=>$foodEvent["food"]->getRestaurant(),
+                    "price"=>$foodEvent["food"]->getPrice(),
+                    "clamp"=>$foodEvent["clamp"]));
+            }
+
+            header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
+            header('Content-Type: application/json');
+            echo(json_encode($foodEvent_array));
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+
     }
 
 
@@ -235,6 +263,6 @@ URIDispatcher::getInstance()
     ->map("GET", "/event", array($eventRest,"getEvents"))
     ->map("GET", "/event/$1", array($eventRest, "viewEvent"))
     ->map("POST", "/event", array($eventRest, "createEvent"))
-    ->map("POST", "/event/$1/food", array($eventRest))
     ->map("PUT", "/event/$1", array($eventRest, "updateEvent"))
-    ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"));
+    ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"))
+    ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"));
