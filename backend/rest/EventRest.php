@@ -25,6 +25,7 @@ class EventRest extends BaseRest
 {
     private $eventMapper;
     private $userMapper;
+    private $foodMapper;
 
     public function __construct()
     {
@@ -32,6 +33,7 @@ class EventRest extends BaseRest
 
         $this->eventMapper = new EventMapper();
         $this->userMapper = new UserMapper();
+        $this->foodMapper = new FoodMapper();
     }
 
     //Funciona a la perfección
@@ -223,8 +225,6 @@ class EventRest extends BaseRest
      * @param $id_event
      */
     public function getFoodEvent($id_event){
-       // $currentUser = parent::authenticateUser();
-
         try{
             $foodsEvent = $this->eventMapper->AllFoodEvent($id_event);
             //print_r($foodsEvent);
@@ -237,7 +237,9 @@ class EventRest extends BaseRest
                     "image"=>$foodEvent["food"]->getimage(),
                     "restaurant"=>$foodEvent["food"]->getRestaurant(),
                     "price"=>$foodEvent["food"]->getPrice(),
-                    "clamp"=>$foodEvent["clamp"]));
+                    "clamp"=>$foodEvent["clamp"],
+                    "allergens"=> $this->foodMapper->getFoodAllergens($foodEvent["food"]->getIdFood())));
+
             }
 
             header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
@@ -252,12 +254,24 @@ class EventRest extends BaseRest
     }
 
 
+    public function setFoodEvent($event, $data){
+        $currentUser = parent::authenticateUser();
+
+        try{
+            $foods = array();
+            array_push($foods, $this->foodMapper->findAll($currentUser->getIdUser()));
+
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+    }
 
 
 }
 
 // URI-MAPPING for this Rest endpoint
-//Tengo que probar POST event/$1/food
 $eventRest = new EventRest();
 URIDispatcher::getInstance()
     ->map("GET", "/event", array($eventRest,"getEvents"))
