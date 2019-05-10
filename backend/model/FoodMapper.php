@@ -165,8 +165,6 @@ class FoodMapper
      * Gets from the DB the maximum id of saved foods
      */
     public function getMaximumId($restaurant){
-        //echo "Restaurant FoodMapper getMaxiumId: ";
-        //var_dump($restaurant);
         $stmt = $this->db->prepare("SELECT MAX(id_food) as max_id FROM food WHERE restaurant = ?");
         $stmt->execute(array($restaurant));
         $max = $stmt->fetch(PDO::FETCH_ASSOC);

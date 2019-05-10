@@ -259,7 +259,10 @@ class EventRest extends BaseRest
 
         try{
             $foods = array();
-            array_push($foods, $this->foodMapper->findAll($currentUser->getIdUser()));
+            //array_push($foods, $this->foodMapper->findAll($currentUser->getIdUser()));
+            /*if(isset($data->food)){
+                $this->eventMapper->setFoodEvent($event, $data->food->);
+            }*/
 
         }catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -267,6 +270,7 @@ class EventRest extends BaseRest
             echo(json_encode($e->getErrors()));
         }
     }
+
 
 
 }

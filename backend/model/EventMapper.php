@@ -251,4 +251,16 @@ class EventMapper
         }
         return $exists;
     }
+
+
+    /***
+     * Gets from the DB the maximum id of saved event
+     */
+    public function getMaximumId($restaurant){
+        $stmt = $this->db->prepare("SELECT MAX(id_event) as max_id FROM event WHERE restaurant = ?");
+        $stmt->execute(array($restaurant));
+        $max = $stmt->fetch(PDO::FETCH_ASSOC);
+        $aux = $max['max_id'];
+        return $aux;
+    }
 }
