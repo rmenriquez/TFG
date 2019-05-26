@@ -254,21 +254,39 @@ class EventRest extends BaseRest
     }
 
 
-    public function setFoodEvent($event, $data){
-        $currentUser = parent::authenticateUser();
+    public function setFoodsEvent($id_event, $data){
+
+        $foodsEvent = array();
+
+        foreach ($data as $food){
+            array_push($foodsEvent,array(
+                "food"=>$food[0],
+                "event"=>$id_event,
+                "clamp"=>$food[1]
+            ));
+        }
 
         try{
-            $foods = array();
-            //array_push($foods, $this->foodMapper->findAll($currentUser->getIdUser()));
-            /*if(isset($data->food)){
-                $this->eventMapper->setFoodEvent($event, $data->food->);
-            }*/
+            if($this->eventMapper->existsFoodInEvent($foodsEvent) == false) {
+                $this->eventMapper->setFoodEvent($foodsEvent);
+                header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
+                header('Content-Type: application/json');
+                //echo(json_encode($foodsEvent));
+            }else{
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                echo "Some food already exists";
+            }
 
         }catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');
             echo(json_encode($e->getErrors()));
         }
+    }
+
+    public function deleteFoodsEvent(){
+
     }
 
 
@@ -283,4 +301,5 @@ URIDispatcher::getInstance()
     ->map("POST", "/event", array($eventRest, "createEvent"))
     ->map("PUT", "/event/$1", array($eventRest, "updateEvent"))
     ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"))
-    ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"));
+    ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"))
+    ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"));
