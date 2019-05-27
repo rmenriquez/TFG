@@ -267,7 +267,7 @@ class EventRest extends BaseRest
         }
 
         try{
-            if($this->eventMapper->existsFoodInEvent($foodsEvent) == false) {
+            if($this->eventMapper->existFoodsInEvent($foodsEvent) == false) {
                 $this->eventMapper->setFoodEvent($foodsEvent);
                 header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
                 header('Content-Type: application/json');
@@ -285,8 +285,16 @@ class EventRest extends BaseRest
         }
     }
 
-    public function deleteFoodsEvent(){
+    public function deleteFoodsEvent($id_event, $data){
 
+        try{
+            $this->eventMapper->deleteFoodsFromEvent($id_event,$data);
+
+            header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
+
+        }catch(Exception $e){
+            echo "Some food not exist in this event";
+        }
     }
 
 
@@ -302,4 +310,5 @@ URIDispatcher::getInstance()
     ->map("PUT", "/event/$1", array($eventRest, "updateEvent"))
     ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"))
     ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"))
-    ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"));
+    ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
+    ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"));

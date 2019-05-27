@@ -28,7 +28,7 @@ class EventMapper
      */
     public function findAll($restaurant){
         $stmt = $this->db->prepare("SELECT id_event, type, name, date, guests, children, sweet_table, 
-                                observations, restaurant, phone, price FROM event WHERE restaurant =?");
+                                    observations, restaurant, phone, price FROM event WHERE restaurant =?");
         $stmt->execute(array($restaurant));
 
         $events_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,8 +36,8 @@ class EventMapper
 
         foreach ($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                    $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
-                    $event["restaurant"], $event["phone"], $event["price"]));
+                $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
+                $event["restaurant"], $event["phone"], $event["price"]));
         }
 
         return $events;
@@ -58,8 +58,8 @@ class EventMapper
 
         foreach($events_db as $event){
             array_push($events, new Event($event["id_event"], $event["type"], $event["name"], $event["date"],
-                        $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
-                        $event["restaurant"], $event["phone"],$event["price"] ));
+                $event["guests"], $event["children"], $event["sweet_table"], $event["observations"],
+                $event["restaurant"], $event["phone"],$event["price"] ));
         }
 
         return $events;
@@ -112,7 +112,7 @@ class EventMapper
 
     public function findById($idEvent){
         $stmt = $this->db->prepare("SELECT event.id_event, event.type, event.name, event.date, event.guests, event.children, event.sweet_table, event.observations, event.phone, event.restaurant, event.price
-                                    FROM event, user WHERE event.id_event =? AND event.restaurant = user.id_user");
+                                        FROM event, user WHERE event.id_event =? AND event.restaurant = user.id_user");
         $stmt->execute(array($idEvent));
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -141,11 +141,11 @@ class EventMapper
     public function save(Event $event){
 
         $stmt = $this->db->prepare("INSERT INTO event(id_event, type, name, date, guests, children,
-                                  sweet_table, observations, restaurant, phone, price) VALUES (0,?,?,?,?,?,?,?,?,?,?)");
+                                      sweet_table, observations, restaurant, phone, price) VALUES (0,?,?,?,?,?,?,?,?,?,?)");
 
         $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(),
-                        $event->getGuests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
-                        $event->getRestaurant(), $event->getPhone(), $event->getPrice()));
+            $event->getGuests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
+            $event->getRestaurant(), $event->getPhone(), $event->getPrice()));
 
 
     }
@@ -156,7 +156,7 @@ class EventMapper
      */
     public function update(Event $event){
         $stmt = $this->db->prepare("UPDATE event set type=?, name=?, date=?, guests=?, children=?, 
-                                    sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
+                                        sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
         $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(), $event->getGuests(), $event->getChildren(),
             $event->getSweetTable(), $event->getObservations(), $event->getRestaurant(), $event->getPhone(),$event->getPrice(),$event->getRestaurant()));
 
@@ -177,7 +177,7 @@ class EventMapper
      */
     public function getAllStuffEvent(Event $event){
         $stmt = $this->db->prepare("SELECT name, surnames FROM stuff
-                                    WHERE id_stuff IN (SELECT stuff FROM stuff_event WHERE event =?)");
+                                        WHERE id_stuff IN (SELECT stuff FROM stuff_event WHERE event =?)");
         $stmt->execute(array($event->getIdEvent()));
         $stuffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -209,7 +209,7 @@ class EventMapper
      */
     public function AllFoodEvent($event){
         $stmt = $this->db->prepare("SELECT id_food, title, description, image, food.restaurant, food.price, clamp 
-                                    FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =?");
+                                        FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =?");
         $stmt->execute(array($event));
         $foodsEvent_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -294,9 +294,7 @@ class EventMapper
      * @param $foodsEvent
      * @return bool
      */
-    public function existsFoodInEvent($foodsEvent){
-echo "Vamos a ver si soy retra.\n";
-        print_r($foodsEvent[0]["event"]);
+    public function existFoodsInEvent($foodsEvent){
         $rowsSQL = array();
 
         $toBind = array();
@@ -339,5 +337,51 @@ echo "Vamos a ver si soy retra.\n";
         }
 
         return $exists;
+    }
+
+    /**
+     * Deletes foods from the given event
+     * @param $event
+     * @param $data
+     */
+    public function deleteFoodsFromEvent($event, $data){
+        $rowsSQL = array();
+
+        $toBind = array();
+
+        $idsFood = array();
+        foreach ($data as $foodEvent){
+            $idsFood = $foodEvent;
+        }
+
+        $params = array();
+        foreach($idsFood as $row => $value){
+
+            $param = ":".$row;
+
+            $params[] = $param;
+            $toBind[$param] = $value;
+        }
+        $rowsSQL[] = implode(", ", $params);
+
+        $sql = "DELETE FROM `food_event` WHERE `event` =". $event ." AND food IN (" . implode(", ", $rowsSQL) . ")";
+
+        //print_r($sql);
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();
+    }
+
+    /**
+     * Updates the food from the given event
+     * @param $event
+     * @param $data
+     */
+    public function updateFoodFromEvent($event, $data){
+        
     }
 }
