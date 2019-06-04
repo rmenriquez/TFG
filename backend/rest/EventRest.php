@@ -297,6 +297,22 @@ class EventRest extends BaseRest
         }
     }
 
+    public function updateFoodEvent($id_event, $data){
+        echo "\nid_event\n";
+        print_r($id_event);
+        echo "\ndata\n";
+        print_r($data);
+        $aux = array();
+        foreach ($data as $food){
+            array_push($aux, array(
+               "food" => $food[0],
+               "clamp" => $food[1]
+            ));
+        }
+        echo "\naux\n";
+        print_r($aux);
+    }
+
 
 
 }
@@ -311,4 +327,5 @@ URIDispatcher::getInstance()
     ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"))
     ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"))
     ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
-    ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"));
+    ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"))
+    ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodEvent"));

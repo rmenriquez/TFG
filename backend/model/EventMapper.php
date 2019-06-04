@@ -382,6 +382,10 @@ class EventMapper
      * @param $data
      */
     public function updateFoodFromEvent($event, $data){
-        
+       echo "\nevent\n";
+       print_r($event);
+       echo "\ndata\n";
+       print_r($data);
+
     }
 }
