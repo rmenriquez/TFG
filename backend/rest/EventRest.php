@@ -297,20 +297,32 @@ class EventRest extends BaseRest
         }
     }
 
-    public function updateFoodEvent($id_event, $data){
-        echo "\nid_event\n";
-        print_r($id_event);
-        echo "\ndata\n";
-        print_r($data);
-        $aux = array();
+    public function updateFoodsEvent($id_event, $data){
+        $toUpdate = array();
         foreach ($data as $food){
-            array_push($aux, array(
+            array_push($toUpdate, array(
                "food" => $food[0],
+               "event" => $id_event,
                "clamp" => $food[1]
             ));
         }
-        echo "\naux\n";
-        print_r($aux);
+        /*echo "\naux\n";
+        print_r($aux);*/
+
+        try{
+
+            $this->eventMapper->updateFoodsFromEvent($toUpdate);
+            //response OK. Also send post in content
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
+            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+            header('Content-Type: application/json');
+
+        }catch(ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+
     }
 
 
@@ -328,4 +340,4 @@ URIDispatcher::getInstance()
     ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"))
     ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
     ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"))
-    ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodEvent"));
+    ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodsEvent"));

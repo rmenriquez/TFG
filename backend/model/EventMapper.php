@@ -381,11 +381,50 @@ class EventMapper
      * @param $event
      * @param $data
      */
-    public function updateFoodFromEvent($event, $data){
-       echo "\nevent\n";
-       print_r($event);
-       echo "\ndata\n";
-       print_r($data);
+    public function updateFoodsFromEvent($toUpdate){
+
+       echo "\ntoUpdate\n";
+       print_r($toUpdate);
+
+
+        // $rowsToInsert es $allergens_food
+        $rowsSQL = array();
+
+        //Will contain the values that we need to bind.
+        $toBind = array();
+
+        //Get a list of column names to use in the SQL statement.
+        $columnNames = array_keys($toUpdate[0]);
+        //var_dump($columnNames);
+
+        //Loop through our $data array.
+        foreach($toUpdate as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+        }
+        print_r($rowsSQL);
+        //
+        //Construct our SQL statement
+        $sql = "INSERT INTO `food_event` (food,event,clamp) VALUES " .
+            implode(", ", $rowsSQL) .
+            " ON DUPLICATE KEY UPDATE food=VALUES(food), event=VALUES(event), clamp=VALUES(clamp)";
+
+        //echo $sql;
+        //Prepare our PDO statement.
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();
+
 
     }
 }
