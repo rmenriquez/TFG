@@ -224,7 +224,7 @@ class EventRest extends BaseRest
     /**
      * @param $id_event
      */
-    public function getFoodEvent($id_event){
+    public function getFoodsEvent($id_event){
         try{
             $foodsEvent = $this->eventMapper->AllFoodEvent($id_event);
             //print_r($foodsEvent);
@@ -253,7 +253,7 @@ class EventRest extends BaseRest
 
     }
 
-
+    //Funciona a la perfección
     public function setFoodsEvent($id_event, $data){
 
         $foodsEvent = array();
@@ -285,6 +285,7 @@ class EventRest extends BaseRest
         }
     }
 
+    //Funciona a la perfección
     public function deleteFoodsEvent($id_event, $data){
 
         try{
@@ -297,6 +298,7 @@ class EventRest extends BaseRest
         }
     }
 
+    //Funciona a la perfección
     public function updateFoodsEvent($id_event, $data){
         $toUpdate = array();
         foreach ($data as $food){
@@ -337,7 +339,7 @@ URIDispatcher::getInstance()
     ->map("POST", "/event", array($eventRest, "createEvent"))
     ->map("PUT", "/event/$1", array($eventRest, "updateEvent"))
     ->map("DELETE", "/event/$1", array($eventRest, "deleteEvent"))
-    ->map("GET", "/event/$1/food", array($eventRest, "getFoodEvent"))
+    ->map("GET", "/event/$1/food", array($eventRest, "getFoodsEvent"))
     ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
     ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"))
     ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodsEvent"));
