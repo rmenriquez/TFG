@@ -6,3 +6,5 @@ Power-app/
 Pruebas mias/
 .idea/
 .idea/workspace.xml
+backend/model/Stuff.php
+backend/model/StuffMapper.php
