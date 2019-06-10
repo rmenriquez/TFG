@@ -242,7 +242,7 @@ class EventRest extends BaseRest
 
             }
 
-            header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
             header('Content-Type: application/json');
             echo(json_encode($foodEvent_array));
         }catch (ValidationException $e){
@@ -269,7 +269,7 @@ class EventRest extends BaseRest
         try{
             if($this->eventMapper->existFoodsInEvent($foodsEvent) == false) {
                 $this->eventMapper->setFoodEvent($foodsEvent);
-                header($_SERVER['SERVER_PROTOCOL'].'200 Ok');
+                header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
                 header('Content-Type: application/json');
                 //echo(json_encode($foodsEvent));
             }else{

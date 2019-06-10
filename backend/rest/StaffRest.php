@@ -47,11 +47,55 @@ class StaffRest extends BaseRest{
         echo(json_encode($staff_array));
     }
 
-    public function viewPerson(){
+    public function viewPerson($staffId){
+        $currentUser = parent::authenticateUser();
 
+        $staff = $this->staffMapper->findById($staffId);
+
+        if($staff == NULL){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            echo("Staff with id ".$staff." not found");
+        }
+        if($staff->getRestaurant() != $currentUser->getIdUser()){
+            header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+            echo("You are not the authorized user for view this staff");
+            return;
+        }
+
+        $staff_array = array(
+            "id_staff" => $staffId,
+            "name" => $staff->getName(),
+            "surnames" => $staff->getSurnames(),
+            "birthdate" => $staff->getBirthdate(),
+            "email" => $staff->getEmail(),
+            "restaurant" => $staff->getRestaurant(),
+        );
+
+        header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+        header('Content-Type: application/json');
+        echo(json_encode($staff_array));
     }
 
-    public function createStaff(){
+    public function createStaff($data){
+        $currentUser = parent::authenticateUser();
+        $staff = new Staff();
+
+        if(isset($data->id_staff) && isset($data->name) &&
+        isset($data->surnames) && isset($data->email)){
+            $staff->setIdStaff($data->id_staff);
+            $staff->setName($data->name);
+            $staff->setSurnames($data->surnames);
+            $staff->setEmail($data->email);
+            $staff->setBirthdate($data->birthdate);
+            $staff->setRestaurant($currentUser->getIdUser());
+        }
+
+        try{
+            $staff->checkIsValidForCreate();
+
+        }catch (ValidationException $e){
+
+        }
 
     }
 

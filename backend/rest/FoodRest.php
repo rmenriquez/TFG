@@ -64,7 +64,9 @@ class FoodRest extends BaseRest{
     public function createFood($data){
         $currentUser = parent::authenticateUser();
         $food = new Food();
-        $allergens = array();
+        //$allergens = array();
+        //echo "\nDATA\n";
+        //print_r($data);
 
         if(isset($data->title) && isset($data->description)){
             $food->setTitle($data->title);
@@ -72,7 +74,7 @@ class FoodRest extends BaseRest{
             $food->setImage($data->image);
             $food->setRestaurant($currentUser->getIdUser());
             $food->setPrice($data->price);
-            $allergens = explode( ',', $data->allergens );
+            //$allergens = explode( ',', $data->allergens );
         }
 
         try{
@@ -84,7 +86,7 @@ class FoodRest extends BaseRest{
                 $foodId = $this->FoodMapper->save($food);
 
                 //Save the allergens of food
-                $this->AllergenMapper->addAllergenToFood($allergens, $this->FoodMapper->getMaximumId()+1);
+                //$this->AllergenMapper->addAllergenToFood($allergens, $this->FoodMapper->getMaximumId()+1);
 
 
                 //response OK. Also send post in content
@@ -98,7 +100,7 @@ class FoodRest extends BaseRest{
                     "image" => $food->getImage(),
                     "restaurant" => $food->getRestaurant(),
                     "price" => $food->getPrice(),
-                    "allergens"=> $allergens
+                    //"allergens"=> $allergens
                 )));
             }else{
                 header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -111,6 +113,7 @@ class FoodRest extends BaseRest{
         } catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');
+
             echo(json_encode($e->getErrors()));
         }
     }

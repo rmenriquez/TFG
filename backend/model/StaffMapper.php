@@ -67,6 +67,32 @@ class StaffMapper
     }
 
     /**
+     * Retrieves the staff which id is the same that the given
+     * @param $id
+     * @return null|Staff
+     */
+    public function findById($id){
+        $stmt = $this->db->prepare("SELECT * FROM staff WHERE id_staff = ?");
+        $stmt->execute(array($id));
+
+        $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($staff != null){
+            return new Staff(
+                $staff["id_staff"],
+                $staff["name"],
+                $staff["surnames"],
+                $staff["birthdate"],
+                $staff["email"],
+                $staff["restaurant"]
+            );
+        }else{
+            return NULL;
+        }
+    }
+
+
+    /**
      * Saves a Staff into the database
      * @param Staff $staff
      */

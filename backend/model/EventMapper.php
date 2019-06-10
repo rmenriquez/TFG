@@ -158,7 +158,7 @@ class EventMapper
         $stmt = $this->db->prepare("UPDATE event set type=?, name=?, date=?, guests=?, children=?, 
                                         sweet_table=?, observations=?, restaurant=?, phone=?, price=? WHERE id_event=?");
         $stmt->execute(array($event->getType(), $event->getName(), $event->getDate(), $event->getGuests(), $event->getChildren(),
-            $event->getSweetTable(), $event->getObservations(), $event->getRestaurant(), $event->getPhone(),$event->getPrice(),$event->getRestaurant()));
+            $event->getSweetTable(), $event->getObservations(), $event->getRestaurant(), $event->getPhone(),$event->getPrice(),$event->getIdEvent()));
 
     }
 

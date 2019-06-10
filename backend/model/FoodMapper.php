@@ -91,11 +91,23 @@ class FoodMapper
      * Saves a Food into the database
      *
      * @param Food $food
+     * @return array
      */
     public function save(Food $food){
         $stmt = $this->db->prepare("INSERT INTO food(id_food, title, description, image, price, restaurant)
                                       values (0,?,?,?,?, ?)");
         $stmt->execute(array($food->getTitle(), $food->getDescription(),$food->getImage(), $food->getPrice(), $food->getRestaurant()));
+
+        $savedFood = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $foodAux = array();
+
+        foreach ($savedFood as $food){
+            array_push($foodAux, new Event($food["id_event"], $food["type"], $food["name"], $food["date"],
+                $food["guests"], $food["children"], $food["sweet_table"], $food["observations"],
+                $food["restaurant"], $food["phone"], $food["price"]));
+        }
+
+        return $foodAux;
     }
 
     /**
