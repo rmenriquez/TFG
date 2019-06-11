@@ -50,9 +50,6 @@ class FoodRest extends BaseRest{
                 "title" => $food->getTitle(),
                 "description" => $food->getDescription(),
                 "image" => $food->getImage()
-                //"restaurant" => $currentUser->getIdUser(),
-                //"price" => $food->getPrice()
-                //"allergens" => $allergen
             ));
         }
 
@@ -64,9 +61,6 @@ class FoodRest extends BaseRest{
     public function createFood($data){
         $currentUser = parent::authenticateUser();
         $food = new Food();
-        //$allergens = array();
-        //echo "\nDATA\n";
-        //print_r($data);
 
         if(isset($data->title) && isset($data->description)){
             $food->setTitle($data->title);
@@ -100,7 +94,6 @@ class FoodRest extends BaseRest{
                     "image" => $food->getImage(),
                     "restaurant" => $food->getRestaurant(),
                     "price" => $food->getPrice(),
-                    //"allergens"=> $allergens
                 )));
             }else{
                 header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');

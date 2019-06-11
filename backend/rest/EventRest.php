@@ -255,7 +255,6 @@ class EventRest extends BaseRest
 
     //Funciona a la perfección
     public function setFoodsEvent($id_event, $data){
-
         $foodsEvent = array();
 
         foreach ($data as $food){
@@ -269,7 +268,7 @@ class EventRest extends BaseRest
         try{
             if($this->eventMapper->existFoodsInEvent($foodsEvent) == false) {
                 $this->eventMapper->setFoodEvent($foodsEvent);
-                header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Content-Type: application/json');
                 //echo(json_encode($foodsEvent));
             }else{

@@ -315,9 +315,9 @@ class EventMapper
         }
         $rowsSQL[] = implode(" OR ", $params);
 
-        $sql = "SELECT count(*) as count from `food_event` WHERE event = " . $foodsEvent[0]["event"] . " AND (food = " . implode(" OR ", $rowsSQL).")";
+        $sql = "SELECT count(*) as count from `food_event` WHERE event = " . $foodsEvent[0]["event"] . " AND food = (" . implode(" OR ", $rowsSQL).")";
 
-        print_r($sql);
+        //print_r($sql);
         $stmt = $this->db->prepare($sql);
         //Bind our values.
         foreach($toBind as $param => $val){
@@ -326,10 +326,11 @@ class EventMapper
         //print_r($sql);
         //print_r($toBind);
         //Execute our statement (i.e. insert the data).
-        $stmt->execute();
+        echo $stmt->execute();
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        //var_dump($data);
         if($data['count'] == 0){
             $exists = false;
         }else{
@@ -378,13 +379,12 @@ class EventMapper
 
     /**
      * Updates the food from the given event
-     * @param $event
-     * @param $data
+     * @param $toUpdate
      */
     public function updateFoodsFromEvent($toUpdate){
 
-       echo "\ntoUpdate\n";
-       print_r($toUpdate);
+       //echo "\ntoUpdate\n";
+       //print_r($toUpdate);
 
 
         // $rowsToInsert es $allergens_food
@@ -407,7 +407,7 @@ class EventMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-        print_r($rowsSQL);
+        //print_r($rowsSQL);
         //
         //Construct our SQL statement
         $sql = "INSERT INTO `food_event` (food,event,clamp) VALUES " .
