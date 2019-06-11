@@ -163,5 +163,70 @@ class Staff
         $this->restaurant = $restaurant;
     }
 
+    /**
+     * Checks if the staff is valid for create
+     * @throws ValidationException
+     */
+    public function checkIsValidForCreate(){
+        $errors = array();
+        if (strlen(trim($this->id_staff)) == 0 ) {
+            $errors["id_staff"] = "id_staff is mandatory";
+        }
+        if (!preg_match('/[0-9]{7,8}[A-Za-z]/', $this->id_staff)){
+            $errors["id_staff"] = "id_staff has a wrong format";
+        }
+        if (strlen(trim($this->name)) == 0 ) {
+            $errors["name"] = "name is mandatory";
+        }
+        if (strlen(trim($this->surnames)) == 0 ) {
+            $errors["surnames"] = "surnames is mandatory";
+        }
+        if (strlen(trim($this->email)) == 0 ) {
+            $errors["email"] = "email is mandatory";
+        }
+        if ($this->restaurant == NULL ) {
+            $errors["restaurant"] = "restaurant is mandatory";
+        }
+        if (sizeof($errors) > 0){
+            throw new ValidationException($errors, "staff is not valid");
+        }
+    }
+
+    /**
+     * Checks if the current instance is valid
+     * for being updated in the database.
+     *
+     * @throws ValidationException if the instance is
+     * not valid
+     *
+     * @return void
+     */
+    public function checkIsValidForUpdate() {
+        $errors = array();
+
+        if (!isset($this->id_staff)) {
+            $errors["if_staff"] = "id_staff is mandatory";
+        }
+        if(!isset($this->name)){
+            $errors["name"] = "name is mandatory";
+        }
+        if (!isset($this->surnames)){
+            $errors["surnames"] = "surnames is mandatory";
+        }
+        if(!isset($this->email)){
+            $errors["email"] = "email is mandatory";
+        }
+
+        try{
+            $this->checkIsValidForCreate();
+        }catch(ValidationException $ex) {
+            foreach ($ex->getErrors() as $key=>$error) {
+                $errors[$key] = $error;
+            }
+        }
+        if (sizeof($errors) > 0) {
+            throw new ValidationException($errors, "staff is not valid");
+        }
+    }
 
 }

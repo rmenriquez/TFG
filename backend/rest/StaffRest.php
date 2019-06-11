@@ -93,18 +93,85 @@ class StaffRest extends BaseRest{
         try{
             $staff->checkIsValidForCreate();
 
-        }catch (ValidationException $e){
+            if($this->staffMapper->staffExists($currentUser->getIdUser(),$data->id_staff) == false){
+                $staffId = $this->staffMapper->save($staff);
 
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                header('Location: '.$_SERVER['REQUEST_URI']."/".$staffId);
+                header('Content-Type: application/json');
+                echo(json_encode(array(
+                    "id_staff"=>$staff->getIdStaff(),
+                    "name" => $staff->getName(),
+                    "surnames" => $staff->getSurnames(),
+                    "birthdate" => $staff->getBirthdate(),
+                    "email" => $staff->getEmail(),
+                    "restaurant" => $staff->getRestaurant(),
+                )));
+            }else{
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                throw new Exception('The staff already exists.');
+            }
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+
+            echo(json_encode($e->getErrors()));
         }
 
     }
 
-    public function updatePerson(){
+    public function updatePerson($id_staff, $data){
+        $currentUser = parent::authenticateUser();
 
+        $staff = $this->staffMapper->findById($id_staff);
+
+        if($staff == NULL){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            echo("Staff with id ".$id_staff." not found");
+            return;
+        }
+        if($staff->getRestaurant() != $currentUser->getIdUser()){
+            header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+            echo("you are not the restaurant of this staff");
+            return;
+        }
+
+        $staff->setName($data->name);
+        $staff->setSurnames($data->surnames);
+        $staff->setBirthdate($data->birthdate);
+        $staff->setEmail($data->email);
+
+        try{
+            $staff->checkIsValidForUpdate();
+            $this->staffMapper->update($staff);
+            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+        }catch(ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+
+        }
     }
 
-    public function deletePerson(){
+    public function deletePerson($id_staff){
+        $currentUser = parent::authenticateUser();
 
+        $staff = $this->staffMapper->findById($id_staff);
+
+        if($staff == NULL){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            echo("Staff with id ".$id_staff." not found");
+            return;
+        }
+        if($staff->getRestaurant() != $currentUser->getIdUser()){
+            header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+            echo("you are not the restaurant of this staff");
+            return;
+        }
+
+        $this->staffMapper->delete($staff);
+        header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 }
 

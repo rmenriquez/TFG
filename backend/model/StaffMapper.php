@@ -24,6 +24,7 @@ class StaffMapper
     /**
      * Retrieves all staff for this restaurant
      * @param $restaurant
+     * @return $staffs
      */
     public function findAll($restaurant){
         $stmt = $this->db->prepare("SELECT id_staff, name, surnames, birthdate, email, restaurant 
@@ -121,4 +122,23 @@ class StaffMapper
     }
 
 
+    /**
+     * Check if the staff exists for the restaurant logged in
+     * @param $restaurant
+     * @param $id_staff
+     * @return boolean
+     */
+    public function staffExists($restaurant, $id_staff){
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM staff WHERE id_staff = ? AND restaurant = ?");
+        $stmt->execute(array($id_staff, $restaurant));
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($data['count'] == 0){
+            $exists = false;
+        }else{
+            $exists = true;
+        }
+
+        return $exists;
+    }
 }
