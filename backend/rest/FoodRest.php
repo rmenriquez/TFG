@@ -177,7 +177,6 @@ class FoodRest extends BaseRest{
 
     //Funciona a la perfección
     public function deleteFood($foodId){
-        //var_dump($foodId);
         $currentUser = parent::authenticateUser();
         $food = $this->FoodMapper->findById($foodId);
 
@@ -198,6 +197,106 @@ class FoodRest extends BaseRest{
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 
+    public function setFoodAllergens($foodId, $data){
+        $currentUser = parent::authenticateUser();
+        $food = $this->FoodMapper->findById($foodId);
+
+        if($food == NULL){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            echo("Food with id ".$foodId." not found");
+            return;
+        }
+
+        if($food->getRestaurant() != $currentUser->getIdUser()){
+            header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
+            echo("you are not the author of this food");
+            return;
+        }
+
+        var_dump($data);
+        $allergens_food_array = array();
+        echo "allergens\n";
+        //$allergens = explode( ',', $data->allergens);
+        $allergens = array();
+        for($i =0; $i< count($data->allergens); $i++){
+            $allergens[$i] = intval($data->allergens[$i]);
+        }
+        var_dump($allergens);
+
+        echo "enable?\n";
+        //$allergens_enabled = explode( ',', $data->enabled);
+        $allergens_enabled = array();
+        for($i =0; $i< count($data->enabled); $i++){
+            $allergens_enabled[$i] = intval($data->enabled[$i]);
+        }
+        var_dump($allergens_enabled);
+
+        if($allergens!=null && $allergens_enabled!=null){
+            $i=0;
+            foreach ($data->allergens as $allergen){
+                array_push($allergens_food_array,
+                    array('id_food'=>$foodId,
+                        'id_allergen'=>$allergen,
+                        'enabled'=>$data->enabled[$i])
+                );
+                $i++;
+            }
+        }
+        var_dump($allergens_food_array);
+        try{
+            //Envía id_food, id_allergen
+            $this->AllergenMapper->addAllergenToFood($allergens_food_array);
+
+            //response OK. Also send post in content
+            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+            header('Content-Type: application/json');
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+
+
+    }
+
+    public function updateFoodsAllergen($food_id,$data){
+        $update = array();
+
+        $allergens = array();
+        for($i =0; $i< count($data->allergens); $i++){
+            $allergens[$i] = intval($data->allergens[$i]);
+        }
+
+        $allergens_array = array();
+        for($i=0; $i < count($data->allergens); $i++){
+            array_push($allergens_array, array(
+                'id_food'=>$food_id,
+                'id_allergen'=>$allergens[$i],
+                'enabled'=> $data->enabled[$i]
+            ));
+        }
+
+        try{
+            foreach ($allergens_array as $toUpdate){
+                array_push($update, array(
+                    'id_allergen'=> $toUpdate['id_allergen'],
+                    'enabled'=>$toUpdate['enabled']));
+            }
+
+            $this->AllergenMapper->updateFoodAllergens($food_id,$update);
+
+            //response OK. Also send post in content
+            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+            header('Content-Type: application/json');
+        }catch(ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+    }
+
 
 }
 
@@ -208,4 +307,6 @@ URIDispatcher::getInstance()
     ->map("GET", "/food/$1", array($foodRest, "viewFood"))
     ->map("POST", "/food", array($foodRest, "createFood"))
     ->map("PUT", "/food/$1", array($foodRest, "updateFood"))
+    ->map("POST", "/food/$1/allergen", array($foodRest, "setFoodAllergens"))
+    ->map("PUT", "/food/$1/allergen", array($foodRest, "updateFoodsAllergen"))
     ->map("DELETE", "/food/$1", array($foodRest, "deleteFood"));

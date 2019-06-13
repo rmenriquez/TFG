@@ -98,6 +98,32 @@ class UserMapper {
         }
 	}
 
+    /**
+     * Retrieves the user which id is the same that the given
+     * @param $id
+     * @return null|User
+     */
+    public function findById($id){
+        $stmt = $this->db->prepare("SELECT * FROM user WHERE id_user = ?");
+        $stmt->execute(array($id));
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($user != null){
+            return new Staff(
+                $user["id_user"],
+                $user["name"],
+                $user["user"],
+                $user["n_cli_wedding"],
+                $user["n_cli_christening"],
+                $user["n_cli_communion"],
+                $user["n_cli_others"]
+            );
+        }else{
+            return NULL;
+        }
+    }
+
     /*public function findAll(User $user,$note) {
         $stmt = $this->db->prepare("SELECT id_user,name,surname,username FROM user WHERE username!= ? AND id_user NOT IN (SELECT user FROM shared WHERE note = ? )");
         $stmt->execute(array($user->getUsername(),$note));

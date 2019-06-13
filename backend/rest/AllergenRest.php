@@ -144,6 +144,5 @@ class AllergenRest extends BaseRest
 $allergenRest = new AllergenRest();
 URIDispatcher::getInstance()
     ->map("GET","/allergen", array($allergenRest, "getAllergens"))
-    ->map("POST", "/allergen", array($allergenRest, "setAllergenToFood"))
-    ->map("PUT", "/allergen/$1", array($allergenRest, "updateFoodsAllergen"))
+    ->map("POST", "/allergen/", array($allergenRest, "updateFoodsAllergen"))
 ;

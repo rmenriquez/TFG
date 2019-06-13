@@ -18,48 +18,35 @@ require_once(__DIR__."/BaseRest.php");
 class UserRest extends BaseRest
 {
     private $userMapper;
-    private $eventMapper;
 
     public function __construct()
     {
         parent::__construct();
 
         $this->userMapper = new UserMapper();
-        $this->eventMapper = new EventMapper();
     }
 
-    public function getUser($eventId){
+    public function getUser($userId){
         $currentUser = parent::authenticateUser();
 
-        $event = $this->eventMapper->findById($eventId);
-        if ($event->getRestaurant() != $currentUser->getIdUser()) {
+        $user = $this->userMapper->findById($userId);
+        var_dump($user);
+        if ($user->getIdUser() != $currentUser->getIdUser()) {
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
             echo("You are not the authorized for this");
             return;
         }
 
-        $users = $this->userMapper->findAll($currentUser,$eventId);
-
-
-        // json_encode Note objects.
-        // since Note objects have private fields, the PHP json_encode will not
-        // encode them, so we will create an intermediate array using getters and
-        // encode it finally
-        $users_array = array();
-        foreach($users as $user) {
-            array_push($users_array, array(
-                "id_user" => $user->getIdUser(),
-                "user" => $user->getUser(),
-                "n_cli_wedding" =>$user-> getNCliWedding(),
-                "n_cli_christening" => $user->getNCliChristening(),
-                "n_cli_communion" => $user->getNCliCommunion(),
-                "n_cli_others" => $user->getNCliOthers()
-            ));
-        }
 
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
-        echo(json_encode($users_array));
+        echo(json_encode($user->getIdUser(),
+            $user->getName(),
+            $user->getUser(),
+            $user->getNCliChristening(),
+            $user->getNCliWedding(),
+            $user->getNCliCommunion(),
+            $user->getNCliOthers()));
     }
 
     public function postUser($data) {
@@ -95,4 +82,4 @@ $userRest = new UserRest();
 URIDispatcher::getInstance()
     ->map("GET",	"/user/$1", array($userRest,"login"))
     ->map("POST", "/user", array($userRest,"postUser"))
-    ->map("GET","/users/$1", array($userRest,"getUser"));
+    ->map("GET","/user/$1/view", array($userRest,"getUser"));
