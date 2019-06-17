@@ -52,6 +52,14 @@ class User {
      */
     private $n_cli_others;
 
+    /**
+     * The restaurant's email
+     * @var string
+     */
+    private $email;
+
+
+
 	/**
 	* The constructor
 	*
@@ -221,6 +229,24 @@ class User {
     public function setNCliOthers($n_cli_others)
     {
         $this->n_cli_others = $n_cli_others;
+    }
+
+    /**
+     * Gets the email of the restaurant
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Sets the email of the restaurant
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
 

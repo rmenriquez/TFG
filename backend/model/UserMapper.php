@@ -22,9 +22,9 @@ class UserMapper {
 	* @return void
 	*/
 	public function save($user) {
-		$stmt = $this->db->prepare("INSERT INTO user (id_user,name,user,password,n_cli_wedding,n_cli_christening,n_cli_communion,n_cli_others) 
+		$stmt = $this->db->prepare("INSERT INTO user (id_user,name,user,password,n_cli_wedding,n_cli_christening,n_cli_communion,n_cli_others, email) 
           values (0,?,?,?,?,?,?,?)");
-		$stmt->execute(array($user->getName(),$user->getUser(),$user->getPassword(), $user->getNCliWedding(), $user->getNCliChristening(), $user->getNCliCommunion(), $user->getNCliOthers()));
+		$stmt->execute(array($user->getName(),$user->getUser(),$user->getPassword(), $user->getNCliWedding(), $user->getNCliChristening(), $user->getNCliCommunion(), $user->getNCliOthers(), $user->getEmail()));
 	}
 
     /**
@@ -91,6 +91,7 @@ class UserMapper {
             $userAux->setNCliChristening($userComplete['n_cli_christening']);
             $userAux->setNCliCommunion($userComplete['n_cli_communion']);
             $userAux->setNCliOthers($userComplete['n_cli_others']);
+            $userAux->setEmail($userComplete['email']);
             return $userAux;
         }else{
             echo("NO SE LOGRO RECUPERAR EL USUARIO COMPLETO");
@@ -110,14 +111,15 @@ class UserMapper {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($user != null){
-            return new Staff(
+            return new User(
                 $user["id_user"],
                 $user["name"],
                 $user["user"],
                 $user["n_cli_wedding"],
                 $user["n_cli_christening"],
                 $user["n_cli_communion"],
-                $user["n_cli_others"]
+                $user["n_cli_others"],
+                $user["email"]
             );
         }else{
             return NULL;

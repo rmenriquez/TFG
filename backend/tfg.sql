@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `n_cli_christening` int(3) NULL,
   `n_cli_communion` int(3) NULL,
   `n_cli_others` int(3) NULL,
+  `email` varchar(255) NOT NULL
   PRIMARY KEY (id_user)
 );
 
