@@ -23,7 +23,7 @@ class UserMapper {
 	*/
 	public function save($user) {
 		$stmt = $this->db->prepare("INSERT INTO user (id_user,name,user,password,n_cli_wedding,n_cli_christening,n_cli_communion,n_cli_others, email) 
-          values (0,?,?,?,?,?,?,?)");
+          values (0,?,?,?,?,?,?,?,?)");
 		$stmt->execute(array($user->getName(),$user->getUser(),$user->getPassword(), $user->getNCliWedding(), $user->getNCliChristening(), $user->getNCliCommunion(), $user->getNCliOthers(), $user->getEmail()));
 	}
 

@@ -46,11 +46,15 @@ class UserRest extends BaseRest
             $user->getNCliChristening(),
             $user->getNCliWedding(),
             $user->getNCliCommunion(),
-            $user->getNCliOthers()));
+            $user->getNCliOthers(),
+            $user->getEmail()));
+
     }
 
     public function postUser($data) {
-        $user = new User($data->name,NULL,$data->user,$data->password, $data->n_cli_wedding, $data->n_cli_christening, $data->n_cli_communion, $data->n_cli_others);
+        echo "\nEstoy en postUser\n";
+        echo $data->password;
+        $user = new User('',$data->name,$data->user,$data->password, $data->n_cli_wedding, $data->n_cli_christening, $data->n_cli_communion, $data->n_cli_others, $data->email);
         try {
             $user->checkIsValidForRegister();
 
