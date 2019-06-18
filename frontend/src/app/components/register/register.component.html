@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="col-md-12">
+    <h2>{{title}}</h2>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-5">
+        <p>
+            <label for="name">Nombre</label>
+            <input ngModel type="text"  name="name" id="name" class="form-control" required />
+
+        </p>
+        <p> <label for="user">User</label>
+            <input ngModel type="text"  name="user" id="user" class="form-control" required />
+
+        </p>
+        <p> <label for="password">Password</label>
+            <input ngModel type="password" name="password" id="password" class="form-control" required />
+
+        </p>
+        <p> <label for="n_cli_wedding">Número de clientes/camarero para bodas</label>
+            <input ngModel type="text"  name="n_cli_wedding" id="n_cli_wedding" class="form-control" required />
+
+        </p>
+        <p> <label for="n_cli_christening">Número de clientes/camarero para bautizos</label>
+            <input ngModel type="text"  name="n_cli_christening" id="n_cli_christening" class="form-control" required />
+
+        </p>
+        <p> <label for="n_cli_communion">Número de clientes/camarero para comuniones</label>
+            <input ngModel type="text"  name="n_cli_communion" id="n_cli_communion" class="form-control" required />
+
+        </p>
+        <p> <label for="n_cli_others">Número de clientes/camarero para otros eventos</label>
+            <input ngModel type="text"  name="n_cli_others" id="n_cli_others" class="form-control" required />
+
+        </p>
+        <p> <label for="email">Email</label>
+            <input ngModel type="text"  name="email" id="email" class="form-control" required />
+
+        </p>
+
+        <input type="submit" value="Regístrame" class="btn btn-success">
+
+    </form>
+</div>
