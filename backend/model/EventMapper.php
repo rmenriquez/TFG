@@ -427,4 +427,8 @@ class EventMapper
 
 
     }
+
+    public function sendMail($id_event){
+
+    }
 }

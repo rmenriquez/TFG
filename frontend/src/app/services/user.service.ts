@@ -21,13 +21,12 @@ export class UserService {
             return "Hola mundo!!";
     }
 
-    register(user): Observable<any>{
+    register(user):Observable<any>{
         let json = JSON.stringify(user);
         let params = json;
-        console.log(params);
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(this.url+'user', params, {headers:headers});
+        return this._http.post(this.url+'user', params, {headers:headers, observe: "response"});
     }
 }

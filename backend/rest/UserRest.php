@@ -52,16 +52,17 @@ class UserRest extends BaseRest
     }
 
     public function postUser($data) {
-        echo "\nEstoy en postUser\n";
-        echo $data->password;
         $user = new User('',$data->name,$data->user,$data->password, $data->n_cli_wedding, $data->n_cli_christening, $data->n_cli_communion, $data->n_cli_others, $data->email);
         try {
-            $user->checkIsValidForRegister();
+            if(!$this->userMapper->usernameExists($data->user)){
+                $user->checkIsValidForRegister();
 
-            $this->userMapper->save($user);
+                $this->userMapper->save($user);
 
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            header("Location: ".$_SERVER['REQUEST_URI']."/".$data->username);
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                header("Location: ".$_SERVER['REQUEST_URI']."/".$data->username);
+
+            }
         }catch(ValidationException $e) {
             http_response_code(400);
             header('Content-Type: application/json');
