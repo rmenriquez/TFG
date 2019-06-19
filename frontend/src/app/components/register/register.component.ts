@@ -49,11 +49,10 @@ export class RegisterComponent implements OnInit{
                     this.status = 'success';
                     this.user = new User(1,'name','user',0,0,0,0,'email','password');
                     form.reset();
-                }else{
-                    this.status = 'error';
                 }
             },
             error => {
+                this.status = 'error';
                 console.log(<any> error);
                 console.log(this.status);
             }
