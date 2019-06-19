@@ -62,6 +62,10 @@ class UserRest extends BaseRest
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header("Location: ".$_SERVER['REQUEST_URI']."/".$data->username);
 
+            }else{
+                $error = array();
+                array_push($error, array('exists' => 'El usuario ya existe'));
+                throw new ValidationException($error);
             }
         }catch(ValidationException $e) {
             http_response_code(400);

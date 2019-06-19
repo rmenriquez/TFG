@@ -18,8 +18,6 @@ export class RegisterComponent implements OnInit{
     public user: User;
     public status: string;
 
-    @ViewChild('registerForm',{ static: false }) registerForm: NgForm;
-
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
@@ -34,14 +32,14 @@ export class RegisterComponent implements OnInit{
     }
 
     onSubmit(form){
-        this.user.name = this.registerForm.value.name;
-        this.user.user = this.registerForm.value.user;
-        this.user.password = this.registerForm.value.password;
-        this.user.n_cli_wedding = this.registerForm.value.n_cli_wedding;
-        this.user.n_cli_christening = this.registerForm.value.n_cli_christening;
-        this.user.n_cli_communion = this.registerForm.value.n_cli_communion;
-        this.user.n_cli_others = this.registerForm.value.n_cli_others;
-        this.user.email = this.registerForm.value.email;
+        this.user.name = form.value.name;
+        this.user.user = form.value.user;
+        this.user.password = form.value.password;
+        this.user.n_cli_wedding = form.value.n_cli_wedding;
+        this.user.n_cli_christening = form.value.n_cli_christening;
+        this.user.n_cli_communion = form.value.n_cli_communion;
+        this.user.n_cli_others = form.value.n_cli_others;
+        this.user.email = form.value.email;
 
         //console.log(this._userService.pruebas());
         this._userService.register(this.user).subscribe(

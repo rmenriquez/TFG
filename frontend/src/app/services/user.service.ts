@@ -27,6 +27,6 @@ export class UserService {
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(this.url+'user', params, {headers:headers, observe: "response"});
+        return this._http.post(this.url+'user', params, {observe: "response",headers:headers});
     }
 }
