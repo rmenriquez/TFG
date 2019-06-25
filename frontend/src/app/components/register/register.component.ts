@@ -2,8 +2,7 @@
  * Created by RaquelMarcos on 17/6/19.
  */
 
-import {Component, OnInit, ViewChild} from '@angular/core';
-import { NgForm } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';

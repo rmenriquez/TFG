@@ -89,7 +89,8 @@ class UserRest extends BaseRest
                 "n_cli_wedding"=> $currentLogged->getNCliWedding(),
                 "n_cli_christening"=> $currentLogged->getNCliChristening(),
                 "n_cli_communion"=> $currentLogged->getNCliCommunion(),
-                "n_cli_others"=> $currentLogged->getNCliOthers()
+                "n_cli_others"=> $currentLogged->getNCliOthers(),
+                "password" => $currentLogged->getPassword()
                 );
             echo json_encode($user);
             //return json_encode($user);
