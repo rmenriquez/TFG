@@ -60,7 +60,7 @@ class UserRest extends BaseRest
                 $this->userMapper->save($user);
 
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-                header("Location: ".$_SERVER['REQUEST_URI']."/".$data->username);
+                header("Location: ".$_SERVER['REQUEST_URI']."/".$data->user);
 
             }else{
                 $error = array();
@@ -78,10 +78,21 @@ class UserRest extends BaseRest
         $currentLogged = parent::authenticateUser();
         if ($currentLogged->getUser() != $username) {
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("You are not authorized to login as anyone but you");
+            echo json_encode("You are not authorized to login as anyone but you");
         } else {
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
-            echo("Hello ".$username);
+            //echo json_encode("Hello ".$username);
+            $user = array(
+                "name"=> $currentLogged->getName(),
+                "user"=> $currentLogged->getUser(),
+                "email" => $currentLogged->getEmail(),
+                "n_cli_wedding"=> $currentLogged->getNCliWedding(),
+                "n_cli_christening"=> $currentLogged->getNCliChristening(),
+                "n_cli_communion"=> $currentLogged->getNCliCommunion(),
+                "n_cli_others"=> $currentLogged->getNCliOthers()
+                );
+            echo json_encode($user);
+            //return json_encode($user);
         }
     }
 }

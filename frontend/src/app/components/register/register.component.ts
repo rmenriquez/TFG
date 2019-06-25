@@ -18,6 +18,8 @@ export class RegisterComponent implements OnInit{
     public user: User;
     public status: string;
 
+    public errors = {};
+
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
@@ -52,7 +54,9 @@ export class RegisterComponent implements OnInit{
                 }
             },
             error => {
+                console.log(error.error);
                 this.status = 'error';
+                this.errors = error.error;
                 console.log(<any> error);
                 console.log(this.status);
             }

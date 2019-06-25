@@ -45,7 +45,6 @@ class BaseRest
             if ($userMapper->isValidUser(
                 $_SERVER['PHP_AUTH_USER'],
                 $_SERVER['PHP_AUTH_PW'])) {
-
                 $userAux = $userMapper->getUserComplete($_SERVER['PHP_AUTH_USER']);
                 return $userAux;
             } else {
