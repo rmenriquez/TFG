@@ -29,4 +29,13 @@ export class UserService {
 
         return this._http.post(this.url+'user', params, {observe: "response",headers:headers});
     }
+
+    signUp(user): Observable<any>{
+        let json = JSON.stringify(user);
+        let params = json;
+
+        let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(user.user + ':'+user.password)});
+
+        return this._http.get(`http://localhost:8888/TFG/backend/rest/user/${user.user}`,{headers: headers});
+    }
 }
