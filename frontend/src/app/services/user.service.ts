@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 import { GLOBAL } from './global';
 import { User } from '../models/user';
 
-@Injectable()
+@Injectable()@Injectable({
+    providedIn: 'root'
+})
 export class UserService {
     public url: string;
     public identity;
