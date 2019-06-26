@@ -3,6 +3,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import  { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
@@ -53,11 +54,12 @@ export class LoginComponent implements OnInit{
                 this.user.n_cli_others = response.n_cli_others;
                 this.user.email = response.email;
 
+                this.user.authdata = btoa(this.user.user + ':'+this.user.password);
                 this.token = 'Basic '+ btoa(this.user.user + ':'+this.user.password);
                 localStorage.setItem('token', this.token);
-                this.identity = response;
+                this.identity = this.user;
                 localStorage.setItem('identity', JSON.stringify(this.identity));
-                //console.log(this.user);
+                console.log(this.user);
                 //Redireccion
                 this._router.navigate(['home']);
             },
@@ -68,6 +70,23 @@ export class LoginComponent implements OnInit{
             }
         );
     }
+
+    /*onSubmit(form){
+        this.user.user = form.value.user;
+        this.user.password = form.value.password;
+        this._userService.login(this.user).pipe(first()).subscribe(
+            data => {
+                this.status = 'success';
+                this._router.navigate(['home']);
+            },
+            error =>{
+                this.status = 'error';
+                console.log(<any> error);
+                this.errors = error.error;
+            }
+        )
+
+    }*/
 
     logout(){
         this._route.params.subscribe(params => {

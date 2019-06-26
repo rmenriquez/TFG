@@ -11,7 +11,7 @@ import { User } from '../models/user';
 export class UserService {
     public url: string;
     public identity;
-    public token;
+    public token: string;
 
 
     constructor(
@@ -63,4 +63,23 @@ export class UserService {
         }
         return this.token;
     }
+
+    public get currentUserValue(){
+        return this.identity;
+    }
+
+    /*login(data){
+        let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(data.user + ':'+data.password)});
+
+        return this._http.get(`http://localhost:8888/TFG/backend/rest/user/${data.user}`,{headers: headers})
+            .pipe(map(user => {
+                //Almacena los datos de usuario y la credencial en el localStorage
+                user.authdata = window.btoa(data.user + ':' + data.password);
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user);
+                return user;
+            }));
+    }*/
+
+
 }
