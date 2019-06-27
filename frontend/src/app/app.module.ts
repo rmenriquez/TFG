@@ -12,13 +12,21 @@ import { BasicAuthInterceptor } from './_helpers/basic-auth.interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DefaultComponent } from './components/default/default.component';
+import { FoodNewComponent } from './components/food-new/food-new.component';
+import { FoodEditComponent } from './components/food-edit/food-edit.component';
+import { FoodDetailComponent } from './components/food-detail/food-detail.component';
+import { FoodAllComponent } from './components/food-all/food-all.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DefaultComponent
+    DefaultComponent,
+    FoodNewComponent,
+    FoodEditComponent,
+    FoodDetailComponent,
+    FoodAllComponent
   ],
   imports: [
     BrowserModule,

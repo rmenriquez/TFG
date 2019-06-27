@@ -8,6 +8,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DefaultComponent } from './components/default/default.component';
+import { FoodNewComponent } from './components/food-new/food-new.component';
+import { FoodAllComponent } from './components/food-all/food-all.component';
+import { FoodDetailComponent } from './components/food-detail/food-detail.component';
+import { FoodEditComponent } from './components/food-edit/food-edit.component';
 
 const appRoutes: Routes = [
     {path: '', component: DefaultComponent},
@@ -15,6 +19,9 @@ const appRoutes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'logout/:sure', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
+    {path: 'newFood', component: FoodNewComponent},
+    {path: 'editFood/:id', component: FoodEditComponent},
+    {path: 'foodDetail/:id', component: FoodDetailComponent},
     {path: '**', component: DefaultComponent}
 ];
 

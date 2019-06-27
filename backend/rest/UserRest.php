@@ -83,6 +83,7 @@ class UserRest extends BaseRest
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
             //echo json_encode("Hello ".$username);
             $user = array(
+                "id_user"=> $currentLogged->getIdUser(),
                 "name"=> $currentLogged->getName(),
                 "user"=> $currentLogged->getUser(),
                 "email" => $currentLogged->getEmail(),

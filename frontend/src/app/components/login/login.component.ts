@@ -2,9 +2,8 @@
  * Created by RaquelMarcos on 17/6/19.
  */
 
-import { Component, OnInit } from '@angular/core';
-
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import {Component, OnInit, EventEmitter, Output} from '@angular/core';
+import {Router, ActivatedRoute, Params, Event} from '@angular/router';
 import  { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 
@@ -19,6 +18,8 @@ export class LoginComponent implements OnInit{
     public status: string;
     public token;
     public identity;
+
+    //@Output() sendData = new EventEmitter<void>();
 
     public errors = {};
 
@@ -47,6 +48,8 @@ export class LoginComponent implements OnInit{
                 this.status = 'success';
                 //conseguir aqui el token
                 //console.log(response);
+                this._userService.identity.name = response.name;
+                this.user.id_user = response.id_user;
                 this.user.name = response.name;
                 this.user.n_cli_wedding = response.n_cli_wedding;
                 this.user.n_cli_christening = response.n_cli_christening;
@@ -56,10 +59,13 @@ export class LoginComponent implements OnInit{
 
                 this.user.authdata = btoa(this.user.user + ':'+this.user.password);
                 this.token = 'Basic '+ btoa(this.user.user + ':'+this.user.password);
-                localStorage.setItem('token', this.token);
+                //localStorage.setItem('token', this.token);
                 this.identity = this.user;
                 localStorage.setItem('identity', JSON.stringify(this.identity));
-                console.log(this.user);
+                //console.log(this.user);
+
+                this._userService.identity = this.identity;
+                console.log(this._userService.identity);
                 //Redireccion
                 this._router.navigate(['home']);
             },
@@ -95,6 +101,7 @@ export class LoginComponent implements OnInit{
             if(logout == 1){
                 localStorage.removeItem('identity');
                 localStorage.removeItem('token');
+                localStorage.removeItem('identity del signUp')
 
                 this.identity = null;
                 this.token = null;

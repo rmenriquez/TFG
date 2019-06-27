@@ -11,7 +11,7 @@
                     <a [routerLink]="['']">Inicio</a>
                 </li>
                 <li *ngIf="identity">
-                    <a href="#">Crear comida</a>
+                    <a [routerLink]="['newFood']">Crear comida</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="identity">
