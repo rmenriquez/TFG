@@ -14,10 +14,7 @@ import { User } from '../models/user';
 export class UserService {
     private url: string;
 
-    private identity: User;// = new User(1,'name','user',0,0,0,0,'email','password', '');
-    //public token: string;
-    //private currentUserSource = new BehaviorSubject<User>(null);
-    //public currentUser = this.currentUserSource.asObservable();
+    private identity: User;
 
     constructor(
         private _http: HttpClient
@@ -30,8 +27,9 @@ export class UserService {
     }
 
     register(user):Observable<any>{
-        let json = JSON.stringify(user);
-        let params = json;
+        console.log(user);
+        let params = JSON.stringify(user as User);
+        //console.log(params);
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -47,7 +45,7 @@ export class UserService {
         return this._http.get<User>(`http://localhost:8888/TFG/backend/rest/user/${login}`, {headers: headers})
         .pipe(
             tap(response => {
-                this.identity = response;
+                this.identity = response as User;
                 this.identity.password = password;
                 //this.token = 'Basic ' + btoa(user.user + ':'+user.password);
                 //console.log(this.token);

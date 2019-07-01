@@ -3,7 +3,7 @@
 <form #newFood="ngForm" (ngSubmit)="onSubmit(newFood)" class="col-md-5">
   <p>
     <label for="title">Titulo</label>
-    <input type="text" id="title" class="form-control" name="title" #title="ngModel" [(ngModel)]="food.title" required />
+    <input ngModel type="text" id="title" class="form-control" name="title" #title="ngModel" required />
     <span *ngIf="!title.valid && title.touched">
       El titulo no es válido
     </span>
@@ -11,7 +11,7 @@
 
   <p>
     <label for="description">Descripción</label>
-    <input type="text" class="form-control" id="description" name="description" #description="ngModel" [(ngModel)]="food.description" required />
+    <input ngModel type="text" class="form-control" id="description" name="description" #description="ngModel" required />
     <span *ngIf="!description.valid && description.touched">
       La description no es válido
     </span>
@@ -19,7 +19,7 @@
 
   <p>
     <label for="image">Imágen</label>
-    <input type="text" class="form-control" id="image" name="image" #image="ngModel" [(ngModel)]="food.image" required />
+    <input ngModel type="text" class="form-control" id="image" name="image" #image="ngModel" required />
     <span *ngIf="!image.valid && image.touched">
       La imágen no es válida
     </span>
@@ -27,7 +27,7 @@
 
   <p>
     <label for="price">Precio</label>
-    <input type="number" class="form-control" id="price" name="price" #price="ngModel" [(ngModel)]="food.price" />
+    <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" />
   </p>
 
   <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newFood.form.valid"/>

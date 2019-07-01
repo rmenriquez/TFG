@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit{
         private _userService: UserService
     ){
         this.title = 'Regístrate';
-        this.user = new User(1,'name','user',0,0,0,0,'email','password');
+        //this.user = new User(1,'name','user',0,0,0,0,'email','password');
     }
 
     ngOnInit(){
@@ -33,22 +33,13 @@ export class RegisterComponent implements OnInit{
     }
 
     onSubmit(form){
-        this.user.name = form.value.name;
-        this.user.user = form.value.user;
-        this.user.password = form.value.password;
-        this.user.n_cli_wedding = form.value.n_cli_wedding;
-        this.user.n_cli_christening = form.value.n_cli_christening;
-        this.user.n_cli_communion = form.value.n_cli_communion;
-        this.user.n_cli_others = form.value.n_cli_others;
-        this.user.email = form.value.email;
 
-        //console.log(this._userService.pruebas());
-        this._userService.register(this.user).subscribe(
+        this._userService.register(form.value).subscribe(
             response => {
                 console.log(response);
                 if(response.status == 201){
                     this.status = 'success';
-                    this.user = new User(1,'name','user',0,0,0,0,'email','password');
+                    //this.user = new User(1,'name','user',0,0,0,0,'email','password');
                     form.reset();
                 }
             },

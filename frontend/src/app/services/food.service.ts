@@ -6,8 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { GLOBAL } from './global';
 import { Food } from '../models/food';
-import { UserService } from './user.service';
-import {User} from "../models/user";
+
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -25,16 +25,20 @@ export class FoodService {
         return "Hola mundo!!";
     }
 
-    createFood(food: Food, currentUser: User): Observable<any>{
-        console.log(currentUser);
+    createFood(food: Food): Observable<any>{
+        //console.log(food);
         let json = JSON.stringify(food);
+        //console.log(json);
 
-        console.log(json);
-        //let params = "json="+food;
+        //console.log(json);
 
-        //.set('Authorization', 'Basic ' + currentUser.authdata)
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        return this._http.post(this.url + 'food', food, {headers: headers});
+        return this._http.post(this.url + 'food', food, {headers: headers}).pipe(tap(response => {
+            let identity = JSON.parse(localStorage.getItem('identity'));
+            //console.log(identity);
+            food.restaurant = identity['id_user'];
+            //console.log(food);
+        }));
     }
 }

@@ -11,9 +11,8 @@ import { FoodService } from '../../services/food.service';
   providers: [UserService, FoodService]
 })
 export class FoodNewComponent implements OnInit {
-  public page_title: string;
-  public identity;
-  public token;
+  private page_title: string;
+  private identity;
   public food: Food;
 
   constructor(
@@ -24,25 +23,20 @@ export class FoodNewComponent implements OnInit {
   ) {
       this.page_title = 'Create new food';
       this.identity = this._userService.getIdentity();
-      this.token = this._userService.getToken();
   }
 
   ngOnInit() {
     if(this.identity == null){
       this._router.navigate(["/login"]);
-    }else{
-      //Crear objeto food
-      this.food = new Food(1, '', '', '', 0, 0);
     }
   }
 
   onSubmit(form){
-    console.log(this._userService.identity);
-    console.log(this._userService.getIdentity());
-    console.log(this.food);
-    this.food.restaurant = this._userService.identity.id_user;
-    console.log(this.food);
-    this._foodService.createFood(this.food, this._userService.getIdentity()).subscribe(
+    //console.log(this._userService.getIdentity());
+    //console.log(this.food);
+    //this.food.restaurant = this._userService.identity.id_user;
+    console.log(form.value);
+    this._foodService.createFood(form.value).subscribe(
         response=>{
           console.log(response);
         },
