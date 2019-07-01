@@ -14,7 +14,7 @@ import { UserService } from '../../services/user.service';
 })
 export class LoginComponent implements OnInit{
     public title: string;
-    public user: User;
+    //public user: User;
     public status: string;
     public token;
     public identity;
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit{
         private _userService: UserService
     ){
         this.title = 'Identificate';
-        this.user =  new User(1,'name','user',0,0,0,0,'email','password');
+        //7this.user =  new User(1,'name','user',0,0,0,0,'email','password');
     }
 
     ngOnInit(){
@@ -40,16 +40,16 @@ export class LoginComponent implements OnInit{
     }
 
     onSubmit(form){
-        this.user.user = form.value.user;
-        this.user.password = form.value.password;
+        //this.user.user = form.value.user;
+        //this.user.password = form.value.password;
         //console.log(this.user);
-        this._userService.signUp(this.user).subscribe(
+        this._userService.signUp(form.value.user, form.value.password).subscribe(
             response => {
                 this.status = 'success';
                 //conseguir aqui el token
                 //console.log(response);
-                this._userService.identity.name = response.name;
-                this.user.id_user = response.id_user;
+                //this._userService.identity.name = response.name;
+                /*this.user.id_user = response.id_user;
                 this.user.name = response.name;
                 this.user.n_cli_wedding = response.n_cli_wedding;
                 this.user.n_cli_christening = response.n_cli_christening;
@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit{
                 //console.log(this.user);
 
                 this._userService.identity = this.identity;
-                console.log(this._userService.identity);
+                console.log(this._userService.identity);*/
                 //Redireccion
                 this._router.navigate(['home']);
             },

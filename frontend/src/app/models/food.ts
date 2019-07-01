@@ -9,5 +9,6 @@ export class Food{
         public image: string,
         public restaurant: number,
         public price: number,
+        public allergens?: any
     ){}
 }
