@@ -1,5 +1,13 @@
 <div class="col-md-12"><h2>{{page_title}}</h2>
 
+  <div class="alert alert-danger" *ngIf="status == 'error'">
+    La comida no se ha registrado
+    {{errors}}
+  </div>
+  <div class="alert alert-success" *ngIf="status == 'success'">
+    La comida se ha guardado
+  </div>
+
 <form #newFood="ngForm" (ngSubmit)="onSubmit(newFood)" class="col-md-5">
   <p>
     <label for="title">Titulo</label>
@@ -27,7 +35,7 @@
 
   <p>
     <label for="price">Precio</label>
-    <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" />
+    <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" placeholder="0,0" />
   </p>
 
   <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newFood.form.valid"/>

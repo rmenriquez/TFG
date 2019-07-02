@@ -48,7 +48,8 @@ class FoodRest extends BaseRest{
             array_push($foods_array, array(
                 "id_food" => $food->getIdFood(),
                 "title" => $food->getTitle(),
-                "description" => $food->getDescription(),
+                //"description" => $food->getDescription(),
+                "price" => $food->getPrice(),
                 "image" => $food->getImage()
             ));
         }

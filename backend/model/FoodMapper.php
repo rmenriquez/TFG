@@ -35,7 +35,7 @@ class FoodMapper
         $foods = array();
 
         foreach ($foods_db as $food){
-            array_push($foods, new Food($food["id_food"], $food["title"], $food["description"], $food["image"]));
+            array_push($foods, new Food($food["id_food"], $food["title"], $food["description"], $food["image"], $food["restaurant"], $food["price"]));
         }
         //print_r($foods);
         return $foods;

@@ -14,6 +14,9 @@ export class FoodNewComponent implements OnInit {
   private page_title: string;
   private identity;
   public food: Food;
+  public status: string;
+
+  private errors = {};
 
   constructor(
       private _route: ActivatedRoute,
@@ -39,9 +42,13 @@ export class FoodNewComponent implements OnInit {
     this._foodService.createFood(form.value).subscribe(
         response=>{
           console.log(response);
+          this.status = 'success';
+          this._router.navigate(['/home']);
         },
         error=>{
           console.log(<any> error);
+          this.status = 'error';
+          this.errors = error.error;
         }
     );
   }

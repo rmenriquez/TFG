@@ -20,6 +20,7 @@ const appRoutes: Routes = [
     {path: 'logout/:sure', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'newFood', component: FoodNewComponent},
+    {path: 'allFoods', component: FoodAllComponent},
     {path: 'editFood/:id', component: FoodEditComponent},
     {path: 'foodDetail/:id', component: FoodDetailComponent},
     {path: '**', component: DefaultComponent}

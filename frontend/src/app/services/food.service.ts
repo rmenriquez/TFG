@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { GLOBAL } from './global';
 import { Food } from '../models/food';
 
-import { tap } from 'rxjs/operators';
+import { tap, retry } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -26,11 +26,12 @@ export class FoodService {
     }
 
     createFood(food: Food): Observable<any>{
-        //console.log(food);
         let json = JSON.stringify(food);
-        //console.log(json);
-
-        //console.log(json);
+        console.log(json);
+        console.log(json['price']);
+        if( json['price'] == null ){
+            food['price'] = 0.0;
+        }
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -40,5 +41,11 @@ export class FoodService {
             food.restaurant = identity['id_user'];
             //console.log(food);
         }));
+    }
+
+    getFoods(): Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this._http.get(this.url + 'food', {headers: headers}).pipe(retry(1));
     }
 }
