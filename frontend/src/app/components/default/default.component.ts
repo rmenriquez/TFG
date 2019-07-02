@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { Food } from '../../models/food';
 import { FoodService } from '../../services/food.service';
+import {isUndefined} from "util";
 
 @Component({
     selector: 'default',
@@ -21,23 +22,18 @@ export class DefaultComponent implements OnInit{
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _userService: UserService,
-        private _foodService: FoodService
+        private _userService: UserService
     ){
         this.title = 'Inicio';
     }
 
     ngOnInit(){
         console.log('default.component cargado correctamente!!');
-        this._foodService.getFoods().subscribe(
-            response => {
-                //console.log(response);
-                this.foods = response;
-            },
-            error => {
-                console.log(<any> error);
-            }
-        );
+        console.log(this._userService.getIdentity());
+        if(isUndefined(this._userService.getIdentity())){
+            this._router.navigate(["login"]);
+        }
+
     }
 
 
