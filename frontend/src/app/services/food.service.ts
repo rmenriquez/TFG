@@ -48,4 +48,9 @@ export class FoodService {
 
         return this._http.get(this.url + 'food', {headers: headers}).pipe(retry(1));
     }
+
+    viewFood(id_food): Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this._http.get(this.url + 'food/' + id_food,{headers: headers});
+    }
 }

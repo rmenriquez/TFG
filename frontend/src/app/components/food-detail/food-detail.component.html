@@ -1,3 +1,9 @@
-<p>
-  food-detail works!
-</p>
+<div class="col-md-12" *ngIf="food">
+  <h1>{{food.title}}</h1>
+  <p>{{food.description}}</p>
+  <p>{{food.image}}</p>
+  <p>{{food.price}} €</p>
+</div>
+<div class="col-md-12">
+  <a [routerLink]="['/allFoods']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+</div>
