@@ -43,7 +43,7 @@ export class FoodNewComponent implements OnInit {
         response=>{
           console.log(response);
           this.status = 'success';
-          this._router.navigate(['/home']);
+          this._router.navigate(['/allFoods']);
         },
         error=>{
           console.log(<any> error);

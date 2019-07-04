@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
+import {isUndefined} from "util";
 
 @Component({
     selector: 'register',
@@ -30,6 +31,9 @@ export class RegisterComponent implements OnInit{
 
     ngOnInit(){
         console.log('register.component cargado correctamente!!');
+        if(!isUndefined(this._userService.getIdentity())){
+            this._router.navigate(["/home"]);
+        }
     }
 
     onSubmit(form){

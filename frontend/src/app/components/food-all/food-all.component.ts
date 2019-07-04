@@ -24,6 +24,7 @@ export class FoodAllComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getFoods();
     if (isUndefined(this._userService.getIdentity())) {
       this._router.navigate(["login"]);
     } else {
@@ -37,5 +38,30 @@ export class FoodAllComponent implements OnInit {
           }
       );
     }
+  }
+
+  getFoods(){
+    this._foodService.getFoods().subscribe(
+        response => {
+          //console.log(response);
+          this.foods = response;
+        },
+        error => {
+          console.log(<any> error);
+        }
+    );
+  }
+
+  deleteFood(id){
+    this._foodService.deleteFood(id).subscribe(
+        response => {
+          //this._router.navigate['home'];
+          this.getFoods();
+
+        },
+        error => {
+
+        }
+    )
   }
 }

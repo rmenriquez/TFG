@@ -28,8 +28,8 @@ export class FoodService {
     createFood(food: Food): Observable<any>{
         let json = JSON.stringify(food);
         console.log(json);
-        console.log(json['price']);
-        if( json['price'] == null ){
+        console.log(food['price']);
+        if( food['price'] == null || food.price == '' ){
             food['price'] = 0.0;
         }
 
@@ -52,5 +52,19 @@ export class FoodService {
     viewFood(id_food): Observable<any>{
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this._http.get(this.url + 'food/' + id_food,{headers: headers});
+    }
+
+    updateFood(food, id): Observable<any>{
+        let params = JSON.stringify(food);
+
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this._http.put(this.url + 'food/' + id, params, { headers: headers});
+    }
+
+    deleteFood(id): Observable <any>{
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        return this._http.delete(this.url + 'food/' + id, {headers:headers});
     }
 }

@@ -8,7 +8,7 @@ export class Food{
         public description: string;
         public image: string;
         public restaurant: number;
-        public price: number;
+        public price: any;
         public allergens?: any;
     //){}
 }
