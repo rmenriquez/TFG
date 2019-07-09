@@ -1,0 +1,27 @@
+<div class="loading" *ngIf="!staff">Cargando...</div>
+<div class="col-md-12" *ngIf="staff">
+  <h2>{{page_title}}</h2>
+
+  <table class="table table-hover table-striped" id="food-list" *ngIf="staff">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let person of staff">
+      <td>
+        <a [routerLink]="['/staffDetail', person.id_staff]" >{{person.name}}</a>
+      </td>
+      <td>{{person.surnames}}</td>
+      <td>{{person.email}}</td>
+      <td>
+        <a [routerLink]="['/editStaff', person.id_staff]" class="btn btn-warning">Edit</a>
+        <a (click)="deleteStaff(person.id_staff)" class="btn btn-danger"> Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

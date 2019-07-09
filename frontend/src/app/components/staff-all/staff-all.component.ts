@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FoodService } from '../../services/food.service';
+import { StaffService } from '../../services/staff.service';
 import { UserService } from '../../services/user.service';
 import {isUndefined} from "util";
 
 @Component({
-  selector: 'app-food-all',
-  templateUrl: './food-all.component.html',
-  providers: [FoodService]
+  selector: 'app-staff-all',
+  templateUrl: './staff-all.component.html',
+  providers: [StaffService]
 })
-export class FoodAllComponent implements OnInit {
+export class StaffAllComponent implements OnInit {
 
-  public title: string;
-  public foods: any = [];
+  private page_title: string;
+  private staff: any[];
 
   constructor(
       private _route: ActivatedRoute,
       private _router: Router,
-      private _foodService: FoodService,
+      private _staffService: StaffService,
       private _userService: UserService
   ) {
-    this.title = 'Foods';
+    this.page_title = 'Staff';
   }
 
   ngOnInit() {
@@ -28,10 +28,10 @@ export class FoodAllComponent implements OnInit {
     if (isUndefined(this._userService.getIdentity())) {
       this._router.navigate(["login"]);
     } else {
-      this._foodService.getFoods().subscribe(
+      this._staffService.getStaff().subscribe(
           response => {
             //console.log(response);
-            this.foods = response;
+            this.staff = response;
           },
           error => {
             console.log(<any> error);
@@ -41,10 +41,10 @@ export class FoodAllComponent implements OnInit {
   }
 
   getFoods(){
-    this._foodService.getFoods().subscribe(
+    this._staffService.getStaff().subscribe(
         response => {
           //console.log(response);
-          this.foods = response;
+          this.staff = response;
         },
         error => {
           console.log(<any> error);
@@ -52,16 +52,15 @@ export class FoodAllComponent implements OnInit {
     );
   }
 
-  deleteFood(id){
-    this._foodService.deleteFood(id).subscribe(
-        response => {
-          //this._router.navigate['home'];
-          this.getFoods();
+  deleteStaff(id){
+      this._staffService.deleteStaff(id).subscribe(
+          response => {
+              this.getFoods();
+          },
+          error => {
 
-        },
-        error => {
-
-        }
-    );
+          }
+      );
   }
+
 }

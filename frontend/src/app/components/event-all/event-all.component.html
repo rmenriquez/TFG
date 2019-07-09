@@ -1,0 +1,26 @@
+<div class="loading" *ngIf="!events">Cargando...</div>
+<div class="col-md-12" *ngIf="events">
+    <h2>{{title}}</h2>
+
+    <table class="table table-hover table-striped" id="food-list" *ngIf="events">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let event of events">
+            <td>{{event.type}}</td>
+            <td>{{event.name}}</td>
+            <td>{{event.date}}</td>
+            <td>
+                <a [routerLink]="['/eventDetail', event.id_event]" class="btn btn-success">View</a>
+                <a [routerLink]="['/editEvent', event.id_event]" class="btn btn-warning">Edit</a>
+                <a (click)="deleteEvent(event.id_event)" class="btn btn-danger"> Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

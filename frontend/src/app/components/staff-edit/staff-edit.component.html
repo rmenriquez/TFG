@@ -1,0 +1,44 @@
+<div class="col-md-12" *ngIf="page_title"><h2>{{page_title}}</h2>
+
+    <div class="alert alert-danger" *ngIf="status == 'error'">
+        El staff no se ha modificado
+        {{errors}}
+    </div>
+    <div class="alert alert-success" *ngIf="status == 'success'">
+        El staff se ha modificado
+    </div>
+
+    <form #editStaff="ngForm" (ngSubmit)="onSubmit(editStaff)" class="col-md-5" *ngIf="staff">
+        <p>
+            <label for="name">Nombre</label>
+            <input ngModel type="text" id="name" [(ngModel)]="staff.name" class="form-control" name="name" #name="ngModel" required />
+            <span *ngIf="!name.valid && name.touched">
+      El nombre no es válido
+    </span>
+        </p>
+
+        <p>
+            <label for="surnames">Apellidos</label>
+            <input ngModel type="text" class="form-control" id="surnames" [(ngModel)]="staff.surnames" name="surnames" #surnames="ngModel" required />
+            <span *ngIf="!surnames.valid && surnames.touched">
+      Los apellidos no son válidos
+    </span>
+        </p>
+
+        <p>
+            <label for="birthdate">Fecha de nacimiento</label>
+            <input ngModel type="date" class="form-control" id="birthdate" [(ngModel)]="staff.birthdate" name="birthdate" #birthdate="ngModel" required />
+            <span *ngIf="!birthdate.valid && birthdate.touched">
+      La fecha de nacimiento no es válida
+    </span>
+        </p>
+
+        <p>
+            <label for="email">Email</label>
+            <input ngModel type="email" class="form-control" id="email" [(ngModel)]="staff.email" name="email" #email="ngModel" required />
+        </p>
+
+        <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!editStaff.form.valid"/>
+        <a [routerLink]="['/allStaff']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
+    </form>
+</div>

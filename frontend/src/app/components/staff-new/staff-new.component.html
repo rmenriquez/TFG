@@ -1,0 +1,54 @@
+<div class="col-md-12" *ngIf="page_title"><h2>{{page_title}}</h2>
+
+  <div class="alert alert-danger" *ngIf="status == 'error'">
+    El empleado no se ha creado
+    {{errors}}
+  </div>
+  <div class="alert alert-success" *ngIf="status == 'success'">
+    El empleado se ha modificado
+  </div>
+
+  <form #newStaff="ngForm" (ngSubmit)="onSubmit(newStaff)" class="col-md-5" >
+    <p>
+      <label for="id_staff">DNI</label>
+      <input ngModel type="text" id="id_staff" class="form-control" name="id_staff" #id_staff="ngModel" required />
+      <span *ngIf="!id_staff.valid && id_staff.touched">
+      El DNI no es válido
+    </span>
+    </p>
+    <p>
+      <label for="name">Nombre</label>
+      <input ngModel type="text" id="name" class="form-control" name="name" #name="ngModel" required />
+      <span *ngIf="!name.valid && name.touched">
+      El nombre no es válido
+    </span>
+    </p>
+
+    <p>
+      <label for="surnames">Apellidos</label>
+      <input ngModel type="text" class="form-control" id="surnames"  name="surnames" #surnames="ngModel" required />
+      <span *ngIf="!surnames.valid && surnames.touched">
+      Los apellidos no son válidos
+    </span>
+    </p>
+
+    <p>
+      <label for="birthdate">Fecha de Nacimiento</label>
+      <input ngModel type="date" class="form-control" id="birthdate" name="birthdate" #birthdate="ngModel" required />
+      <span *ngIf="!birthdate.valid && birthdate.touched">
+      La fecha de nacimiento no es válida
+    </span>
+    </p>
+
+    <p>
+      <label for="email">Email</label>
+      <input ngModel type="email" class="form-control" id="email" name="email" #email="ngModel" required/>
+      <span *ngIf="!email.valid && email.touched">
+      El email no es válido
+    </span>
+    </p>
+
+    <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newStaff.form.valid"/>
+    <a [routerLink]="['/allStaff']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
+  </form>
+</div>

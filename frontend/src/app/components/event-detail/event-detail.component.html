@@ -1,0 +1,20 @@
+<div class="col-md-12" *ngIf="event">
+    <h1>{{event.type}} de {{event.name}}</h1>
+    <label>Fecha</label>
+    <p>{{event.date}}</p>
+    <label>Número de invitados</label>
+    <p>{{event.guests}}</p>
+    <label>Número de niños</label>
+    <p>{{event.children}}</p>
+    <label>¿Tiene mesa dulce externa?</label>
+    <p>{{event.sweet_table}}</p>
+    <label>Observaciones</label>
+    <p>{{event.observations}}</p>
+    <label>Teléfono de contacto</label>
+    <p>{{event.phone}}</p>
+    <label>Precio final</label>
+    <p>{{event.price}}</p>
+</div>
+<div class="col-md-12">
+    <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+</div>

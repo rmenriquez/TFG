@@ -108,8 +108,8 @@ class StaffMapper
      * @param Staff $staff
      */
     public function update(Staff $staff){
-        $stmt = $this->db->prepare("UPDATE staff SET name=?, surnames=?, birthdate =?, email=?");
-        $stmt->execute(array($staff->getName(), $staff->getSurnames(), $staff->getBirthdate(), $staff->getEmail()));
+        $stmt = $this->db->prepare("UPDATE staff SET name=?, surnames=?, birthdate =?, email=? WHERE id_staff = ? AND restaurant = ?");
+        $stmt->execute(array($staff->getName(), $staff->getSurnames(), $staff->getBirthdate(), $staff->getEmail(), $staff->getIdStaff(), $staff->getRestaurant()));
     }
 
     /**

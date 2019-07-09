@@ -13,6 +13,12 @@
                 <li *ngIf="identity">
                     <a  [routerLink]="['newFood']">Crear comida</a>
                 </li>
+                <li *ngIf="identity">
+                    <a  [routerLink]="['newEvent']">Crear evento</a>
+                </li>
+                <li *ngIf="identity">
+                    <a  [routerLink]="['newStaff']">Crear extra</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="identity">
                 <li>
