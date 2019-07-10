@@ -12,10 +12,12 @@ import {isUndefined} from "util";
 })
 export class FoodEditComponent implements OnInit {
 
-  public page_title: string;
-  public status: string;
+  private page_title: string;
+  private status: string;
 
-  public food: Food;
+  private food: Food;
+
+  private errors: {};
 
   constructor(
       private _route: ActivatedRoute,
@@ -49,6 +51,7 @@ export class FoodEditComponent implements OnInit {
           },
           error => {
             console.log(<any> error);
+            this.errors = error.error;
             this._router.navigate(['allFoods']);
           }
       );
@@ -69,6 +72,7 @@ export class FoodEditComponent implements OnInit {
         error => {
           console.log(<any> error);
           this.status = 'error';
+          this.errors = error.error;
         }
     );
 

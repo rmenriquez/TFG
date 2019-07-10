@@ -285,10 +285,9 @@ class User {
         if (!preg_match('/\d/',$this->n_cli_others)) {
             $errors["n_cli_others"] = "Number of other's waiters must be at least 0";
         }
-        //if(!preg_match('^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$', $this->email)){
-		  //  var_dump($this->email);
-            //$errors["email"] = "The email is incorrect y no se por que";
-        //}
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+            $errors["email"] = "The email is incorrect";
+        }
 		if (sizeof($errors)>0){
 			throw new ValidationException($errors, "user is not valid");
 		}

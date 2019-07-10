@@ -1,3 +1,111 @@
-<p>
-  event-new works!
-</p>
+<div class="col-md-12"><h2>{{page_title}}</h2>
+
+  <div class="alert alert-danger" *ngIf="status == 'error'">
+    El evento no se ha creado
+  </div>
+  <div class="alert alert-success" *ngIf="status == 'success'">
+    El evento se ha creado
+  </div>
+
+  <form #newEvent="ngForm" (ngSubmit)="onSubmit(newEvent)" class="col-md-5">
+    <p>
+      <label for="type">Tipo</label>
+      <input ngModel type="text" id="type" class="form-control" name="type" #type="ngModel" required />
+      <span *ngIf="!type.valid && type.touched">
+              El tipo no es válido
+      </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['type']!=null">
+      {{errors['type']}}
+    </div>
+
+    <p>
+      <label for="name">Nombre</label>
+      <input ngModel type="text" class="form-control" id="name"  name="name" #name="ngModel" required />
+      <span *ngIf="!name.valid && name.touched">
+                El nombre no es válido
+      </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
+      {{errors['name']}}
+    </div>
+
+    <p>
+      <label for="date">Fecha</label>
+      <input ngModel type="date" class="form-control" id="date"  name="date" #date="ngModel" required />
+      <span *ngIf="!date.valid && date.touched">
+                La fecha no es válida
+            </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['date']!=null">
+      {{errors['date']}}
+    </div>
+
+    <p>
+      <label for="guests">Número de invitados</label>
+      <input ngModel type="number" class="form-control" id="guests"  name="guests" #guests="ngModel" required/>
+      <span *ngIf="!guests.valid && guests.touched">
+                El número de invitados no es válido
+            </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['guests']!=null">
+      {{errors['guests']}}
+    </div>
+
+    <p>
+      <label for="children">Número de niños</label>
+      <input ngModel type="number" class="form-control" id="children" name="children" #children="ngModel" required/>
+      <span *ngIf="!children.valid && children.touched">
+                El número de niño no es válido
+            </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['children']!=null">
+      {{errors['children']}}
+    </div>
+
+    <p>
+      <label>¿Tiene mesa dulce externa?</label>
+      <select ngModel class="form-control" name="sweet_table" #sweet_table="ngModel" required>
+        <option >Selecciona</option>
+        <option value="0">No</option>
+        <option value="1">Si</option>
+      </select>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['sweet_table']!=null">
+      {{errors['sweet_table']}}
+    </div>
+
+    <p>
+      <label for="observations">Observaciones</label>
+      <textarea ngModel class="form-control" id="observations" name="observations" #observations="ngModel" required></textarea>
+      <span *ngIf="!observations.valid && observations.touched">
+                Las observaciones no son válidas. Introduce al menos la hora del evento o la hora de llegada.
+            </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['observations']!=null">
+      {{errors['observations']}}
+    </div>
+
+    <p>
+      <label for="phone">Teléfono de contacto</label>
+      <input ngModel type="number" class="form-control" id="phone"  name="phone" #phone="ngModel" required/>
+      <span *ngIf="!phone.valid && phone.touched">
+                El teléfono no es válido
+            </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['phone']!=null">
+      {{errors['phone']}}
+    </div>
+
+    <p>
+      <label for="price">Precio</label>
+      <input ngModel type="number" class="form-control" id="price"  name="price" #price="ngModel"/>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
+      {{errors['price']}}
+    </div>
+
+    <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newEvent.form.valid"/>
+    <a [routerLink]="['/allEvents']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
+  </form>
+</div>

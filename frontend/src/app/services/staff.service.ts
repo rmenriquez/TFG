@@ -21,16 +21,16 @@ export class StaffService {
 
   createStaff(staff: Staff): Observable<any>{
     let json = JSON.stringify(staff);
-    console.log(json);
-    console.log(staff);
 
+    if(staff.birthdate === ''){
+      var date = new Date();
+      staff.birthdate = date.getFullYear()-18 + '/' + (date.getMonth()+1) + '/' + date.getDay();
+    }
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this._http.post(this._url + 'staff', staff, {headers: headers}).pipe(tap(response => {
       let identity = JSON.parse(localStorage.getItem('identity'));
-      //console.log(identity);
       staff.restaurant = identity['id_user'];
-      //console.log(food);
     }));
   }
 
@@ -47,6 +47,10 @@ export class StaffService {
   }
 
   updateStaff(staff, id_staff): Observable<any>{
+    if(staff.birthdate === ''){
+      var date = new Date();
+      staff.birthdate = date.getFullYear()-18 + '/' + (date.getMonth()+1) + '/' + date.getDay();
+    }
     let params = JSON.stringify(staff);
 
     let headers = new HttpHeaders().set('Content-Type', 'application/json');

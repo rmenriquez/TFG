@@ -27,7 +27,7 @@
 
         <p>
             <label for="birthdate">Fecha de nacimiento</label>
-            <input ngModel type="date" class="form-control" id="birthdate" [(ngModel)]="staff.birthdate" name="birthdate" #birthdate="ngModel" required />
+            <input ngModel type="date" class="form-control" id="birthdate" [(ngModel)]="staff.birthdate" name="birthdate" #birthdate="ngModel" />
             <span *ngIf="!birthdate.valid && birthdate.touched">
       La fecha de nacimiento no es válida
     </span>

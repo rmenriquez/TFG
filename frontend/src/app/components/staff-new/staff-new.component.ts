@@ -51,7 +51,7 @@ export class StaffNewComponent implements OnInit {
         error=>{
           console.log(<any> error);
           this.status = 'error';
-          this.errors = JSON.stringify(error.error);
+          this.errors = error.error;
         }
     );
   }

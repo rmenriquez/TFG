@@ -33,9 +33,7 @@ export class StaffDetailComponent implements OnInit{
     getStaff(){
         this._route.params.subscribe(
             params =>{
-                console.log(params);
                 let id_staff = params['id'];
-                console.log(id_staff);
                 this._staffService.viewStaff(id_staff).subscribe(
                     response => {
                         this.staff = response;

@@ -50,7 +50,7 @@ export class EventService {
 
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.put(this._url + 'food/' + id, params, { headers: headers});
+    return this._http.put(this._url + 'event/' + id, params, { headers: headers});
   }
 
   deleteEvent(id): Observable<any>{

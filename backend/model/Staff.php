@@ -170,22 +170,26 @@ class Staff
     public function checkIsValidForCreate(){
         $errors = array();
         if (strlen(trim($this->id_staff)) == 0 ) {
-            $errors["id_staff"] = "id_staff is mandatory";
+            $errors["id_staff"] = "Id is mandatory";
         }
         if (!preg_match('/[0-9]{7,8}[A-Za-z]/', $this->id_staff)){
-            $errors["id_staff"] = "id_staff has a wrong format";
+            $errors["id_staff"] = "Id has a wrong format";
         }
-        if (strlen(trim($this->name)) == 0 ) {
-            $errors["name"] = "name is mandatory";
+        if (strlen(trim($this->name)) <= 3 ) {
+            $errors["name"] = "Name is mandatory";
         }
         if (strlen(trim($this->surnames)) == 0 ) {
-            $errors["surnames"] = "surnames is mandatory";
+            $errors["surnames"] = "Surnames are mandatory";
         }
         if (strlen(trim($this->email)) == 0 ) {
-            $errors["email"] = "email is mandatory";
+            $errors["email"] = "The email is mandatory";
+        }
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+              //var_dump($this->email);
+            $errors["email"] = "The email is incorrect";
         }
         if ($this->restaurant == NULL ) {
-            $errors["restaurant"] = "restaurant is mandatory";
+            $errors["restaurant"] = "Restaurant is mandatory";
         }
         if (sizeof($errors) > 0){
             throw new ValidationException($errors, "staff is not valid");
@@ -205,9 +209,9 @@ class Staff
         $errors = array();
 
         if (!isset($this->id_staff)) {
-            $errors["if_staff"] = "id_staff is mandatory";
+            $errors["id_staff"] = "id_staff is mandatory";
         }
-        if(!isset($this->name)){
+        if(!isset($this->name) ){
             $errors["name"] = "name is mandatory";
         }
         if (!isset($this->surnames)){

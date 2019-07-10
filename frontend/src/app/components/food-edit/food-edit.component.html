@@ -16,18 +16,24 @@
       El titulo no es válido
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['title']!=null">
+      {{errors['title']}}
+    </div>
 
     <p>
       <label for="description">Descripción</label>
-      <input ngModel type="text" class="form-control" id="description" [(ngModel)]="food.description" name="description" #description="ngModel" required />
+      <textarea ngModel class="form-control" id="description" [(ngModel)]="food.description" name="description" #description="ngModel" required ></textarea>
       <span *ngIf="!description.valid && description.touched">
       La description no es válido
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['description']!=null">
+      {{errors['description']}}
+    </div>
 
     <p>
       <label for="image">Imágen</label>
-      <input ngModel type="text" class="form-control" id="image" [(ngModel)]="food.image" name="image" #image="ngModel" required />
+      <input ngModel type="text" class="form-control" id="image" [(ngModel)]="food.image" name="image" #image="ngModel" />
       <span *ngIf="!image.valid && image.touched">
       La imágen no es válida
     </span>
@@ -37,6 +43,9 @@
       <label for="price">Precio</label>
       <input ngModel type="number" class="form-control" id="price" [(ngModel)]="food.price" name="price" #price="ngModel" placeholder="0,0" />
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
+      {{errors['price']}}
+    </div>
 
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!editFood.form.valid"/>
     <a [routerLink]="['/allFoods']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>

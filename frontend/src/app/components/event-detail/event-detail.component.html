@@ -7,7 +7,8 @@
     <label>Número de niños</label>
     <p>{{event.children}}</p>
     <label>¿Tiene mesa dulce externa?</label>
-    <p>{{event.sweet_table}}</p>
+    <p *ngIf="event.sweet_table == 1">Si</p>
+    <p *ngIf="event.sweet_table == 0">No</p>
     <label>Observaciones</label>
     <p>{{event.observations}}</p>
     <label>Teléfono de contacto</label>

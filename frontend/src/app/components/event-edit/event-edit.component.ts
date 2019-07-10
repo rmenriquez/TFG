@@ -15,10 +15,12 @@ import {isUndefined} from "util";
 })
 export class EventEditComponent implements OnInit {
 
-    public page_title: string;
-    public status: string;
+    private page_title: string;
+    private status: string;
 
-    public event: Event;
+    private event: Event;
+
+    private errors: {};
 
     constructor(
         private _route: ActivatedRoute,
@@ -52,6 +54,8 @@ export class EventEditComponent implements OnInit {
             },
             error => {
                 console.log(<any> error);
+                this.status = 'error';
+                this.errors = error.error;
                 this._router.navigate(['allEvents']);
             }
         );
@@ -72,6 +76,7 @@ export class EventEditComponent implements OnInit {
             error => {
                 console.log(<any> error);
                 this.status = 'error';
+                this.errors = error.error;
             }
         );
 

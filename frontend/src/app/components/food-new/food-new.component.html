@@ -16,18 +16,24 @@
       El titulo no es válido
     </span>
   </p>
+  <div class="alert alert-danger" *ngIf="status == 'error' && errors['title']!=null">
+    {{errors['title']}}
+  </div>
 
   <p>
     <label for="description">Descripción</label>
-    <input ngModel type="text" class="form-control" id="description" name="description" #description="ngModel" required />
+    <textarea ngModel type="text" class="form-control" id="description" name="description" #description="ngModel" required ></textarea>
     <span *ngIf="!description.valid && description.touched">
       La description no es válido
     </span>
   </p>
+  <div class="alert alert-danger" *ngIf="status == 'error' && errors['description']!=null">
+    {{errors['description']}}
+  </div>
 
   <p>
     <label for="image">Imágen</label>
-    <input ngModel type="text" class="form-control" id="image" name="image" #image="ngModel" required />
+    <input ngModel type="text" class="form-control" id="image" name="image" #image="ngModel" />
     <span *ngIf="!image.valid && image.touched">
       La imágen no es válida
     </span>

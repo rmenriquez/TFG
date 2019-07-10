@@ -2,7 +2,6 @@
 
   <div class="alert alert-danger" *ngIf="status == 'error'">
     El empleado no se ha creado
-    {{errors}}
   </div>
   <div class="alert alert-success" *ngIf="status == 'success'">
     El empleado se ha modificado
@@ -16,6 +15,10 @@
       El DNI no es válido
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['id_staff']!=null">
+      {{errors['id_staff']}}
+    </div>
+
     <p>
       <label for="name">Nombre</label>
       <input ngModel type="text" id="name" class="form-control" name="name" #name="ngModel" required />
@@ -23,6 +26,9 @@
       El nombre no es válido
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
+      {{errors['name']}}
+    </div>
 
     <p>
       <label for="surnames">Apellidos</label>
@@ -31,10 +37,13 @@
       Los apellidos no son válidos
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['surnames']!=null">
+      {{errors['surnames']}}
+    </div>
 
     <p>
       <label for="birthdate">Fecha de Nacimiento</label>
-      <input ngModel type="date" class="form-control" id="birthdate" name="birthdate" #birthdate="ngModel" required />
+      <input ngModel type="date" class="form-control" id="birthdate" name="birthdate" #birthdate="ngModel" placeholder=""/>
       <span *ngIf="!birthdate.valid && birthdate.touched">
       La fecha de nacimiento no es válida
     </span>
@@ -47,6 +56,9 @@
       El email no es válido
     </span>
     </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['email']!=null">
+      {{errors['email']}}
+    </div>
 
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newStaff.form.valid"/>
     <a [routerLink]="['/allStaff']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>

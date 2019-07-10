@@ -17,9 +17,11 @@ import {isUndefined} from "util";
 
 export class StaffEditComponent implements OnInit{
 
-    public page_title: string;
-    public status: string;
+    private page_title: string;
+    private status: string;
     private staff: Staff;
+
+    private errors = {};
 
     constructor(
         private _route: ActivatedRoute,
@@ -69,6 +71,7 @@ export class StaffEditComponent implements OnInit{
             error => {
                 console.log(<any> error);
                 this.status = 'error';
+                this.errors = error.error;
             }
         );
     }

@@ -156,18 +156,18 @@ class Food{
     public function checkIsValidForCreate() {
         $errors = array();
         if (strlen(trim($this->title)) == 0 ) {
-            $errors["title"] = "title is mandatory";
+            $errors["title"] = "Title is mandatory";
         }
         if (strlen(trim($this->description)) == 0 ) {
-            $errors["description"] = "content is mandatory";
+            $errors["description"] = "Content is mandatory";
         }
         //Como comprobar que sea el restaurante logueado
         if ($this->restaurant == NULL ) {
-            $errors["restaurant"] = "restaurant is mandatory";
+            $errors["restaurant"] = "Restaurant is mandatory";
         }
 
         if (sizeof($errors) > 0){
-            throw new ValidationException($errors, "note is not valid");
+            throw new ValidationException($errors, "food is not valid");
         }
     }
 
