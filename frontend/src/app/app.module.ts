@@ -18,6 +18,7 @@ import { FoodNewComponent } from './components/food-new/food-new.component';
 import { FoodEditComponent } from './components/food-edit/food-edit.component';
 import { FoodDetailComponent } from './components/food-detail/food-detail.component';
 import { FoodAllComponent } from './components/food-all/food-all.component';
+import { FoodSetAllergen } from './components/food-set-allergen/food-set-allergen.component';
 //Event
 import { EventNewComponent } from './components/event-new/event-new.component';
 import { EventAllComponent } from './components/event-all/event-all.component';
@@ -39,6 +40,7 @@ import { StaffEditComponent } from './components/staff-edit/staff-edit.component
     FoodEditComponent,
     FoodDetailComponent,
     FoodAllComponent,
+    FoodSetAllergen,
     EventNewComponent,
     EventAllComponent,
     EventDetailComponent,

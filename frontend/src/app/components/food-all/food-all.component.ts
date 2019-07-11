@@ -24,19 +24,10 @@ export class FoodAllComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getFoods();
     if (isUndefined(this._userService.getIdentity())) {
       this._router.navigate(["login"]);
     } else {
-      this._foodService.getFoods().subscribe(
-          response => {
-            //console.log(response);
-            this.foods = response;
-          },
-          error => {
-            console.log(<any> error);
-          }
-      );
+        this.getFoods();
     }
   }
 

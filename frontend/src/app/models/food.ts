@@ -9,6 +9,6 @@ export class Food{
         public image: string;
         public restaurant: number;
         public price: any;
-        public allergens?: any;
+        public allergens?: any[];
     //){}
 }

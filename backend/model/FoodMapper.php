@@ -98,16 +98,12 @@ class FoodMapper
                                       values (0,?,?,?,?, ?)");
         $stmt->execute(array($food->getTitle(), $food->getDescription(),$food->getImage(), $food->getPrice(), $food->getRestaurant()));
 
-        $savedFood = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $foodAux = array();
+        $getId = $this->db->prepare("select last_insert_id()");
+        $getId->execute();
 
-        foreach ($savedFood as $food){
-            array_push($foodAux, new Event($food["id_event"], $food["type"], $food["name"], $food["date"],
-                $food["guests"], $food["children"], $food["sweet_table"], $food["observations"],
-                $food["restaurant"], $food["phone"], $food["price"]));
-        }
+        $id = $getId->fetch(PDO::FETCH_ASSOC);
 
-        return $foodAux;
+        return $id["last_insert_id()"];
     }
 
     /**

@@ -14,6 +14,7 @@ import { tap, retry } from 'rxjs/operators';
 })
 export class FoodService {
     public url: string;
+    private food: Food;
     //private currentUserSource = new BehaviorSubject<User>(null);
     //public currentUser = this.currentUserSource.asObservable();
 
@@ -28,7 +29,6 @@ export class FoodService {
     createFood(food: Food): Observable<any>{
         let json = JSON.stringify(food);
         console.log(json);
-        console.log(food['price']);
         if( food['price'] == null || food.price == '' ){
             food['price'] = 0.0;
         }
@@ -39,7 +39,7 @@ export class FoodService {
             let identity = JSON.parse(localStorage.getItem('identity'));
             //console.log(identity);
             food.restaurant = identity['id_user'];
-            //console.log(food);
+            console.log(food);
         }));
     }
 
@@ -66,5 +66,17 @@ export class FoodService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         return this._http.delete(this.url + 'food/' + id, {headers:headers});
+    }
+
+    setFoodAllergens(id, allergens){
+        console.log("id "+ id);
+        console.log("allergens"+ allergens);
+    }
+
+    getFood(){
+        return this.food;
+    }
+    setFood(food){
+        this.food = food;
     }
 }

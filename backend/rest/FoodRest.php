@@ -79,7 +79,6 @@ class FoodRest extends BaseRest{
             //Save the Post object into database
             if($this->FoodMapper->foodExists($currentUser->getIdUser(), $data->title) == false){
                 $foodId = $this->FoodMapper->save($food);
-
                 //Save the allergens of food
                 //$this->AllergenMapper->addAllergenToFood($allergens, $this->FoodMapper->getMaximumId()+1);
 

@@ -7,7 +7,6 @@ import { FoodService } from '../../services/food.service';
 @Component({
   selector: 'app-food-new',
   templateUrl: './food-new.component.html',
-  styleUrls: ['./food-new.component.css'],
   providers: [UserService, FoodService]
 })
 export class FoodNewComponent implements OnInit {
@@ -43,7 +42,11 @@ export class FoodNewComponent implements OnInit {
         response=>{
           console.log(response);
           this.status = 'success';
-          this._router.navigate(['/allFoods']);
+          this.food = response;
+          let id = response['id_food'];
+          console.log(id);
+          this._foodService.setFood(response);
+          this._router.navigate(['/foodSetAllergens/',id]);
         },
         error=>{
           console.log(<any> error);
