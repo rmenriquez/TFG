@@ -34,7 +34,8 @@ export class FoodDetailComponent implements OnInit {
       console.log(id_food);
       this._foodService.viewFood(id_food).subscribe(
         response => {
-          //console.log(response['allergens']);
+            console.log(response);
+          console.log(response['allergens'][0].name_allergen);
 
             //console.log('estoy dentro');
             this.food = response;

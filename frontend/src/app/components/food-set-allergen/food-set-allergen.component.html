@@ -1,24 +1,22 @@
 <div class="col-md-12" *ngIf="page_title">
     <h2>{{page_title}}</h2>
-    <div>
-        <div>
-            <p>
-                <label>Description:</label>
-            </p>
-            <textarea disabled>{{food.description}}</textarea>
-        </div>
-        <form #setAllergensFood="ngForm" (ngSubmit)="onSubmit(setAllergensFood)" class="col-md-5">
-            <div>
-                <label>
-                    Allergens:
-                </label>
-                <div *ngFor="let allergen of allergens">
-                    <input ngModel name="allergens" #allergens="ngModel" type="checkbox" value={{allergen.id_allergen}} /> {{allergen.name_allergen}}
-                </div>
-            </div>
-            <div>
-                <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!setAllergensFood.form.valid"/>
-            </div>
-        </form>
-    </div>
 </div>
+<div ngif="food.description != undefined">
+    <p>
+        <label>Description:</label>
+    </p>
+    <textarea disabled>{{food?.description}}</textarea>
+</div>
+
+<form [formGroup]="allergensForm" (ngSubmit)="onSubmit()" class="col-md-12">
+    <label formArrayName="allergens" *ngFor="let allergen of allergensForm.controls.allergens.controls; let i = index">
+        <input type="checkbox" [formControlName]="i">
+        {{allergens[i].name_allergen}}
+    </label>
+
+    <br>
+    <div>
+        <input type="submit" value="Guardar" class="btn btn-success"/>
+    </div>
+</form>
+

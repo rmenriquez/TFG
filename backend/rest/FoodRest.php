@@ -213,23 +213,23 @@ class FoodRest extends BaseRest{
             return;
         }
 
-        var_dump($data);
+        //var_dump($data);
         $allergens_food_array = array();
-        echo "allergens\n";
+        //echo "allergens\n";
         //$allergens = explode( ',', $data->allergens);
         $allergens = array();
         for($i =0; $i< count($data->allergens); $i++){
             $allergens[$i] = intval($data->allergens[$i]);
         }
-        var_dump($allergens);
+        //var_dump($allergens);
 
-        echo "enable?\n";
+        //echo "enable?\n";
         //$allergens_enabled = explode( ',', $data->enabled);
         $allergens_enabled = array();
         for($i =0; $i< count($data->enabled); $i++){
             $allergens_enabled[$i] = intval($data->enabled[$i]);
         }
-        var_dump($allergens_enabled);
+        //var_dump($allergens_enabled);
 
         if($allergens!=null && $allergens_enabled!=null){
             $i=0;
@@ -242,7 +242,7 @@ class FoodRest extends BaseRest{
                 $i++;
             }
         }
-        var_dump($allergens_food_array);
+        //var_dump($allergens_food_array);
         try{
             //Envía id_food, id_allergen
             $this->AllergenMapper->addAllergenToFood($allergens_food_array);

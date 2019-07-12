@@ -68,9 +68,20 @@ export class FoodService {
         return this._http.delete(this.url + 'food/' + id, {headers:headers});
     }
 
-    setFoodAllergens(id, allergens){
+    setFoodAllergens(id, allergens): Observable<any>{
+        let enabled: number[] = new Array();
+        allergens.forEach(function(element) {
+            enabled.push(1);
+        });
+        console.log(enabled);
         console.log("id "+ id);
         console.log("allergens"+ allergens);
+
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        let json =  { allergens, enabled};
+console.log(json);
+        return this._http.post(this.url + 'food/'+id+'/allergen', json, {headers:headers});
     }
 
     getFood(){

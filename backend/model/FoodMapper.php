@@ -45,9 +45,11 @@ class FoodMapper
      * Retrieves all allergens of food
      * @param $food
      * @return array of allergens for food
+     *
+     * añadi  AND food_allergen.enabled = 1 para mostrar sólo los activos
      */
     public function getFoodAllergens($food){
-        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen, enabled FROM food_allergen, allergen 
                                                 WHERE food_allergen.id_food = ? 
                                                 AND food_allergen.id_allergen = allergen.id_allergen");
         $stmt->execute(array($food));
@@ -56,7 +58,10 @@ class FoodMapper
         $allergens = array();
 
         foreach($allergens_db as $allergen){
-            array_push($allergens, $allergen["name_allergen"]);
+            array_push($allergens, array("name_allergen"=>$allergen["name_allergen"],
+                    "enabled"=>$allergen["enabled"],
+                    "id_allergen"=>$allergen["id_allergen"]
+                ));
         }
 
         return $allergens;
