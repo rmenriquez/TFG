@@ -80,7 +80,7 @@ export class FoodService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let json =  { allergens, enabled};
-console.log(json);
+        //console.log(json);
         return this._http.post(this.url + 'food/'+id+'/allergen', json, {headers:headers});
     }
 

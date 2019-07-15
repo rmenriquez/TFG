@@ -9,6 +9,8 @@ import { FoodService } from '../../services/food.service';
 import { AllergenService } from '../../services/allergen.service';
 import {isUndefined} from "util";
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import {HttpClient} from "@angular/common/http";
+import {Allergen} from "../../models/allergen";
 
 
 @Component({
@@ -21,11 +23,11 @@ export class FoodSetAllergen implements OnInit{
     private page_title: string;
     private identity;
     private id_food;
-    private food: Food;
+    public food: Food;
 
     allergensForm: FormGroup;
-    allergens = [
-        {
+    allergens: Allergen[];
+    /*    {
             "id_allergen": 1,
             "name_allergen": "Gluten"
         },
@@ -81,7 +83,7 @@ export class FoodSetAllergen implements OnInit{
             "id_allergen": 14,
             "name_allergen": "Moluscos y productos a base de moluscos"
         }
-    ];
+    ];*/
 
     private errors = {};
 
@@ -94,17 +96,22 @@ export class FoodSetAllergen implements OnInit{
         private _allergenService: AllergenService
     ){
         this.identity = this._userService.getIdentity();
-        const controls = this.allergens.map(c => new FormControl(false));
-
-        this.allergensForm = this._formBuilder.group({
-            allergens: new FormArray(controls)
-        });
     }
 
     ngOnInit(){
         if(this.identity == null){
             this._router.navigate(["/login"]);
         }
+
+        this._allergenService.getAllergens().subscribe(allergens => {
+            this.allergens = allergens;
+            const controls = this.allergens.map(c => new FormControl(false));
+
+            this.allergensForm = this._formBuilder.group({
+                allergens: new FormArray(controls)
+            });
+        });
+
         this._route.params.subscribe(params => {
             console.log(params);
             this.id_food = params['id'];

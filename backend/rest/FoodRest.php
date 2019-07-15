@@ -164,7 +164,7 @@ class FoodRest extends BaseRest{
         $food->setPrice($data->price);
 
         try{
-            // validate Note object
+            // validate Food object
             $food->checkIsValidForUpdate(); // if it fails, ValidationException
             $this->FoodMapper->update($food);
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
@@ -241,21 +241,25 @@ class FoodRest extends BaseRest{
                 );
                 $i++;
             }
+            try{
+                //Envía id_food, id_allergen
+                $this->AllergenMapper->addAllergenToFood($allergens_food_array);
+
+                //response OK. Also send post in content
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
+                header('Content-Type: application/json');
+            }catch (ValidationException $e){
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                echo(json_encode($e->getErrors()));
+            }
+        }else{
+            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
+            return;
         }
         //var_dump($allergens_food_array);
-        try{
-            //Envía id_food, id_allergen
-            $this->AllergenMapper->addAllergenToFood($allergens_food_array);
 
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
-        }catch (ValidationException $e){
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            header('Content-Type: application/json');
-            echo(json_encode($e->getErrors()));
-        }
 
 
     }

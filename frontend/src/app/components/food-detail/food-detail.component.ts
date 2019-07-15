@@ -29,13 +29,13 @@ export class FoodDetailComponent implements OnInit {
 
   getFood(){
      this._route.params.subscribe(params =>{
-      console.log(params);
+      //console.log(params);
       let id_food = params['id'];
-      console.log(id_food);
+      //console.log(id_food);
       this._foodService.viewFood(id_food).subscribe(
         response => {
-            console.log(response);
-          console.log(response['allergens'][0].name_allergen);
+            //console.log(response);
+          console.log(response['allergens'][0]);
 
             //console.log('estoy dentro');
             this.food = response;
