@@ -4,4 +4,5 @@
 export class Allergen{
     public id_allergen: number;
     public name: string;
+    public enabled?: number;
 }
