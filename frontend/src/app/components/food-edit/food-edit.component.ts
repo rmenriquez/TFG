@@ -48,65 +48,70 @@ export class FoodEditComponent implements OnInit {
           this._router.navigate(["/login"]);
       }
     this._route.params.subscribe(params => {
-      console.log(params);
+      //console.log(params);
       let id_food = params['id'];
       this.getFood(id_food);
     });
-      this._allergenService.getAllergens().subscribe(allergens => {
-          this.allergens = allergens;
-          console.log(allergens);
-          console.log(this.allergens);
-          console.log(this.food);
-          console.log(this.allergensFood);
-
-          console.log(this.allergensFood[0]['id_allergen']);
-
-          const controls = this.allergens.map(function (allergen) {
-                  //new FormControl(false)
-                  console.log(allergen['id_allergen']);
-                  /*
-                  * console.log(this.allergensFood[0]['id_allergen']);
-                  * Devuelve un valor no real. Y dice que igual no se
-                  * puede acceder a this.
-                  * */
-
-                  /*for(let i = 0; i < this.allergensFood; i++){
-                   console.log(this.allergensFood[i]);
-                   if(allergen['id_allergen'] === this.allergensFood[i]['id_allergen']
-                   && this.allergensFood[i]['enabled']){
-
-                   return new FormControl(true);
-                   }else {
-                   return new FormControl(false);
-                   }
-                   }*/
-              }
-          );
-          this.allergensForm = this._formBuilder.group({
-              allergens: new FormArray(controls)
-          });
-
-
-
-      });
-
-
   }
 
   getFood(id_food){
       this._foodService.viewFood(id_food).subscribe(
           response => {
-            console.log(response);
+            //console.log(response);
 
             //console.log('estoy dentro');
             this.food = response;
-            console.log(this.food.allergens);
-            console.log(this.food.allergens[0]['name_allergen']);
+            if(isUndefined(this.food)){
+                this._router.navigate(['allFoods']);
+
+            }
+            //console.log(this.food.allergens);
+            //console.log(this.food.allergens[0]['name_allergen']);
             this.allergensFood = this.food.allergens;
             this.page_title = 'Editar ' + this.food.title;
-            if(isUndefined(this.food)){
-              this._router.navigate(['allFoods']);
-            }
+              this._allergenService.getAllergens().subscribe(allergens => {
+                  this.allergens = allergens;
+                  //console.log(allergens);
+                  //console.log(this.allergens);
+                  //console.log(this.food);
+                  console.log(this.allergensFood);
+
+                  console.log(this.allergensFood[0]['id_allergen']);
+                  let i = 0;
+                  let controls = this.allergens.map(function (allergen) {
+                      console.log(allergen);
+                      /**
+                       * Al poner un for o un if ya no recorre this.allergens.
+                       * No puede acceder a this.allergensFood: dice que
+                       * Potentially invalid usage of this
+                       * */
+                        /*if(allergen['id_allergen'] === this.allergensFood[i]['id_allergen']
+                        && this.allergensFood[i]['enabled'] === 1){
+                            i++;
+                              new FormControl(true);
+                        }else{
+                            i++;
+                            new FormControl(false);
+                        }*/
+                      for(let i = 0; i < this.allergensFood.length; i++){
+                       console.log(this.allergensFood[i]);
+                           if(allergen['id_allergen'] === this.allergensFood[i]['id_allergen']
+                           && this.allergensFood[i]['enabled']){
+                                console.log('hola');
+                                new FormControl(true);
+                           }else {
+                               console.log('adios');
+                                new FormControl(false);
+                           }
+                       }
+                  });
+                  this.allergensForm = this._formBuilder.group({
+                      allergens: new FormArray(controls)
+                  });
+
+
+
+              });
 
           },
           error => {
