@@ -58,4 +58,12 @@ export class EventService {
 
     return this._http.delete(this._url + 'event/' + id, {headers: headers});
   }
+
+  setFoodsEvent(id_event, foods): Observable<any>{
+    let params = JSON.stringify(foods);
+
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.post(this._url + 'event/' + id_event + '/food', params, {headers:headers});
+  }
 }

@@ -69,50 +69,7 @@ export class FoodEditComponent implements OnInit {
             //console.log(this.food.allergens[0]['name_allergen']);
             this.allergensFood = this.food.allergens;
             this.page_title = 'Editar ' + this.food.title;
-              this._allergenService.getAllergens().subscribe(allergens => {
-                  this.allergens = allergens;
-                  //console.log(allergens);
-                  //console.log(this.allergens);
-                  //console.log(this.food);
-                  console.log(this.allergensFood);
-
-                  console.log(this.allergensFood[0]['id_allergen']);
-                  let i = 0;
-                  let controls = this.allergens.map(function (allergen) {
-                      console.log(allergen);
-                      /**
-                       * Al poner un for o un if ya no recorre this.allergens.
-                       * No puede acceder a this.allergensFood: dice que
-                       * Potentially invalid usage of this
-                       * */
-                        /*if(allergen['id_allergen'] === this.allergensFood[i]['id_allergen']
-                        && this.allergensFood[i]['enabled'] === 1){
-                            i++;
-                              new FormControl(true);
-                        }else{
-                            i++;
-                            new FormControl(false);
-                        }*/
-                      for(let i = 0; i < this.allergensFood.length; i++){
-                       console.log(this.allergensFood[i]);
-                           if(allergen['id_allergen'] === this.allergensFood[i]['id_allergen']
-                           && this.allergensFood[i]['enabled']){
-                                console.log('hola');
-                                new FormControl(true);
-                           }else {
-                               console.log('adios');
-                                new FormControl(false);
-                           }
-                       }
-                  });
-                  this.allergensForm = this._formBuilder.group({
-                      allergens: new FormArray(controls)
-                  });
-
-
-
-              });
-
+            this.getAllergens();
           },
           error => {
             console.log(<any> error);
@@ -143,12 +100,55 @@ export class FoodEditComponent implements OnInit {
 
   }
     onSubmitAllergens(form){
+      //Rcojo los alergenos seleccionados
+        console.log(this.allergensFood);
+      console.log(this.allergensForm.value.allergens);
         const selectedAllergenIds = this.allergensForm.value.allergens
             .map((v, i) => v ? this.allergens[i].id_allergen : null)
             .filter(v => v !== null);
 
         console.log(selectedAllergenIds);
-        this._foodService.setFoodAllergens(this.food.id_food, selectedAllergenIds).subscribe(
+
+        let selectedAndUnselected = [];
+        let enableds = [];
+        selectedAllergenIds.forEach((item, index) => {
+            //console.log(item);
+            //Recorro los alergenos almacenados en BD
+            //Busco para cada alérgeno de la BD si existe en los seleccionados en el form
+            let aux = this.allergensFood.find(function (elem){
+                return elem['id_allergen'] === item;
+            });
+            //Si aux es undefined, el alergeno no existe en BD, SE AÑADE
+            if(aux === undefined){
+                //console.log('no existe en foodallergens');
+                selectedAndUnselected.push(item);
+                enableds.push(1);
+            }
+            //Si aux es != undefined, el alergeno ya está en la BD pero deshabilitado,
+            //hay que habilitarlo
+            if(aux !== undefined && aux['enabled']==0){
+                //console.log(aux);
+                //console.log('existe en foodAllergens');
+                selectedAndUnselected.push(aux['id_allergen']);
+                enableds.push(1);
+            }
+        });
+        //Ahora hay que mirar que esté en la BD pero no en los seleccionados,
+        //para poder deshabilitarlo
+        for(let allergenBd of this.allergensFood){
+            let aux = selectedAllergenIds.find(function (elem){
+                return elem === allergenBd['id_allergen'];
+            });
+            if(allergenBd['enabled'] === 1 && aux === undefined){
+                selectedAndUnselected.push(allergenBd['id_allergen']);
+                enableds.push(0);
+            }
+        }
+        console.log(selectedAndUnselected);
+        console.log(enableds);
+
+
+        this._foodService.updateFoodAllergens(this.food.id_food, selectedAndUnselected, enableds).subscribe(
             response => {
                 console.log(response);
                 this._router.navigate(['foodDetail/',this.food.id_food]);
@@ -160,5 +160,30 @@ export class FoodEditComponent implements OnInit {
         );
     }
 
+    getAllergens(){
+        this._allergenService.getAllergens().subscribe(allergens => {
+            this.allergens = allergens;
+            let controls = [];
+
+            for(let allergen of this.allergens){
+                console.log(allergen['id_allergen']);
+                if((this.allergensFood.find(aux => aux['id_allergen'] === allergen['id_allergen'] && aux['enabled'] === 1 )) != undefined){
+                    console.log('hola');
+                    controls.push(new FormControl(true));
+                }else{
+                    console.log('adios');
+                    controls.push(new FormControl(false));
+                }
+            }
+
+            this.allergensForm = this._formBuilder.group({
+                allergens: new FormArray(controls)
+            });
+        });
+    }
 
 }
+
+
+
+

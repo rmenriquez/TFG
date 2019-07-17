@@ -27,11 +27,13 @@
 
   <div>
     <label>Allergens: </label>
-    <ul *ngIf="food.allergens != null">
-      <li *ngFor="let allergen of food.allergens">
+    <div *ngIf="food.allergens != null">
+    <ul *ngFor="let allergen of food.allergens">
+      <li *ngIf="allergen.enabled != 0">
         {{allergen.name_allergen}}
       </li>
     </ul>
+    </div>
     <ul *ngIf="food.allergens == ''">
       <label>No tiene alérgenos</label>
     </ul>

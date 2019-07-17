@@ -75,7 +75,8 @@ export class FoodService {
         });
         console.log(enabled);
         console.log("id "+ id);
-        console.log("allergens"+ allergens);
+        console.log("allergens");
+        console.log(allergens);
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -89,5 +90,14 @@ export class FoodService {
     }
     setFood(food){
         this.food = food;
+    }
+
+    updateFoodAllergens(id, allergens, enabled): Observable<any>{
+
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+        let json =  { allergens, enabled};
+
+        return this._http.put(this.url+ 'food/'+id+'/allergen', json,{headers: headers});
     }
 }
