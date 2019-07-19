@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GLOBAL } from './global';
 import { User } from '../models/user';
+import { Md5 } from "md5-typescript";
 
 @Injectable({
     providedIn: 'root'
@@ -28,6 +29,10 @@ export class UserService {
 
     register(user):Observable<any>{
         console.log(user);
+        console.log(user['password']);
+        let pwd = user['password'];
+        console.log(Md5.init(pwd));
+        user['password'] = Md5.init(pwd);
         let params = JSON.stringify(user as User);
         //console.log(params);
 
@@ -40,13 +45,13 @@ export class UserService {
         console.log('credentials', login, password);
         
         let headers = new HttpHeaders({'Content-Type': 'application/json',
-            'Authorization': 'Basic ' + btoa(login + ':'+password)});
+            'Authorization': 'Basic ' + btoa(login + ':'+Md5.init(password))});
 
         return this._http.get<User>(`http://localhost:8888/TFG/backend/rest/user/${login}`, {headers: headers})
         .pipe(
             tap(response => {
                 this.identity = response as User;
-                this.identity.password = password;
+                this.identity.password = Md5.init(password);
                 //this.token = 'Basic ' + btoa(user.user + ':'+user.password);
                 //console.log(this.token);
                 ///localStorage.setItem('token', this.token);
