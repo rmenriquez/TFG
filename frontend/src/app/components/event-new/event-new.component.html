@@ -12,8 +12,8 @@
       <label for="type">Tipo</label>
       <input ngModel type="text" id="type" class="form-control" name="type" #type="ngModel" required />
       <span *ngIf="!type.valid && type.touched">
-              El tipo no es válido
-      </span>
+                El tipo no es válido
+        </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['type']!=null">
       {{errors['type']}}
@@ -23,8 +23,8 @@
       <label for="name">Nombre</label>
       <input ngModel type="text" class="form-control" id="name"  name="name" #name="ngModel" required />
       <span *ngIf="!name.valid && name.touched">
-                El nombre no es válido
-      </span>
+                  El nombre no es válido
+        </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
       {{errors['name']}}
@@ -34,8 +34,8 @@
       <label for="date">Fecha</label>
       <input ngModel type="date" class="form-control" id="date"  name="date" #date="ngModel" required />
       <span *ngIf="!date.valid && date.touched">
-                La fecha no es válida
-            </span>
+                  La fecha no es válida
+              </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['date']!=null">
       {{errors['date']}}
@@ -45,8 +45,8 @@
       <label for="guests">Número de invitados</label>
       <input ngModel type="number" class="form-control" id="guests"  name="guests" #guests="ngModel" required/>
       <span *ngIf="!guests.valid && guests.touched">
-                El número de invitados no es válido
-            </span>
+                  El número de invitados no es válido
+              </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['guests']!=null">
       {{errors['guests']}}
@@ -56,8 +56,8 @@
       <label for="children">Número de niños</label>
       <input ngModel type="number" class="form-control" id="children" name="children" #children="ngModel" required/>
       <span *ngIf="!children.valid && children.touched">
-                El número de niño no es válido
-            </span>
+                  El número de niño no es válido
+              </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['children']!=null">
       {{errors['children']}}
@@ -79,8 +79,8 @@
       <label for="observations">Observaciones</label>
       <textarea ngModel class="form-control" id="observations" name="observations" #observations="ngModel" required></textarea>
       <span *ngIf="!observations.valid && observations.touched">
-                Las observaciones no son válidas. Introduce al menos la hora del evento o la hora de llegada.
-            </span>
+                  Las observaciones no son válidas. Introduce al menos la hora del evento o la hora de llegada.
+              </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['observations']!=null">
       {{errors['observations']}}
@@ -90,8 +90,8 @@
       <label for="phone">Teléfono de contacto</label>
       <input ngModel type="number" class="form-control" id="phone"  name="phone" #phone="ngModel" required/>
       <span *ngIf="!phone.valid && phone.touched">
-                El teléfono no es válido
-            </span>
+                  El teléfono no es válido
+              </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['phone']!=null">
       {{errors['phone']}}
@@ -108,4 +108,69 @@
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newEvent.form.valid"/>
     <a [routerLink]="['/allEvents']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
   </form>
+</div>
+
+
+
+<div class="col-md-12" *ngIf="event !== undefined">
+  <div class="alert alert-success" *ngIf="foodsReady == true">
+    Las comidas se han asignado
+  </div>
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse1">Foods <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+        </h4>
+      </div>
+      <div id="collapse1" class="panel-collapse collapse">
+        <div class="panel-body">
+
+          <form [formGroup]="foodForm" (ngSubmit)="onSubmitFoods(foodForm)" class="col-md-12" *ngIf="foods !== undefined">
+
+            <label class="checkbox-inline col-md-5" formArrayName="foods" *ngFor="let food of foodForm.controls.foods.controls; let i = index">
+              <input type="checkbox" [formControlName]="i">
+              {{foods[i].title}}
+            </label>
+
+            <br>
+            <div class="col-md-5">
+              <input type="submit" value="Guardar" class="btn btn-success"/>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-12" *ngIf="foodsCreated === true">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse2">Staff <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div class="panel-body">
+
+          <form [formGroup]="staffForm" (ngSubmit)="onSubmitStaff(staffForm)" class="col-md-12" *ngIf="staff !== undefined">
+
+            <label class="checkbox-inline col-md-5" formArrayName="staff" *ngFor="let person of staffForm.controls.staff.controls; let i = index">
+              <input type="checkbox" [formControlName]="i">
+              {{staff[i].name}} {{staff[i].surnames}}
+            </label>
+
+            <br>
+            <div class="col-md-5">
+              <input type="submit" value="Guardar" class="btn btn-success"/>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

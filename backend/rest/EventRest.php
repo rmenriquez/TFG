@@ -20,12 +20,15 @@ require_once (__DIR__."/../model/StaffMapper.php");
 
 require_once (__DIR__."/BaseRest.php");
 
+//require_once(__DIR__."../core/PHPMailer-master/src/PHPMailer.php");
+//require_once(__DIR__."../core/PHPMailer-master/src/SMTP.php");
 
 class EventRest extends BaseRest
 {
     private $eventMapper;
     private $userMapper;
     private $foodMapper;
+    private $staffMapper;
 
     public function __construct()
     {
@@ -34,6 +37,7 @@ class EventRest extends BaseRest
         $this->eventMapper = new EventMapper();
         $this->userMapper = new UserMapper();
         $this->foodMapper = new FoodMapper();
+        $this->staffMapper = new StaffMapper();
     }
 
     //Funciona a la perfección
@@ -143,6 +147,13 @@ class EventRest extends BaseRest
             return;
         }
 
+        /*$food = $this->eventMapper->allFoodEvent($eventId);
+        echo "\nFood\n";
+        var_dump($food);
+        $staff = $this->eventMapper->getAllStaffEvent($eventId);
+        echo "\nstaff\n";
+        var_dump($staff);*/
+
         $event_array = array(
             "id_event"=>$event->getIdEvent(),
             "type"=>$event->getType(),
@@ -154,7 +165,9 @@ class EventRest extends BaseRest
             "observations"=>$event->getObservations(),
             "restaurant"=>$event->getRestaurant(),
             "phone"=>$event->getPhone(),
-            "price"=>$event->getPrice()
+            "price"=>$event->getPrice()//,
+            //"food"=>$food,
+            //"staff"=>$staff
         );
 
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
@@ -256,12 +269,13 @@ class EventRest extends BaseRest
     //Funciona a la perfección
     public function setFoodsEvent($id_event, $data){
         $foodsEvent = array();
+        //var_dump($data);
 
         foreach ($data as $food){
             array_push($foodsEvent,array(
-                "food"=>$food[0],
-                "event"=>$id_event,
-                "clamp"=>$food[1]
+                "food"=>$food,
+                "event"=>$id_event
+                //"clamp"=>$food[1]
             ));
         }
 
@@ -326,6 +340,121 @@ class EventRest extends BaseRest
 
     }
 
+    //Funciona a la perfección
+    /**
+     * @param $id_event
+     * @param $data
+     */
+    public function setStaffEvent($id_event, $data){
+        $currentUser = parent::authenticateUser();
+        $staffEvent = array();
+        //var_dump($data);
+        $arrayStaffEmail = array();
+        $emailList = null;
+        foreach ($data as $staff){
+            //inserta nombre del personal y el mail
+            array_push($arrayStaffEmail, array(
+                "name" => $this->staffMapper->findById($staff)->getName(),
+                "email" => $this->staffMapper->findById($staff)->getEmail()
+            ));
+            //inserta el personal y el evento
+            array_push($staffEvent,array(
+                "staff"=>$staff,
+                "event"=>$id_event
+            ));
+
+        }
+        //echo 'staffEvent\n';
+
+        //var_dump($staffEvent);
+        //echo 'emailLlist\n';
+        //var_dump($emailList);
+        try{
+            if($this->eventMapper->existStaffInEvent($staffEvent) == false) {
+                $this->eventMapper->setStaffEvent($staffEvent);
+
+                /*$mail = new \PHPMailer\PHPMailer\PHPMailer();
+
+                $body = "«Hola es una prueba»";
+                $body .="ojalá funcione»";
+
+                $mail->isSMTP();
+
+                /* Sustituye (ServidorDeCorreoSMTP)  por el host de tu servidor de correo SMTP*/
+                //$mail->Host = 'smtp.gmail.com';
+
+                /* Sustituye  ( CuentaDeEnvio )  por la cuenta desde la que deseas enviar por ejem. prueba@domitienda.com  */
+
+/*                $mail->From = 'rmenriqueztfg@gmail.com';
+
+                $mail->FromName = $currentUser->getName() . ' de '. $currentUser->getIdUser();
+
+                $mail->Subject = 'probando cosas varias';
+
+                $mail->AltBody = 'probando';
+
+                $mail->MsgHTML($body);
+
+                /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
+                /*foreach ($arrayStaffEmail as $email){
+                    $mail->AddAddress($email["email"]);
+                }
+
+                $mail->SMTPAuth = true;
+
+                /* Sustituye (CuentaDeEnvio )  por la misma cuenta que usaste en la parte superior en este caso  prueba@domitienda.com  y sustituye (ContraseñaDeEnvio)  por la contraseña que tenga dicha cuenta */
+
+                /*$mail->Username = 'rmenriqueztfg@gmail.com';
+                $mail->Password = 'tfgtfg2019';
+
+                if(!$mail->Send()) {
+                    echo 'Mailer Error: ' . $mail->ErrorInfo;
+                } else {
+                    echo 'Message sent!';
+                }*/
+                header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
+                header('Content-Type: application/json');
+                //echo(json_encode($foodsEvent));
+            }else{
+                header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                header('Content-Type: application/json');
+                echo "Some staff already exists";
+            }
+
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+    }
+
+    public function deleteStaffEvent($id_event, $data){
+        $staffEvent = array();
+        //var_dump($data);
+
+        foreach ($data as $person){
+            array_push($staffEvent,array(
+                "staff"=>$person,
+                "event"=>$id_event
+                //"clamp"=>$food[1]
+            ));
+        }
+
+        try{
+
+            $this->eventMapper->setFoodEvent($staffEvent);
+            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
+            header('Content-Type: application/json');
+            //echo(json_encode($foodsEvent));
+
+
+        }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
+    }
+
 
 
 }
@@ -341,4 +470,6 @@ URIDispatcher::getInstance()
     ->map("GET", "/event/$1/food", array($eventRest, "getFoodsEvent"))
     ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
     ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"))
-    ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodsEvent"));
+    ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodsEvent"))
+    ->map("PUT", "/event/$1/staff", array($eventRest, "deleteStaffEvent"))
+    ->map("POST", "/event/$1/staff", array($eventRest, "setStaffEvent"));

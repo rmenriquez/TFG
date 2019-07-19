@@ -3,14 +3,21 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+
+
 import { UserService } from '../../services/user.service';
 import { Event } from '../../models/event';
 import { EventService } from '../../services/event.service';
+import { Food } from '../../models/food';
+import { FoodService } from '../../services/food.service';
+import { Staff } from '../../models/staff';
+import { StaffService } from '../../services/staff.service';
 
 @Component({
   selector: 'app-event-new',
   templateUrl: './event-new.component.html',
-  providers: [UserService, EventService]
+  providers: [UserService, EventService, FoodService, StaffService]
 })
 export class EventNewComponent implements OnInit {
 
@@ -21,11 +28,23 @@ export class EventNewComponent implements OnInit {
 
   private errors = {};
 
+  foodForm: FormGroup;
+  foods: Food[];
+  foodsReady: boolean = false;
+  foodsCreated;
+
+  staffForm: FormGroup;
+  staff: Staff[];
+  staffCreated;
+
   constructor(
+      private _formBuilder: FormBuilder,
       private _route: ActivatedRoute,
       private _router: Router,
       private _userService: UserService,
-      private _eventService: EventService
+      private _eventService: EventService,
+      private _foodService: FoodService,
+      private _staffService: StaffService
   ) {
     this.page_title = 'Create new event';
     this.identity = this._userService.getIdentity();
@@ -35,6 +54,24 @@ export class EventNewComponent implements OnInit {
     if(this.identity == null){
       this._router.navigate(["/login"]);
     }
+    this._foodService.getFoods().subscribe(foods => {
+      this.foods = foods;
+      const controls = this.foods.map(c => new FormControl(false));
+
+      this.foodForm = this._formBuilder.group({
+        foods: new FormArray(controls)
+      });
+    });
+    this._staffService.getStaff().subscribe(staff => {
+      console.log(staff);
+      this.staff = staff;
+      const controls = this.staff.map(c => new FormControl(false));
+
+      this.staffForm = this._formBuilder.group({
+        staff: new FormArray(controls)
+      });
+    });
+
   }
 
   onSubmit(form){
@@ -43,7 +80,10 @@ export class EventNewComponent implements OnInit {
         response => {
           console.log(response);
           this.status = 'success';
-          this._router.navigate(['/allEvents']);
+          this.event = response;
+          //this._router.navigate(['/allEvents']);
+          let id = response['id_event'];
+
         },
         error=> {
           console.log(<any> error);
@@ -52,5 +92,45 @@ export class EventNewComponent implements OnInit {
         }
     );
   }
+
+  onSubmitFoods(form){
+    const selectedFoodIds = this.foodForm.value.foods
+        .map((v, i) => v ? this.foods[i].id_food : null)
+        .filter(v => v !== null);
+
+    console.log(selectedFoodIds);
+    this._eventService.setFoodsEvent(this.event.id_event, selectedFoodIds).subscribe(
+        response => {
+          console.log(response);
+          //this._router.navigate(['eventDetail/',this.event.id_event]);
+          this.foodsReady = true;
+          this.foodsCreated = true;
+        },
+        error => {
+          console.log(<any> error);
+          this.errors = error.error;
+        }
+    );
+  }
+
+  onSubmitStaff(form){
+    const selectedStaffIds = this.staffForm.value.staff
+        .map((v, i) => v ? this.staff[i].id_staff : null)
+        .filter(v => v !== null);
+
+    console.log(selectedStaffIds);
+    this._eventService.setStaffEvent(this.event.id_event, selectedStaffIds).subscribe(
+        response => {
+          console.log(response);
+          this._router.navigate(['eventDetail/',this.event.id_event]);
+        },
+        error => {
+          console.log(<any> error);
+          this.errors = error.error;
+        }
+    );
+  }
+
+
 
 }
