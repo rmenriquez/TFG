@@ -21,7 +21,7 @@ import { StaffNewComponent } from './components/staff-new/staff-new.component';
 import { StaffAllComponent } from './components/staff-all/staff-all.component';
 import { StaffDetailComponent } from './components/staff-detail/staff-detail.component';
 import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
-
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 
 const appRoutes: Routes = [
     {path: '', component: DefaultComponent},
@@ -29,6 +29,7 @@ const appRoutes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'logout/:sure', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
+    {path: 'viewUser', component: UserDetailComponent},
     {path: 'newFood', component: FoodNewComponent},
     {path: 'allFoods', component: FoodAllComponent},
     {path: 'editFood/:id', component: FoodEditComponent},

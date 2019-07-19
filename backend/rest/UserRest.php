@@ -30,7 +30,7 @@ class UserRest extends BaseRest
         $currentUser = parent::authenticateUser();
 
         $user = $this->userMapper->findById($userId);
-        var_dump($user);
+        //var_dump($user);
         if ($user->getIdUser() != $currentUser->getIdUser()) {
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
             echo("You are not the authorized for this");

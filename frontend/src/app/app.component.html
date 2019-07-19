@@ -8,26 +8,26 @@
         <div class="collapse navbar-collapse" id="menu">
             <ul class="nav navbar-nav">
                 <li>
-                    <a [routerLink]="['']">Inicio</a>
+                    <a [routerLink]="['']">{{ 'main.title' | translate }}</a>
                 </li>
                 <li *ngIf="identity">
-                    <a  [routerLink]="['newFood']">Crear comida</a>
+                    <a  [routerLink]="['newFood']">{{ 'main.newFood' | translate }}</a>
                 </li>
                 <li *ngIf="identity">
-                    <a  [routerLink]="['newEvent']">Crear evento</a>
+                    <a  [routerLink]="['newEvent']">{{ 'main.newEvent' | translate }}</a>
                 </li>
                 <li *ngIf="identity">
-                    <a  [routerLink]="['newStaff']">Crear extra</a>
+                    <a  [routerLink]="['newStaff']">{{ 'main.newStaff' | translate }}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="identity">
                 <li>
-                    <a href="#">{{identity.user}}</a>
+                    <a [routerLink]="['viewUser']">{{identity.user}}</a>
                 </li>
                 <li>
                     <a [routerLink]="['logout', 1]">
                         <span class="glyphicon glyphicon-log-out"></span>
-                        Salir</a>
+                        {{ 'main.logout' | translate }}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
@@ -38,6 +38,15 @@
                     <a [routerLink]="['register']">Registro</a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a><button (click)="useLanguage('en')">en</button></a>
+                </li>
+                <li>
+                    <a><button (click)="useLanguage('es')">es</button></a>
+                </li>
+            </ul>
+
         </div>
     </div>
 

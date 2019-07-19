@@ -1,4 +1,6 @@
 import { Component, OnInit, DoCheck } from '@angular/core';
+import {TranslateService} from '@ngx-translate/core';
+
 import { UserService } from './services/user.service';
 import { FoodService } from './services/food.service';
 
@@ -15,10 +17,12 @@ export class AppComponent implements OnInit, DoCheck{
   public token;
 
   constructor(
-      private _userService: UserService
+      private _userService: UserService,
+      private  _translate: TranslateService
   ){
       this.identity = this._userService.getIdentity();
       this.token = this._userService.getToken();
+      _translate.setDefaultLang('es');
 
   }
 
@@ -29,5 +33,9 @@ export class AppComponent implements OnInit, DoCheck{
   ngDoCheck(){
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
+  }
+
+  useLanguage(language: string) {
+    this._translate.use(language);
   }
 }

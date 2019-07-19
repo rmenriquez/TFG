@@ -22,10 +22,6 @@ export class FoodService {
         this.url = GLOBAL.url;
     }
 
-    pruebas() {
-        return "Hola mundo!!";
-    }
-
     createFood(food: Food): Observable<any>{
         let json = JSON.stringify(food);
         console.log(json);

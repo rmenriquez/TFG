@@ -1,0 +1,55 @@
+<div class="col-md-12" *ngIf="food">
+    <h1>{{user.user}}</h1>
+    <div>
+        <label>{{ 'user.name' | translate }} </label>
+        <p>
+            {{user.name}}
+        </p>
+    </div>
+
+    <div>
+        <label>
+            {{ 'user.num_cli_wed' | translate }}
+        </label>
+        <p>
+            {{user.n_cli_wedding}}
+        </p>
+    </div>
+
+    <div>
+        <label>
+            {{ 'user.num_cli_chr' | translate }}
+        </label>
+        <p>
+            {{user.n_cli_christening}}
+        </p>
+    </div>
+
+    <div>
+        <label>
+            {{ 'user.num_cli_com' | translate }}
+        </label>
+        <p>
+            {{user.n_cli_communion}}
+        </p>
+    </div>
+
+    <div>
+        <label>
+            {{ 'user.num_cli_oth' | translate }}
+        </label>
+        <p>
+            {{user.n_cli_others}}
+        </p>
+    </div>
+
+    <div>
+        <label>{{ 'user.email' | translate }} </label>
+        <p>
+            {{user.email}}
+        </p>
+    </div>
+</div>
+<div class="col-md-12">
+    <a [routerLink]="['']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+</div>

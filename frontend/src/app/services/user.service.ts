@@ -23,10 +23,6 @@ export class UserService {
         this.url = GLOBAL.url;
     }
 
-    pruebas(){
-            return "Hola mundo!!";
-    }
-
     register(user):Observable<any>{
         console.log(user);
         console.log(user['password']);
@@ -83,32 +79,14 @@ export class UserService {
         let user = this.getIdentity();
 
         return user === undefined ? undefined : btoa(user.user + ':' + user.password);
-        /*let token = localStorage.getItem('token');
-        if(token != "undefined"){
-            this.token = token;
-        }else{
-            this.token = null;
-        }
-        //console.log(this.token);
-        return this.token;*/
     }
 
-    /*public get currentUserValue(){
-        return this.identity;
-    }*/
-
-    /*login(data){
-        let headers = new HttpHeaders({'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa(data.user + ':'+data.password)});
-
-        return this._http.get(`http://localhost:8888/TFG/backend/rest/user/${data.user}`,{headers: headers})
-            .pipe(map(user => {
-                //Almacena los datos de usuario y la credencial en el localStorage
-                user.authdata = window.btoa(data.user + ':' + data.password);
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
-    }*/
+    viewUser(){
+        let id_user = this.identity.id_user;
+        console.log(id_user);
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this._http.get(this.url + 'user/' + id_user + '/view',{headers: headers});
+    }
 
 
 }

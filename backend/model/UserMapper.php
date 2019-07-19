@@ -125,17 +125,4 @@ class UserMapper {
             return NULL;
         }
     }
-
-    /*public function findAll(User $user,$note) {
-        $stmt = $this->db->prepare("SELECT id_user,name,surname,username FROM user WHERE username!= ? AND id_user NOT IN (SELECT user FROM shared WHERE note = ? )");
-        $stmt->execute(array($user->getUsername(),$note));
-        $users_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $users = array();
-
-        foreach ($users_db as $user) {
-            array_push($users, new User($user["username"], $user["id_user"], $user["name"],$user["surname"]));
-        }
-        return $users;
-    }*/
 }

@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { routing, appRoutingProviders} from './app.routing';
+// import ngx-translate and the http loader
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -11,6 +14,7 @@ import { BasicAuthInterceptor } from './_helpers/basic-auth.interceptor';
 //User
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
 //Default
 import { DefaultComponent } from './components/default/default.component';
 //Food
@@ -29,12 +33,14 @@ import { StaffNewComponent } from './components/staff-new/staff-new.component';
 import { StaffAllComponent } from './components/staff-all/staff-all.component';
 import { StaffDetailComponent } from './components/staff-detail/staff-detail.component';
 import { StaffEditComponent } from './components/staff-edit/staff-edit.component';
+import { TranslationComponent } from './components/translation/translation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    UserDetailComponent,
     DefaultComponent,
     FoodNewComponent,
     FoodEditComponent,
@@ -48,14 +54,22 @@ import { StaffEditComponent } from './components/staff-edit/staff-edit.component
     StaffNewComponent,
     StaffAllComponent,
     StaffDetailComponent,
-    StaffEditComponent
+    StaffEditComponent,
+    TranslationComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    routing
+    routing,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
       appRoutingProviders,
@@ -65,3 +79,7 @@ import { StaffEditComponent } from './components/staff-edit/staff-edit.component
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
