@@ -109,9 +109,8 @@ class UserMapper {
         $stmt->execute(array($id));
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
         if($user != null){
-            return new User(
+            /*return new User(
                 $user["id_user"],
                 $user["name"],
                 $user["user"],
@@ -120,7 +119,8 @@ class UserMapper {
                 $user["n_cli_communion"],
                 $user["n_cli_others"],
                 $user["email"]
-            );
+            );*/
+            return $user;
         }else{
             return NULL;
         }
