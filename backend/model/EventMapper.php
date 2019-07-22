@@ -172,35 +172,26 @@ class EventMapper
     }
 
     /**
-     * Retrieves all stuff for that $event
+     * Retrieves all staff for that $event
      * @param Event $event
      */
-    public function getAllStuffEvent(Event $event){
-        $stmt = $this->db->prepare("SELECT name, surnames FROM stuff
-                                        WHERE id_stuff IN (SELECT stuff FROM stuff_event WHERE event =?)");
-        $stmt->execute(array($event->getIdEvent()));
-        $stuffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getAllstaffEvent($event){
+        $stmt = $this->db->prepare("SELECT name, surnames FROM staff
+                                        WHERE id_staff IN (SELECT staff FROM staff_event WHERE event =?)");
+        $stmt->execute(array($event));
+        $staffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $stuffs = array();
-
-        foreach ($stuffs_db as $stuff) {
-            array_push($stuffs, new Event($stuff["id_event"], $stuff["type"], $stuff["name"],$stuff["date"],
-                $stuff["guests"], $stuff["children"], $stuff["sweet_table"], $stuff["observations"], $stuff["restaurant"],
-                $stuff["phone"], $stuff["price"]));
-
-        }
-
-        return $stuffs;
+        return $staffs_db;
     }
 
     /**
-     * Sets stuff into $event
+     * Sets staff into $event
      * @param Event $event
-     * @param $id_stuff
+     * @param $id_staff
      */
-    public function setStuffEvent(Event $event, $id_stuff){
-        $stmt = $this->db->prepare("INSERT INTO stuff_event(stuff, event) VALUES (?,?)");
-        $stmt->execute(array($id_stuff, $event->getIdEvent() ));
+    public function setstaffEvent(Event $event, $id_staff){
+        $stmt = $this->db->prepare("INSERT INTO staff_event(staff, event) VALUES (?,?)");
+        $stmt->execute(array($id_staff, $event->getIdEvent() ));
     }
 
     /**
@@ -208,26 +199,26 @@ class EventMapper
      * @return array
      */
     public function AllFoodEvent($event){
-        $stmt = $this->db->prepare("SELECT id_food, title, description, image, food.restaurant, food.price, clamp 
+        $stmt = $this->db->prepare("SELECT id_food, title, description, image, food.restaurant, food.price 
                                         FROM food_event, food WHERE food_event.food = food.id_food AND food_event.event =?");
         $stmt->execute(array($event));
         $foodsEvent_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $events = array();
+        //var_dump($foodsEvent_db);
 
         foreach ($foodsEvent_db as $foodEvent) {
             array_push($events, array("food" => new Food($foodEvent["id_food"], $foodEvent["title"], $foodEvent["description"],
-                $foodEvent["image"], $foodEvent["restaurant"], $foodEvent["price"]), "clamp" =>$foodEvent["clamp"]));
+                $foodEvent["image"], $foodEvent["restaurant"], $foodEvent["price"])));
 
         }
 
-        return $events;
+        return $foodsEvent_db;
     }
 
     /**
      * @param $id_food
      * @param $id_event
-     * @param $clamp
      */
     public function setFoodEvent($arrayFoods){
         $rowsSQL = array();
@@ -410,9 +401,9 @@ class EventMapper
         //print_r($rowsSQL);
         //
         //Construct our SQL statement
-        $sql = "INSERT INTO `food_event` (food,event,clamp) VALUES " .
+        $sql = "INSERT INTO `food_event` (food,event) VALUES " .
             implode(", ", $rowsSQL) .
-            " ON DUPLICATE KEY UPDATE food=VALUES(food), event=VALUES(event), clamp=VALUES(clamp)";
+            " ON DUPLICATE KEY UPDATE food=VALUES(food), event=VALUES(event)";
 
         //echo $sql;
         //Prepare our PDO statement.

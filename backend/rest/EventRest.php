@@ -144,6 +144,8 @@ class EventRest extends BaseRest
             return;
         }
 
+        $food = $this->eventMapper->AllFoodEvent($eventId);
+        $staff = $this->eventMapper->getAllstaffEvent($eventId);
         $event_array = array(
             "id_event"=>$event->getIdEvent(),
             "type"=>$event->getType(),
@@ -155,9 +157,9 @@ class EventRest extends BaseRest
             "observations"=>$event->getObservations(),
             "restaurant"=>$event->getRestaurant(),
             "phone"=>$event->getPhone(),
-            "price"=>$event->getPrice()//,
-            //"food"=>$food,
-            //"staff"=>$staff
+            "price"=>$event->getPrice(),
+            "food"=>$food,
+            "staff"=>$staff
         );
 
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
@@ -240,7 +242,6 @@ class EventRest extends BaseRest
                     "image"=>$foodEvent["food"]->getimage(),
                     "restaurant"=>$foodEvent["food"]->getRestaurant(),
                     "price"=>$foodEvent["food"]->getPrice(),
-                    "clamp"=>$foodEvent["clamp"],
                     "allergens"=> $this->foodMapper->getFoodAllergens($foodEvent["food"]->getIdFood())));
 
             }
@@ -265,7 +266,6 @@ class EventRest extends BaseRest
             array_push($foodsEvent,array(
                 "food"=>$food,
                 "event"=>$id_event
-                //"clamp"=>$food[1]
             ));
         }
 
@@ -307,8 +307,7 @@ class EventRest extends BaseRest
         foreach ($data as $food){
             array_push($toUpdate, array(
                "food" => $food[0],
-               "event" => $id_event,
-               "clamp" => $food[1]
+               "event" => $id_event
             ));
         }
         /*echo "\naux\n";
@@ -445,7 +444,6 @@ class EventRest extends BaseRest
             array_push($staffEvent,array(
                 "staff"=>$person,
                 "event"=>$id_event
-                //"clamp"=>$food[1]
             ));
         }
 

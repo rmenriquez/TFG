@@ -16,9 +16,17 @@
     <label>Precio final</label>
     <p>{{event.price}}</p>
     <label>Comidas</label>
-    <p>{{event.foods}}</p>
+    <div *ngIf="event['food'] != null">
+    <ul *ngFor="let food of event.food">
+        <li>{{food['title']}}</li>
+    </ul>
+    </div>
     <label>Personal</label>
-    <p>{{event.staff}}</p>
+    <div *ngIf="event['staff'] != null">
+        <ul *ngFor="let person of event.staff">
+            <li>{{person['name']}} {{person['surnames']}}</li>
+        </ul>
+    </div>
 </div>
 <div class="col-md-12">
     <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>

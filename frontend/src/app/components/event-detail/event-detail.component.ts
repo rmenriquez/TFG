@@ -37,10 +37,12 @@ export class EventDetailComponent implements OnInit {
             console.log(id_event);
             this._eventService.viewEvent(id_event).subscribe(
                 response => {
-                    //console.log(response);
+                    console.log(response['food'][0]['title']);
 
                     //console.log('estoy dentro');
-                    this.event = response;
+                    this.event = response as Event;
+                    console.log(this.event);
+                    console.log(this.event['food']);
                     if(isUndefined(this.event)){
                         this._router.navigate(['allEvents']);
                     }
