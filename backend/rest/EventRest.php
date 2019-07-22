@@ -20,6 +20,10 @@ require_once (__DIR__."/../model/StaffMapper.php");
 
 require_once (__DIR__."/BaseRest.php");
 
+use PHPMailer\PHPMailer\PHPMailer;
+require_once (__DIR__."/../lib/PHPMailer/SMTP.php");
+require_once (__DIR__."/../lib/PHPMailer/PHPMailer.php");
+
 //require_once(__DIR__."../core/PHPMailer-master/src/PHPMailer.php");
 //require_once(__DIR__."../core/PHPMailer-master/src/SMTP.php");
 
@@ -74,15 +78,8 @@ class EventRest extends BaseRest
         $event = new Event();
 
         if(isset($data->type)){
-            /*
-             *  && isset($data->name) && isset($data->date)
-        && isset($type->guests) && isset($type->children)
-        && isset($data->observations) && isset($data->phone)
-             * */
-            //echo "HOLA GILIPOLLAS";
+
             $event->setType($data->type);
-            //echo "Imprimo data->type\n";
-            //print_r($event);
             $event->setName($data->name);
             $event->setDate($data->date);
             $event->setGuests($data->guests);
@@ -146,13 +143,6 @@ class EventRest extends BaseRest
             echo("You are not the authorized user for view this note");
             return;
         }
-
-        /*$food = $this->eventMapper->allFoodEvent($eventId);
-        echo "\nFood\n";
-        var_dump($food);
-        $staff = $this->eventMapper->getAllStaffEvent($eventId);
-        echo "\nstaff\n";
-        var_dump($staff);*/
 
         $event_array = array(
             "id_event"=>$event->getIdEvent(),
@@ -364,6 +354,8 @@ class EventRest extends BaseRest
             ));
 
         }
+
+        $event = $this->eventMapper->findById($id_event);
         //echo 'staffEvent\n';
 
         //var_dump($staffEvent);
@@ -373,45 +365,58 @@ class EventRest extends BaseRest
             if($this->eventMapper->existStaffInEvent($staffEvent) == false) {
                 $this->eventMapper->setStaffEvent($staffEvent);
 
-                /*$mail = new \PHPMailer\PHPMailer\PHPMailer();
+                $mail = new PHPMailer();
 
-                $body = "«Hola es una prueba»";
-                $body .="ojalá funcione»";
+                $date = $event->getDate();
+                $time = strtotime($date);
+                $myFormatForView = date("d/m/Y", $time);
+
+                $mail->Subject = 'Evento '. $myFormatForView;
+
+                $body = 'Hola! ¿Podrías venir el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'? </br>
+                Te ruego me contestes en cuanto sea posible. Con cualquier duda o contratiempo llámame.';
+
+                $mail->SMTPDebug = 0;
 
                 $mail->isSMTP();
 
-                /* Sustituye (ServidorDeCorreoSMTP)  por el host de tu servidor de correo SMTP*/
-                //$mail->Host = 'smtp.gmail.com';
+                $mail->Port = 587;
+
+                $mail->SMTPSecure = 'tls';
+
+                $mail->SMTPAuth = true;
+                /*Sustituye (ServidorDeCorreoSMTP)  por el host de tu servidor de correo SMTP*/
+                $mail->Host = 'smtp.gmail.com';
 
                 /* Sustituye  ( CuentaDeEnvio )  por la cuenta desde la que deseas enviar por ejem. prueba@domitienda.com  */
 
-/*                $mail->From = 'rmenriqueztfg@gmail.com';
+                //$mail->From = 'rmenriqueztfg@gmail.com';
+                $mail->setFrom($currentUser->getEmail(), $currentUser->getUser());
 
-                $mail->FromName = $currentUser->getName() . ' de '. $currentUser->getIdUser();
-
-                $mail->Subject = 'probando cosas varias';
-
-                $mail->AltBody = 'probando';
+                //$mail->FromName = $currentUser->getName() . ' de '. $currentUser->getUser();
 
                 $mail->MsgHTML($body);
 
                 /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
-                /*foreach ($arrayStaffEmail as $email){
+                foreach ($arrayStaffEmail as $email){
                     $mail->AddAddress($email["email"]);
                 }
 
-                $mail->SMTPAuth = true;
+                $mail->AddReplyTo($currentUser->getEmail(),$currentUser->getName());
+
+                $mail->AltBody = 'Hola! ¿Podrías venir el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'? 
+                                Te ruego me contestes en cuanto sea posible. Con cualquier duda o contratiempo llámame.';
 
                 /* Sustituye (CuentaDeEnvio )  por la misma cuenta que usaste en la parte superior en este caso  prueba@domitienda.com  y sustituye (ContraseñaDeEnvio)  por la contraseña que tenga dicha cuenta */
 
-                /*$mail->Username = 'rmenriqueztfg@gmail.com';
+                $mail->Username = 'rmenriqueztfg@gmail.com';
                 $mail->Password = 'tfgtfg2019';
 
                 if(!$mail->Send()) {
                     echo 'Mailer Error: ' . $mail->ErrorInfo;
                 } else {
                     echo 'Message sent!';
-                }*/
+                }
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Content-Type: application/json');
                 //echo(json_encode($foodsEvent));
@@ -422,6 +427,10 @@ class EventRest extends BaseRest
             }
 
         }catch (ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        } catch (Exception $e) {
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');
             echo(json_encode($e->getErrors()));
