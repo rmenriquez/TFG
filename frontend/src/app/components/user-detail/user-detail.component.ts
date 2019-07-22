@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class UserDetailComponent implements OnInit {
 
-    public user: User;
+    public user;
 
     constructor(
         private _route: ActivatedRoute,

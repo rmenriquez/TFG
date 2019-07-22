@@ -31,23 +31,17 @@ class UserRest extends BaseRest
 
         $user = $this->userMapper->findById($userId);
         //var_dump($user);
-        if ($user->getIdUser() != $currentUser->getIdUser()) {
+        if ($user["id_user"] != $currentUser->getIdUser()) {
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
             echo("You are not the authorized for this");
             return;
         }
 
 
+
         header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         header('Content-Type: application/json');
-        echo(json_encode($user->getIdUser(),
-            $user->getName(),
-            $user->getUser(),
-            $user->getNCliChristening(),
-            $user->getNCliWedding(),
-            $user->getNCliCommunion(),
-            $user->getNCliOthers(),
-            $user->getEmail()));
+        echo(json_encode($user));
 
     }
 
