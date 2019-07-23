@@ -147,6 +147,12 @@ class EventMapper
             $event->getGuests(), $event->getChildren(), $event->getSweetTable(), $event->getObservations(),
             $event->getRestaurant(), $event->getPhone(), $event->getPrice()));
 
+        $getId = $this->db->prepare("select last_insert_id()");
+        $getId->execute();
+
+        $id = $getId->fetch(PDO::FETCH_ASSOC);
+
+        return $id["last_insert_id()"];
 
     }
 
@@ -189,9 +195,37 @@ class EventMapper
      * @param Event $event
      * @param $id_staff
      */
-    public function setstaffEvent(Event $event, $id_staff){
-        $stmt = $this->db->prepare("INSERT INTO staff_event(staff, event) VALUES (?,?)");
-        $stmt->execute(array($id_staff, $event->getIdEvent() ));
+    public function setStaffEvent($staffEvent){
+        /*$stmt = $this->db->prepare("INSERT INTO staff_event(staff, event) VALUES (?,?)");
+        $stmt->execute(array($id_staff, $event->getIdEvent() ));*/
+        var_dump($staffEvent);
+        $rowsSQL = array();
+
+        $toBind = array();
+
+        $columnNames = array_keys($staffEvent[0]);
+
+        foreach($staffEvent as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+        }
+
+        $sql = "INSERT INTO `staff_event` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
+
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //print_r($sql);
+        //print_r($toBind);
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();
     }
 
     /**
@@ -307,6 +341,58 @@ class EventMapper
         $rowsSQL[] = implode(" OR ", $params);
 
         $sql = "SELECT count(*) as count from `food_event` WHERE event = " . $foodsEvent[0]["event"] . " AND food = (" . implode(" OR ", $rowsSQL).")";
+
+        //print_r($sql);
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //print_r($sql);
+        //print_r($toBind);
+        //Execute our statement (i.e. insert the data).
+        echo $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //var_dump($data);
+        if($data['count'] == 0){
+            $exists = false;
+        }else{
+            $exists = true;
+        }
+
+        return $exists;
+    }
+
+    /**
+     * Checks if the event already has the given staff
+     * @param $staffEvent
+     * @return bool
+     */
+    public function existStaffInEvent($staffEvent){
+        var_dump($staffEvent);
+        $rowsSQL = array();
+
+        $toBind = array();
+
+        $idsStaff = array();
+        foreach ($staffEvent as $personEvent){
+            array_push($idsStaff, $personEvent["staff"]);
+        }
+
+        $params = array();
+        foreach($staffEvent as $row => $value){
+
+            $param = ":".$row;
+
+            $params[] = $param;
+
+            $toBind[$param] = $value["staff"];
+        }
+        $rowsSQL[] = implode(" OR ", $params);
+
+        $sql = "SELECT count(*) as count from `staff_event` WHERE event = " . $staffEvent[0]["event"] . " AND staff = (" . implode(" OR ", $rowsSQL).")";
 
         //print_r($sql);
         $stmt = $this->db->prepare($sql);

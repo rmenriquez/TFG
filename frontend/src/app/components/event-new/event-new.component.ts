@@ -78,12 +78,12 @@ export class EventNewComponent implements OnInit {
     console.log(form.value);
     this._eventService.createEvent(form.value).subscribe(
         response => {
-          console.log(response);
+          //console.log(response);
           this.status = 'success';
           this.event = response;
           //this._router.navigate(['/allEvents']);
           let id = response['id_event'];
-
+          console.log(this.event);
         },
         error=> {
           console.log(<any> error);

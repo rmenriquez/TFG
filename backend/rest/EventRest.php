@@ -349,7 +349,10 @@ class EventRest extends BaseRest
             //inserta el personal y el evento
             array_push($staffEvent,array(
                 "staff"=>$staff,
-                "event"=>$id_event
+                "event"=>$id_event,
+                "invited"=>1,
+                "rejected"=>null,
+                "confirmed"=>null
             ));
 
         }
@@ -362,6 +365,7 @@ class EventRest extends BaseRest
         //var_dump($emailList);
         try{
             if($this->eventMapper->existStaffInEvent($staffEvent) == false) {
+                //echo 'hola';
                 $this->eventMapper->setStaffEvent($staffEvent);
 
                 $mail = new PHPMailer();
