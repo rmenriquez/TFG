@@ -182,7 +182,7 @@ class EventMapper
      * @param Event $event
      */
     public function getAllstaffEvent($event){
-        $stmt = $this->db->prepare("SELECT name, surnames FROM staff
+        $stmt = $this->db->prepare("SELECT id_staff, name, surnames FROM staff
                                         WHERE id_staff IN (SELECT staff FROM staff_event WHERE event =?)");
         $stmt->execute(array($event));
         $staffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -196,9 +196,7 @@ class EventMapper
      * @param $id_staff
      */
     public function setStaffEvent($staffEvent){
-        /*$stmt = $this->db->prepare("INSERT INTO staff_event(staff, event) VALUES (?,?)");
-        $stmt->execute(array($id_staff, $event->getIdEvent() ));*/
-        var_dump($staffEvent);
+
         $rowsSQL = array();
 
         $toBind = array();
@@ -222,8 +220,7 @@ class EventMapper
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($sql);
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
     }
@@ -371,7 +368,7 @@ class EventMapper
      * @return bool
      */
     public function existStaffInEvent($staffEvent){
-        var_dump($staffEvent);
+        //var_dump($staffEvent);
         $rowsSQL = array();
 
         $toBind = array();
@@ -427,24 +424,18 @@ class EventMapper
 
         $toBind = array();
 
-        $idsFood = array();
-        foreach ($data as $foodEvent){
-            $idsFood = $foodEvent;
+        foreach($data as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-
-        $params = array();
-        foreach($idsFood as $row => $value){
-
-            $param = ":".$row;
-
-            $params[] = $param;
-            $toBind[$param] = $value;
-        }
-        $rowsSQL[] = implode(", ", $params);
 
         $sql = "DELETE FROM `food_event` WHERE `event` =". $event ." AND food IN (" . implode(", ", $rowsSQL) . ")";
 
-        //print_r($sql);
         $stmt = $this->db->prepare($sql);
         //Bind our values.
         foreach($toBind as $param => $val){

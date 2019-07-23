@@ -67,6 +67,12 @@ export class EventService {
     return this._http.post(this._url + 'event/' + id_event + '/food', foods, {headers:headers});
   }
 
+  getFoodsEvent(id_event){
+    let headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.get(this._url + 'event/' + id_event + '/food', {headers: headers}).pipe(retry(1));
+  }
+
   setStaffEvent(id_event, staff): Observable<any>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 

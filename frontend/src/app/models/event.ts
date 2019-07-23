@@ -13,6 +13,6 @@ export class Event{
     public restaurant: number;
     public phone: number;
     public price: number;
-    public foods?: any[];
+    public food?: any[];
     public staff?: any[];
 }

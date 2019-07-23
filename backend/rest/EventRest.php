@@ -245,8 +245,7 @@ class EventRest extends BaseRest
                     "allergens"=> $this->foodMapper->getFoodAllergens($foodEvent["food"]->getIdFood())));
 
             }
-
-            header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
+            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
             header('Content-Type: application/json');
             echo(json_encode($foodEvent_array));
         }catch (ValidationException $e){
@@ -303,23 +302,48 @@ class EventRest extends BaseRest
 
     //Funciona a la perfección
     public function updateFoodsEvent($id_event, $data){
-        $toUpdate = array();
-        foreach ($data as $food){
-            array_push($toUpdate, array(
-               "food" => $food[0],
-               "event" => $id_event
-            ));
+
+        $toAdd = array();
+        $toDelete = array();
+        if($data->toAdd != null){
+            foreach ($data->toAdd as $foodAdd){
+                array_push($toAdd, array(
+                    "food" => $foodAdd,
+                    "event" => $id_event
+                ));
+            }
         }
-        /*echo "\naux\n";
-        print_r($aux);*/
-
+        if($data->toDelete != null){
+            foreach ($data->toDelete as $foodDelete){
+                array_push($toDelete, array(
+                    "food" => $foodDelete
+                ));
+            }
+        }
         try{
+            if($toAdd != null && $this->eventMapper->existFoodsInEvent($toAdd) == false){
 
-            $this->eventMapper->updateFoodsFromEvent($toUpdate);
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
-            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
+                try{
+                    $this->eventMapper->setFoodEvent($toAdd);
+                    header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
+                    header('Content-Type: application/json');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
+
+            }
+            if($data->toDelete != null){
+                try{
+                    $this->eventMapper->deleteFoodsFromEvent($id_event,$toDelete);
+                    header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
+            }
 
         }catch(ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
