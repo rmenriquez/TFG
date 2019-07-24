@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `n_cli_wedding` int(3) NULL,
   `n_cli_christening` int(3) NULL,
   `n_cli_communion` int(3) NULL,
-  `n_cli_others` int(3) NULL,
+  `n_cli_others` int(3) NOT NULL,
   `email` varchar(255) NOT NULL
   PRIMARY KEY (id_user)
 );
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `food` (
   `description` text COLLATE utf8_spanish_ci NOT NULL,
   `image` varchar(255) NULL,
   `restaurant` int(11) NOT NULL,
-  `price` DECIMAL (4,2) NULL,
+  `price` DECIMAL (4,2) NOT NULL,
   PRIMARY KEY (id_food),
   FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
@@ -61,7 +61,6 @@ DROP TABLE IF EXISTS `food_allergen`;
 CREATE TABLE IF NOT EXISTS `food_allergen` (
 	id_food int(11) NOT NULL,
 	id_allergen int(11) NOT NULL,
-	enabled int(1) NOT NULL,
 	PRIMARY KEY (id_food, id_allergen),
 	FOREIGN KEY (id_food) REFERENCES food(id_food) ON DELETE CASCADE,
 	FOREIGN KEY (id_allergen) REFERENCES allergen(id_allergen) ON DELETE CASCADE
@@ -92,6 +91,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 	`id_event` int(10) NOT NULL AUTO_INCREMENT,
 	`type` varchar(8) NOT NULL,
 	`name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+	`moment`varchar(6) NOT NULL,
 	`date` date NOT NULL,
 	`guests` int(3) NOT NULL,
 	`children` int(3) NOT NULL,
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `event` (
 	`observations` text NOT NULL,
 	`restaurant` int(11) NOT NULL,
 	`phone` int(13) NOT NULL,
-  `price` DECIMAL (4,2) NULL,
+  `price` DECIMAL (8,2) NULL,
 	PRIMARY KEY (id_event),
 	FOREIGN KEY (restaurant) REFERENCES user(id_user) ON DELETE CASCADE
 );
@@ -112,6 +112,9 @@ DROP TABLE IF EXISTS `staff_event`;
 CREATE TABLE IF NOT EXISTS `staff_event` (
 	`staff` varchar(9) NOT NULL,
 	`event` int(10) NOT NULL,
+	`invited` int(1) NOT NULL,
+	`rejected` int(1) NULL,
+	`confirmed` int(1) NULL,
 	PRIMARY KEY (staff, event),
 	FOREIGN KEY (staff) REFERENCES staff(id_staff) ON DELETE CASCADE,
 	FOREIGN KEY (event) REFERENCES event(id_event) ON DELETE CASCADE
@@ -126,7 +129,6 @@ DROP TABLE IF EXISTS `food_event`;
 CREATE TABLE IF NOT EXISTS `food_event` (
 	`food` int(11) NOT NULL,
 	`event` int(10) NOT NULL,
-	`clamp` boolean NOT NULL,
 	PRIMARY KEY (food, event),
 	FOREIGN KEY (food) REFERENCES food(id_food) ON DELETE CASCADE,
 	FOREIGN KEY (event) REFERENCES event(id_event) ON DELETE CASCADE
@@ -138,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `food_event` (
 -- Volcado de datos para la tabla `user`
 -- Por cada 20 personas, atienden n_cli_X camareros 
 INSERT INTO `user` (`id_user`, `name`, `user`, `password`, `n_cli_wedding`, `n_cli_christening`, `n_cli_communion`, `n_cli_others`) VALUES
-(1, 'Raquel', 'Novaiño', 'novaiño', 1, 1, 1, 1),
+(1, 'Raquel', 'Novaino', 'novaiño', 1, 1, 1, 1),
 (2, 'Sandra', 'PazoMonterrey', 'monterrey', 2, 1, 1, 1),
 (3, 'Fabio', 'Galileo', 'galileo', 3, 2, 2, 2);
 
@@ -172,14 +174,14 @@ INSERT INTO `allergen` (`id_allergen`,`name_allergen`) VALUES
 --
 -- Volcado de datos para la tabla `food_allergen`
 --
-INSERT INTO `food_allergen` (`id_food`, `id_allergen`, `enabled`) VALUES
-(1, 3, 1),
-(2, 2, 1),
-(2, 4, 1),
-(2, 14, 1),
-(3, 3, 1),
-(3, 7, 1),
-(3, 8, 1);
+INSERT INTO `food_allergen` (`id_food`, `id_allergen`) VALUES
+(1, 3),
+(2, 2),
+(2, 4),
+(2, 14),
+(3, 3),
+(3, 7),
+(3, 8);
 
 --
 -- Volcado de datos para la tabla `staff`
@@ -200,13 +202,13 @@ INSERT INTO `staff` (`id_staff`,`name`,`surnames`,`email`, `birthdate`,`restaura
 --
 -- Volcado de datos para la tabla `event`
 --
-INSERT INTO `event` (`id_event`,`type`,`name`,`date`,`guests`,`children`,`sweet_table`,`observations`, `phone`, `restaurant`) VALUES
-(1,'Boda','Raúl y Sofía','2019-06-15',110,10,true,'Boda de tarde, previsión de llegada al restaurant a las 8 de la tarde.','678889764',1),
-(2,'Bautizo','Juan','2019-06-16',90,3,false,'Hay un alérgico a la lactosa, dos al marisco y uno al gluten. Preguntar a cada uno qué quieren.','654673421',1),
-(3,'Comunión','Ainara','2019-07-27',53,15,true,'Hora prevista de llegada: 14:00.','655643101',1),
-(4,'Otro','Cena de empresa - Mesidana','2018-02-11',26,0,false,'Quieren barra libre con reservas, 3 horas máximo desde el café.','988345444',2),
-(5,'Boda','Estefanía y Hugo','2019-05-25',35,7,true,'Boda de mañana. Hora prevista de llegada: 16:00. \r\n Los novios brindarán a la llegada con vino rosado.','677453400',2),
-(6,'Boda','Paco y Miguel','2019-08-14',88,7,false,'Boda de mañana. Por favor, llamar al autobús a las 01:30.','680009989',3);
+INSERT INTO `event` (`id_event`,`type`,`name`,`moment`,`date`,`guests`,`children`,`sweet_table`,`observations`, `phone`, `restaurant`) VALUES
+(1,'Boda','Raúl y Sofía','Noche','2019-06-15',110,10,true,'Boda de tarde, previsión de llegada al restaurant a las 8 de la tarde.','678889764',1),
+(2,'Bautizo','Juan','Mañana','2019-06-16',90,3,false,'Hay un alérgico a la lactosa, dos al marisco y uno al gluten. Preguntar a cada uno qué quieren.','654673421',1),
+(3,'Comunión','Ainara','Mañana','2019-07-27',53,15,true,'Hora prevista de llegada: 14:00.','655643101',1),
+(4,'Otro','Cena de empresa - Mesidana','Noche','2018-02-11',26,0,false,'Quieren barra libre con reservas, 3 horas máximo desde el café.','988345444',2),
+(5,'Boda','Estefanía y Hugo','Mañana','2019-05-25',35,7,true,'Boda de mañana. Hora prevista de llegada: 16:00. \r\n Los novios brindarán a la llegada con vino rosado.','677453400',2),
+(6,'Boda','Paco y Miguel','Mañana','2019-08-14',88,7,false,'Boda de mañana. Por favor, llamar al autobús a las 01:30.','680009989',3);
 
 --
 -- Volcado de datos para la tabla `staff_event`
@@ -227,7 +229,7 @@ INSERT INTO `staff_event`(`staff`,`event`) VALUES
 --
 -- Volcado de datos para la tabla `food_event`
 --
-INSERT INTO `food_event` (`food`,`event`,`clamp`) VALUES
+INSERT INTO `food_event` (`food`,`event`) VALUES
 (2,1,false),
 (3,1,true),
 (2,2,false),
