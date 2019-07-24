@@ -64,35 +64,36 @@ export class FoodService {
         return this._http.delete(this.url + 'food/' + id, {headers:headers});
     }
 
-    setFoodAllergens(id, allergens): Observable<any>{
-        let enabled: number[] = new Array();
+    setFoodAllergens(id_food, allergens): Observable<any>{
+        /*let enabled: number[] = new Array();
         allergens.forEach(function(element) {
             enabled.push(1);
-        });
-        console.log(enabled);
-        console.log("id "+ id);
-        console.log("allergens");
-        console.log(allergens);
+        });*/
+        //console.log(enabled);
+        //console.log("id "+ id_food);
+        //console.log("allergens");
+        //console.log(allergens);
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let json =  { allergens, enabled};
+        let json =  { allergens};
         //console.log(json);
-        return this._http.post(this.url + 'food/'+id+'/allergen', json, {headers:headers});
+        return this._http.post(this.url + 'food/'+id_food+'/allergen', json, {headers:headers});
     }
 
-    getFood(){
+    /*getFood(){
         return this.food;
-    }
+    }*/
+
     setFood(food){
         this.food = food;
     }
 
-    updateFoodAllergens(id, allergens, enabled): Observable<any>{
+    updateFoodAllergens(id, toAdd, toDelete): Observable<any>{
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-        let json =  { allergens, enabled};
+        let json =  { toAdd, toDelete};
 
         return this._http.put(this.url+ 'food/'+id+'/allergen', json,{headers: headers});
     }
