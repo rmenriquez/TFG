@@ -496,7 +496,36 @@ class EventMapper
 
     }
 
-    public function sendMail($id_event){
+    /**
+     * Deletes staff from the given event
+     * @param $event
+     * @param $data
+     */
+    public function deleteStaffFromEvent($event, $data){
+        echo '\ndata en eventMapper\n';
+        var_dump($data);
+        $rowsSQL = array();
 
+        $toBind = array();
+
+        foreach($data as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+        }
+
+        $sql = "DELETE FROM `staff_event` WHERE `event` =". $event ." AND staff IN (" . implode(", ", $rowsSQL) . ")";
+
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();
     }
 }

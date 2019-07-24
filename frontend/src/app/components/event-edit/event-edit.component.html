@@ -106,6 +106,14 @@
         <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!editEvent.form.valid"/>
         <a [routerLink]="['/allEvents']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
     </form>
+
+</div>
+<div class="col-md-12">
+<div class="alert alert-danger" *ngIf="foodsEdited == 'error'">
+    La comida del evento no se ha modificado
+</div>
+<div class="alert alert-success" *ngIf="foodsEdited == 'success'">
+    La comida del evento se ha modificado
 </div>
 <div class="col-md-12" *ngIf="event !== undefined && foodsEvent !== undefined">
     <div class="panel-group">
@@ -133,6 +141,12 @@
         </div>
     </div>
 </div>
+<div class="alert alert-danger" *ngIf="staffEdited == 'error'">
+    El staff del evento no se ha modificado
+</div>
+<div class="alert alert-success" *ngIf="staffEdited == 'success'">
+    El staff del evento se ha modificado
+</div>
 <div class="col-md-12" *ngIf="event !== undefined && foodsEvent !== undefined">
     <div class="panel-group">
         <div class="panel panel-default">
@@ -158,4 +172,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

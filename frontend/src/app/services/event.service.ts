@@ -67,28 +67,22 @@ export class EventService {
     return this._http.post(this._url + 'event/' + id_event + '/food', foods, {headers:headers});
   }
 
-  getFoodsEvent(id_event){
-    let headers = new HttpHeaders().set('Content-Type', 'application/json');
-
-    return this._http.get(this._url + 'event/' + id_event + '/food', {headers: headers}).pipe(retry(1));
-  }
-
   setStaffEvent(id_event, staff): Observable<any>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this._http.post(this._url + 'event/' + id_event + '/staff', staff, {headers:headers});
   }
 
-  deleteStaffEvent(id_event, staff): Observable<any>{
+  updateEventFood(id_event, foods): Observable<any>{
+
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.put(this._url + 'event/' + id_event+'/staff', staff, {headers: headers});
+    return this._http.put(this._url+ 'event/'+id_event+'/food', foods,{headers: headers});
   }
 
-  updateEventFood(id, foods): Observable<any>{
-
+  updateEventStaff(id_event, staff): Observable<any>{
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.put(this._url+ 'event/'+id+'/food', foods,{headers: headers});
+    return this._http.put(this._url+ 'event/'+id_event+'/staff', staff,{headers: headers});
   }
 }

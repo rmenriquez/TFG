@@ -37,12 +37,12 @@ export class EventEditComponent implements OnInit {
     foods: Food[];
     foodsEvent: any[];
     foodsReady: boolean = false;
-    foodsCreated;
+    foodsEdited;
 
     staffForm: FormGroup;
     staff: Staff[];
     staffEvent: any[];
-    staffCreated;
+    staffEdited;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -167,9 +167,11 @@ export class EventEditComponent implements OnInit {
         this._eventService.updateEventFood(this.event.id_event, send).subscribe(
             response => {
                 console.log(response);
-                this._router.navigate(['eventDetail/',this.event.id_event]);
+                //this._router.navigate(['eventDetail/',this.event.id_event]);
+                this.foodsEdited = 'success';
             },
             error => {
+                this.foodsEdited = 'error';
                 console.log(<any> error);
                 this.errors = error.error;
             }
@@ -198,6 +200,67 @@ export class EventEditComponent implements OnInit {
 
         });
 
+    }
+
+    onSubmitStaff(form){
+        //Recojo las comidas seleccionados
+        console.log(this.staffEvent);
+        console.log(this.staffForm.value.staff);
+        const selectedStaffIds = this.staffForm.value.staff
+            .map((v, i) => v ? this.staff[i].id_staff : null)
+            .filter(v => v !== null);
+
+        console.log(selectedStaffIds);
+
+        let toDelete = [];
+        let toAdd = [];
+        selectedStaffIds.forEach((item, index) => {
+            console.log(item);
+            //Recorro los alergenos almacenados en BD
+            //Busco para cada alérgeno de la BD si existe en los seleccionados en el form
+            let aux = this.staffEvent.find(function (elem){
+                return elem['id_staff'] === item;
+            });
+            //Si aux es undefined, el alergeno no existe en BD, SE AÑADE
+            if(aux === undefined){
+                //console.log('no existe en foodallergens');
+                //selectedAndUnselected.push(item);
+                //enableds.push(1);
+                toAdd.push(item);
+            }
+        });
+        //Ahora hay que mirar que esté en la BD pero no en los seleccionados,
+        //para poder deshabilitarlo
+        for(let staffBd of this.staffEvent){
+            let aux = selectedStaffIds.find(function (elem){
+                //console.log(staffBd['id_staff']);
+                return elem === staffBd['id_staff'];
+            });
+            console.log(staffBd);
+            /*allergenBd['enabled'] === 1 && */
+            if(aux === undefined){
+                //selectedAndUnselected.push(allergenBd['id_allergen']);
+                //enableds.push(0);
+                toDelete.push(staffBd['id_staff']);
+            }
+        }
+        console.log(toDelete);
+        console.log(toAdd);
+
+        let send = {toAdd, toDelete};
+
+        this._eventService.updateEventStaff(this.event.id_event, send).subscribe(
+            response => {
+                //console.log(response);
+                this.staffEdited = 'success';
+                //this._router.navigate(['eventDetail/',this.event.id_event]);
+            },
+            error => {
+                this.staffEdited = 'error';
+                console.log(<any> error);
+                this.errors = error.error;
+            }
+        );
     }
 
     getStaff(){

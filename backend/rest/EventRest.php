@@ -464,7 +464,7 @@ class EventRest extends BaseRest
         }
     }
 
-    public function deleteStaffEvent($id_event, $data){
+    /*public function deleteStaffEvent($id_event, $data){
         $staffEvent = array();
         //var_dump($data);
 
@@ -488,9 +488,178 @@ class EventRest extends BaseRest
             header('Content-Type: application/json');
             echo(json_encode($e->getErrors()));
         }
+    }*/
+
+    public function updateStaffEvent($id_event, $data){
+        $currentUser = parent::authenticateUser();
+
+        $event = $this->eventMapper->findById($id_event);
+
+        $toAdd = array();
+        $toDelete = array();
+        $arrayStaffEmailAdd = array();
+        $arrayStaffEmailDelete = array();
+
+        if($data->toAdd != null){
+            foreach ($data->toAdd as $personAdd){
+                array_push($toAdd, array(
+                    "staff" => $personAdd,
+                    "event" => $id_event,
+                    "invited" => 1
+                ));
+                array_push($arrayStaffEmailAdd, array(
+                    "name" => $this->staffMapper->findById($personAdd)->getName(),
+                    "email" => $this->staffMapper->findById($personAdd)->getEmail()
+                ));
+            }
+        }
+        if($data->toDelete != null){
+            foreach ($data->toDelete as $personDelete){
+                array_push($toDelete, array(
+                    "staff" => $personDelete
+                ));
+                array_push($arrayStaffEmailDelete, array(
+                    "name" => $this->staffMapper->findById($personDelete)->getName(),
+                    "email" => $this->staffMapper->findById($personDelete)->getEmail()
+                ));
+            }
+        }
+        try{
+            if($toAdd != null && $this->eventMapper->existStaffInEvent($toAdd) == false){
+
+                try{
+                    $this->eventMapper->setStaffEvent($toAdd);
+                    $mail = new PHPMailer();
+
+                    $date = $event->getDate();
+                    $time = strtotime($date);
+                    $myFormatForView = date("d/m/Y", $time);
+
+                    $mail->Subject = 'Evento '. $myFormatForView;
+
+                    $body = 'Hola! ¿Podrías venir el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'? </br>
+                Te ruego me contestes en cuanto sea posible. Con cualquier duda o contratiempo llámame.';
+
+                    $mail->SMTPDebug = 0;
+
+                    $mail->isSMTP();
+
+                    $mail->Port = 587;
+
+                    $mail->SMTPSecure = 'tls';
+
+                    $mail->SMTPAuth = true;
+                    /*Sustituye (ServidorDeCorreoSMTP)  por el host de tu servidor de correo SMTP*/
+                    $mail->Host = 'smtp.gmail.com';
+
+                    /* Sustituye  ( CuentaDeEnvio )  por la cuenta desde la que deseas enviar por ejem. prueba@domitienda.com  */
+
+                    //$mail->From = 'rmenriqueztfg@gmail.com';
+                    $mail->setFrom($currentUser->getEmail(), $currentUser->getUser());
+
+                    //$mail->FromName = $currentUser->getName() . ' de '. $currentUser->getUser();
+
+                    $mail->MsgHTML($body);
+
+                    /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
+                    foreach ($arrayStaffEmailAdd as $email){
+                        $mail->AddAddress($email["email"]);
+                    }
+
+                    $mail->AddReplyTo($currentUser->getEmail(),$currentUser->getName());
+
+                    $mail->AltBody = 'Hola! ¿Podrías venir el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'? 
+                                Te ruego me contestes en cuanto sea posible. Con cualquier duda o contratiempo llámame.';
+
+                    /* Sustituye (CuentaDeEnvio )  por la misma cuenta que usaste en la parte superior en este caso  prueba@domitienda.com  y sustituye (ContraseñaDeEnvio)  por la contraseña que tenga dicha cuenta */
+
+                    $mail->Username = 'rmenriqueztfg@gmail.com';
+                    $mail->Password = 'tfgtfg2019';
+
+                    if(!$mail->Send()) {
+                        echo 'Mailer Error: ' . $mail->ErrorInfo;
+                    } else {
+                        echo 'Message sent!';
+                    }
+                    header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
+                    header('Content-Type: application/json');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
+
+            }
+            if($data->toDelete != null){
+                try{
+                    $this->eventMapper->deleteStaffFromEvent($id_event,$toDelete);
+
+                    $mail = new PHPMailer();
+
+                    $date = $event->getDate();
+                    $time = strtotime($date);
+                    $myFormatForView = date("d/m/Y", $time);
+
+                    $mail->Subject = 'Evento '. $myFormatForView;
+
+                    $body = 'Hola! Ya no es necesario que vengas el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'.
+                                Que tengas buen día!';
+
+                    $mail->SMTPDebug = 0;
+
+                    $mail->isSMTP();
+
+                    $mail->Port = 587;
+
+                    $mail->SMTPSecure = 'tls';
+
+                    $mail->SMTPAuth = true;
+                    /*Sustituye (ServidorDeCorreoSMTP)  por el host de tu servidor de correo SMTP*/
+                    $mail->Host = 'smtp.gmail.com';
+
+                    /* Sustituye  ( CuentaDeEnvio )  por la cuenta desde la que deseas enviar por ejem. prueba@domitienda.com  */
+
+                    //$mail->From = 'rmenriqueztfg@gmail.com';
+                    $mail->setFrom($currentUser->getEmail(), $currentUser->getUser());
+
+                    //$mail->FromName = $currentUser->getName() . ' de '. $currentUser->getUser();
+
+                    $mail->MsgHTML($body);
+
+                    /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
+                    foreach ($arrayStaffEmailDelete as $email){
+                        $mail->AddAddress($email["email"]);
+                    }
+
+                    $mail->AddReplyTo($currentUser->getEmail(),$currentUser->getName());
+
+                    $mail->AltBody = 'Hola! Ya no es necesario que vengas el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'.
+                                Que tengas buen día!';
+
+                    /* Sustituye (CuentaDeEnvio )  por la misma cuenta que usaste en la parte superior en este caso  prueba@domitienda.com  y sustituye (ContraseñaDeEnvio)  por la contraseña que tenga dicha cuenta */
+
+                    $mail->Username = 'rmenriqueztfg@gmail.com';
+                    $mail->Password = 'tfgtfg2019';
+
+                    if(!$mail->Send()) {
+                        echo 'Mailer Error: ' . $mail->ErrorInfo;
+                    } else {
+                        echo 'Message sent!';
+                    }
+                    header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
+            }
+
+        }catch(ValidationException $e){
+            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+            header('Content-Type: application/json');
+            echo(json_encode($e->getErrors()));
+        }
     }
-
-
 
 }
 
@@ -506,5 +675,5 @@ URIDispatcher::getInstance()
     ->map("POST", "/event/$1/food", array($eventRest, "setFoodsEvent"))
     ->map("DELETE", "/event/$1/food", array($eventRest, "deleteFoodsEvent"))
     ->map("PUT", "/event/$1/food", array($eventRest, "updateFoodsEvent"))
-    ->map("PUT", "/event/$1/staff", array($eventRest, "deleteStaffEvent"))
+    ->map("PUT", "/event/$1/staff", array($eventRest, "updateStaffEvent"))
     ->map("POST", "/event/$1/staff", array($eventRest, "setStaffEvent"));
