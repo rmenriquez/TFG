@@ -45,12 +45,12 @@ export class EventService {
     return this._http.get(this._url + 'event/' + id_event, {headers: headers});
   }
 
-  updateEvent(event, id): Observable<any>{
+  updateEvent(id_event, event): Observable<any>{
     let params = JSON.stringify(event);
 
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this._http.put(this._url + 'event/' + id, params, { headers: headers});
+    return this._http.put(this._url + 'event/' + id_event, params, { headers: headers});
   }
 
   deleteEvent(id): Observable<any>{

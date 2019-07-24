@@ -55,6 +55,7 @@ class EventRest extends BaseRest
                 "id_event" => $event->getIdEvent(),
                 "type" => $event->getType(),
                 "name" => $event->getName(),
+                "moment" => $event->getMoment(),
                 "date" => $event->getDate(),
                 "guests" => $event->getGuests(),
                 "children" => $event->getChildren(),
@@ -81,6 +82,7 @@ class EventRest extends BaseRest
 
             $event->setType($data->type);
             $event->setName($data->name);
+            $event->setMoment($data->moment);
             $event->setDate($data->date);
             $event->setGuests($data->guests);
             $event->setChildren($data->children);
@@ -88,7 +90,11 @@ class EventRest extends BaseRest
             $event->setObservations($data->observations);
             $event->setRestaurant($currentUser->getIdUser());
             $event->setPhone($data->phone);
-            $event->setPrice($data->price);
+            if($data->price == null){
+                $event->setPrice(0.00);
+            }else{$event->setPrice($data->price);
+            }
+
         }
 
         try{
@@ -105,6 +111,7 @@ class EventRest extends BaseRest
                     "id_event"=>$eventId,
                     "type"=>$event->getType(),
                     "name"=>$event->getName(),
+                    "moment"=>$event->getMoment(),
                     "date"=>$event->getDate(),
                     "guests"=>$event->getGuests(),
                     "children"=>$event->getChildren(),
@@ -150,6 +157,7 @@ class EventRest extends BaseRest
             "id_event"=>$event->getIdEvent(),
             "type"=>$event->getType(),
             "name"=>$event->getName(),
+            "moment"=>$event->getMoment(),
             "date"=>$event->getDate(),
             "guests"=>$event->getGuests(),
             "children"=>$event->getChildren(),
@@ -169,6 +177,8 @@ class EventRest extends BaseRest
 
 //Funciona a la perfección
     public function updateEvent($eventId, $data){
+        //var_dump($data);
+        //var_dump($eventId);
         $currentUser = parent::authenticateUser();
 
         $event = $this->eventMapper->findById($eventId);
@@ -182,15 +192,18 @@ class EventRest extends BaseRest
            echo("You are not the authorized user for edit this event");
            return;
        }
+       $aux  = round($data->price * 100) / 100;
+       //var_dump($aux);
        $event->setType($data->type);
         $event->setName($data->name);
+        $event->setMoment($data->moment);
         $event->setDate($data->date);
         $event->setGuests($data->guests);
         $event->setChildren($data->children);
         $event->setSweetTable($data->sweet_table);
         $event->setObservations($data->observations);
         $event->setPhone($data->phone);
-        $event->setPrice($data->price);
+        $event->setPrice($aux);
 
         try{
             //For Update
@@ -441,9 +454,9 @@ class EventRest extends BaseRest
 
                 if(!$mail->Send()) {
                     echo 'Mailer Error: ' . $mail->ErrorInfo;
-                } else {
+                } /*else {
                     echo 'Message sent!';
-                }
+                }*/
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Content-Type: application/json');
                 //echo(json_encode($foodsEvent));
@@ -578,9 +591,9 @@ class EventRest extends BaseRest
 
                     if(!$mail->Send()) {
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
-                    } else {
+                    } /*else {
                         echo 'Message sent!';
-                    }
+                    }*/
                     header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
                     header('Content-Type: application/json');
                 }catch (ValidationException $e){
@@ -643,9 +656,9 @@ class EventRest extends BaseRest
 
                     if(!$mail->Send()) {
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
-                    } else {
+                    } /*else {
                         echo 'Message sent!';
-                    }
+                    }*/
                     header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
                 }catch (ValidationException $e){
                     header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');

@@ -5,6 +5,7 @@ export class Event{
     public id_event: number;
     public type: string;
     public name: string;
+    public moment: string;
     public date: string;
     public guests: number;
     public children: number;

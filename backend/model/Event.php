@@ -75,11 +75,19 @@ class Event
      */
     private $price;
 
-    public function __construct($id_event=NULL, $type=NULL, $name=NULL, $date=NULL, $guests=NULL, $children=NULL, $sweet_table=NULL, $observations=NULL, $restaurant=NULL, $phone=NULL, $price=NULL)
+    /**
+     * Moment of the day
+     * @var string
+     */
+    private $moment;
+
+
+    public function __construct($id_event=NULL, $type=NULL, $name=NULL, $moment=NULL, $date=NULL, $guests=NULL, $children=NULL, $sweet_table=NULL, $observations=NULL, $restaurant=NULL, $phone=NULL, $price=NULL)
     {
         $this->id_event = $id_event;
         $this->type = $type;
         $this->name = $name;
+        $this->moment = $moment;
         $this->date = $date;
         $this->guests = $guests;
         $this->children = $children;
@@ -289,12 +297,35 @@ class Event
         $this->price = $price;
     }
 
+    /**
+     * Gets the moment of the day for the event
+     * @return string
+     */
+    public function getMoment()
+    {
+        return $this->moment;
+    }
+
+    /**
+     * Sets the moment of the day for the event
+     * @param string $moment
+     */
+    public function setMoment($moment)
+    {
+        $this->moment = $moment;
+    }
+
 
     public function checkIsValidForCreate(){
         $errors = array();
 
         if(!preg_match("/^((b|B)oda|(b|B)autizo|(o|O)tros|(c|C)omuni(ó|o)n)$/i", $this->type)){
             $errors["type"] = "type is mandatory or it is wrong";
+//            echo("No tiene bien el tipo de evento");
+        }
+
+        if(!preg_match("/^((m|M)añana|(n|N)oche)$/i", $this->moment)){
+            $errors["moment"] = "moment is mandatory or it is wrong";
 //            echo("No tiene bien el tipo de evento");
         }
 

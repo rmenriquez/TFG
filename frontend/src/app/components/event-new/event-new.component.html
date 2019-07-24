@@ -29,6 +29,16 @@
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
       {{errors['name']}}
     </div>
+    <p>
+      <label for="moment">Momento</label>
+      <input ngModel type="text" class="form-control" id="moment"  name="moment" #moment="ngModel" required />
+      <span *ngIf="!name.valid && name.touched">
+                  El momento no es válido
+        </span>
+    </p>
+    <div class="alert alert-danger" *ngIf="status == 'error' && errors['moment']!=null">
+      {{errors['moment']}}
+    </div>
 
     <p>
       <label for="date">Fecha</label>
@@ -97,14 +107,6 @@
       {{errors['phone']}}
     </div>
 
-    <p>
-      <label for="price">Precio</label>
-      <input ngModel type="number" class="form-control" id="price"  name="price" #price="ngModel"/>
-    </p>
-    <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
-      {{errors['price']}}
-    </div>
-
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newEvent.form.valid"/>
     <a [routerLink]="['/allEvents']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
   </form>
@@ -154,6 +156,7 @@
         </h4>
       </div>
       <div id="collapse2" class="panel-collapse collapse">
+        <div class="alert alert-warning">Se recomiendan {{numberStaff}} camareros</div>
         <div class="panel-body">
 
           <form [formGroup]="staffForm" (ngSubmit)="onSubmitStaff(staffForm)" class="col-md-12" *ngIf="staff !== undefined">

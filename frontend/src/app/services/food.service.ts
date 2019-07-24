@@ -15,8 +15,6 @@ import { tap, retry } from 'rxjs/operators';
 export class FoodService {
     public url: string;
     private food: Food;
-    //private currentUserSource = new BehaviorSubject<User>(null);
-    //public currentUser = this.currentUserSource.asObservable();
 
     constructor(public _http: HttpClient) {
         this.url = GLOBAL.url;
@@ -65,14 +63,7 @@ export class FoodService {
     }
 
     setFoodAllergens(id_food, allergens): Observable<any>{
-        /*let enabled: number[] = new Array();
-        allergens.forEach(function(element) {
-            enabled.push(1);
-        });*/
-        //console.log(enabled);
-        //console.log("id "+ id_food);
-        //console.log("allergens");
-        //console.log(allergens);
+
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -80,10 +71,6 @@ export class FoodService {
         //console.log(json);
         return this._http.post(this.url + 'food/'+id_food+'/allergen', json, {headers:headers});
     }
-
-    /*getFood(){
-        return this.food;
-    }*/
 
     setFood(food){
         this.food = food;

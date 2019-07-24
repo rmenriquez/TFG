@@ -37,7 +37,7 @@ export class EventDetailComponent implements OnInit {
             console.log(id_event);
             this._eventService.viewEvent(id_event).subscribe(
                 response => {
-                    console.log(response['food'][0]['title']);
+                    //console.log(response['food'][0]['title']);
 
                     //console.log('estoy dentro');
                     this.event = response as Event;
