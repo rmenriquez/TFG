@@ -12,7 +12,6 @@ import { FoodNewComponent } from './components/food-new/food-new.component';
 import { FoodAllComponent } from './components/food-all/food-all.component';
 import { FoodDetailComponent } from './components/food-detail/food-detail.component';
 import { FoodEditComponent } from './components/food-edit/food-edit.component';
-import { FoodSetAllergen } from './components/food-set-allergen/food-set-allergen.component';
 import { EventNewComponent } from './components/event-new/event-new.component';
 import { EventAllComponent } from './components/event-all/event-all.component';
 import { EventEditComponent } from './components/event-edit/event-edit.component';
@@ -34,7 +33,6 @@ const appRoutes: Routes = [
     {path: 'allFoods', component: FoodAllComponent},
     {path: 'editFood/:id', component: FoodEditComponent},
     {path: 'foodDetail/:id', component: FoodDetailComponent},
-    {path: 'foodSetAllergens/:id', component: FoodSetAllergen},
     {path: 'newEvent', component: EventNewComponent},
     {path: 'allEvents', component: EventAllComponent},
     {path: 'editEvent/:id', component: EventEditComponent},
