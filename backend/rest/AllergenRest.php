@@ -52,97 +52,9 @@ class AllergenRest extends BaseRest
     }
 
 
-    public function setAllergenToFood($data){
-        //var_dump($data);
-        $currentUser = parent::authenticateUser();
-        $allergens_food_array = array();
-        //echo "allergens\n";
-        $allergens = explode( ',', $data->allergens);
-        for($i =0; $i< count($allergens); $i++){
-            $allergens[$i] = intval($allergens[$i]);
-        }
-        //var_dump($allergens);
-
-        //echo "enable?\n";
-        $allergens_enabled = explode( ',', $data->enabled);
-        for($i =0; $i< count($allergens_enabled); $i++){
-            $allergens_enabled[$i] = intval($allergens_enabled[$i]);
-        }
-        //var_dump($allergens_enabled);
-
-        if(isset($allergens) && isset($allergens_enabled)){
-            $i=0;
-            foreach ($allergens as $allergen){
-                array_push($allergens_food_array,
-                    array('id_food'=>$this->FoodMapper->getMaximumId($currentUser->getIdUser()),
-                        'id_allergen'=>$allergen, 'enabled'=>$allergens_enabled[$i])
-                );
-                $i++;
-            }
-        }
-        //var_dump($allergens_food_array);
-        try{
-            //Envía id_food, id_allergen
-            $this->AllergenMapper->addAllergenToFood($allergens_food_array);
-
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
-        }catch (ValidationException $e){
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            header('Content-Type: application/json');
-            echo(json_encode($e->getErrors()));
-        }
-    }
-
-
-    public function updateFoodsAllergen($food_id,$data){
-        $currentUser = parent::authenticateUser();
-        //var_dump($data);
-        $update = array();
-
-        $enabled = explode(',', $data->enabled);
-        $allergens = explode( ',', $data->allergens);
-        for($i =0; $i< count($allergens); $i++){
-            $allergens[$i] = intval($allergens[$i]);
-        }
-
-        $allergens_array = array();
-        for($i=0; $i < count($allergens); $i++){
-            array_push($allergens_array, array(
-                'id_food'=>$food_id,
-                'id_allergen'=>$allergens[$i],
-                'enabled'=> $enabled[$i]
-            ));
-        }
-        echo "Imprimo allergens_array\n";
-        var_dump($allergens_array);
-        try{
-            foreach ($allergens_array as $toUpdate){
-                array_push($update, array(
-                    'id_allergen'=> $toUpdate['id_allergen'],
-                    'enabled'=>$toUpdate['enabled']));
-            }
-
-            $this->AllergenMapper->updateFoodAllergens($food_id,$update);
-
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
-        }catch(ValidationException $e){
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            header('Content-Type: application/json');
-            echo(json_encode($e->getErrors()));
-        }
-    }
-
 }
 
 // URI-MAPPING for this Rest endpoint
 $allergenRest = new AllergenRest();
 URIDispatcher::getInstance()
-    ->map("GET","/allergen", array($allergenRest, "getAllergens"))
-    ->map("POST", "/allergen/", array($allergenRest, "updateFoodsAllergen"))
-;
+    ->map("GET","/allergen", array($allergenRest, "getAllergens"));

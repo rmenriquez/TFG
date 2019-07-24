@@ -19,23 +19,23 @@ require_once (__DIR__."/BaseRest.php");
 
 class FoodRest extends BaseRest{
 
-    private $FoodMapper;
-    private $AllergenMapper;
-    private $UserMapper;
+    private $foodMapper;
+    private $allergenMapper;
+    private $userMapper;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->FoodMapper = new FoodMapper();
-        $this->AllergenMapper = new AllergenMapper();
-        $this->UserMapper = new UserMapper();
+        $this->foodMapper = new FoodMapper();
+        $this->allergenMapper = new AllergenMapper();
+        $this->userMapper = new UserMapper();
     }
 
     //Funciona a la perfección
     public function getFoods(){
         $currentUser = parent::authenticateUser();
-        $foods = $this->FoodMapper->findAll($currentUser->getIdUser());
+        $foods = $this->foodMapper->findAll($currentUser->getIdUser());
 
         // json_encode Note objects.
         // since Note objects have private fields, the PHP json_encode will not
@@ -44,7 +44,7 @@ class FoodRest extends BaseRest{
         $foods_array = array();
         foreach($foods as $food) {
             //echo ($food->getIdFood());
-            //$allergen = $this->FoodMapper->getFoodAllergens($food->getIdFood());
+            //$allergen = $this->foodMapper->getFoodAllergens($food->getIdFood());
             array_push($foods_array, array(
                 "id_food" => $food->getIdFood(),
                 "title" => $food->getTitle(),
@@ -63,13 +63,12 @@ class FoodRest extends BaseRest{
         $currentUser = parent::authenticateUser();
         $food = new Food();
 
-        if(isset($data->title) && isset($data->description)){
+        if(isset($data->title) && isset($data->description) && isset($data->price)){
             $food->setTitle($data->title);
             $food->setDescription($data->description);
             $food->setImage($data->image);
             $food->setRestaurant($currentUser->getIdUser());
             $food->setPrice($data->price);
-            //$allergens = explode( ',', $data->allergens );
         }
 
         try{
@@ -77,10 +76,8 @@ class FoodRest extends BaseRest{
             $food->checkIsValidForCreate();
 
             //Save the Post object into database
-            if($this->FoodMapper->foodExists($currentUser->getIdUser(), $data->title) == false){
-                $foodId = $this->FoodMapper->save($food);
-                //Save the allergens of food
-                //$this->AllergenMapper->addAllergenToFood($allergens, $this->FoodMapper->getMaximumId()+1);
+            if($this->foodMapper->foodExists($currentUser->getIdUser(), $data->title) == false){
+                $foodId = $this->foodMapper->save($food);
 
 
                 //response OK. Also send post in content
@@ -100,9 +97,6 @@ class FoodRest extends BaseRest{
                 header('Content-Type: application/json');
                 throw new Exception('The food already exists.');
             }
-
-
-
         } catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');
@@ -115,7 +109,7 @@ class FoodRest extends BaseRest{
     public function viewFood($foodId){
         $currentUser = parent::authenticateUser();
         //find the Food object in the database
-        $food = $this->FoodMapper->findById($foodId);
+        $food = $this->foodMapper->findById($foodId);
         if($food == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             echo("Food with id ".$foodId." not found");
@@ -126,7 +120,7 @@ class FoodRest extends BaseRest{
             return;
         }
 
-        $allergen = $this->FoodMapper->getFoodAllergens($foodId);
+        $allergen = $this->foodMapper->getFoodAllergens($foodId);
 
         $food_array = array(
             "id_food" => $foodId,
@@ -147,7 +141,7 @@ class FoodRest extends BaseRest{
     public function updateFood($foodId, $data){
         $currentUser = parent::authenticateUser();
         //find the Food object in the database
-        $food = $this->FoodMapper->findById($foodId);
+        $food = $this->foodMapper->findById($foodId);
         if($food == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             echo("Food with id ".$foodId." not found");
@@ -166,7 +160,7 @@ class FoodRest extends BaseRest{
         try{
             // validate Food object
             $food->checkIsValidForUpdate(); // if it fails, ValidationException
-            $this->FoodMapper->update($food);
+            $this->foodMapper->update($food);
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
         }catch (ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -178,7 +172,7 @@ class FoodRest extends BaseRest{
     //Funciona a la perfección
     public function deleteFood($foodId){
         $currentUser = parent::authenticateUser();
-        $food = $this->FoodMapper->findById($foodId);
+        $food = $this->foodMapper->findById($foodId);
 
         if($food == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -188,18 +182,18 @@ class FoodRest extends BaseRest{
 
         if($food->getRestaurant() != $currentUser->getIdUser()){
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("you are not the author of this food");
+            echo("You are not the author of this food");
             return;
         }
 
-        $this->FoodMapper->delete($food);
+        $this->foodMapper->delete($food);
 
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 
     public function setFoodAllergens($foodId, $data){
         $currentUser = parent::authenticateUser();
-        $food = $this->FoodMapper->findById($foodId);
+        $food = $this->foodMapper->findById($foodId);
 
         if($food == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -209,7 +203,7 @@ class FoodRest extends BaseRest{
 
         if($food->getRestaurant() != $currentUser->getIdUser()){
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("you are not the author of this food");
+            echo("You are not the author of this food");
             return;
         }
 
@@ -218,6 +212,7 @@ class FoodRest extends BaseRest{
         //echo "allergens\n";
         //$allergens = explode( ',', $data->allergens);
         $allergens = array();
+
         for($i =0; $i< count($data->allergens); $i++){
             $allergens[$i] = intval($data->allergens[$i]);
         }
@@ -225,25 +220,25 @@ class FoodRest extends BaseRest{
 
         //echo "enable?\n";
         //$allergens_enabled = explode( ',', $data->enabled);
-        $allergens_enabled = array();
+        /*$allergens_enabled = array();
         for($i =0; $i< count($data->enabled); $i++){
             $allergens_enabled[$i] = intval($data->enabled[$i]);
-        }
+        }*/
         //var_dump($allergens_enabled);
 
-        if($allergens!=null && $allergens_enabled!=null){
+        /* && $allergens_enabled!=null*/
+        if($allergens!=null){
             $i=0;
             foreach ($data->allergens as $allergen){
                 array_push($allergens_food_array,
                     array('id_food'=>$foodId,
-                        'id_allergen'=>$allergen,
-                        'enabled'=>$data->enabled[$i])
+                        'id_allergen'=>$allergen)
                 );
                 $i++;
             }
             try{
                 //Envía id_food, id_allergen
-                $this->AllergenMapper->addAllergenToFood($allergens_food_array);
+                $this->allergenMapper->addAllergenToFood($allergens_food_array);
 
                 //response OK. Also send post in content
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
@@ -258,42 +253,49 @@ class FoodRest extends BaseRest{
             header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
             return;
         }
-        //var_dump($allergens_food_array);
-
-
-
     }
 
     public function updateFoodsAllergen($food_id,$data){
-        $update = array();
 
-        $allergens = array();
-        for($i =0; $i< count($data->allergens); $i++){
-            $allergens[$i] = intval($data->allergens[$i]);
+        $toAdd = array();
+        $toDelete = array();
+
+
+        foreach($data->toAdd as $allergenAdd){
+            array_push($toAdd, array(
+                "id_food" => $food_id,
+                "id_allergen" => $allergenAdd
+            ));
         }
 
-        $allergens_array = array();
-        for($i=0; $i < count($data->allergens); $i++){
-            array_push($allergens_array, array(
-                'id_food'=>$food_id,
-                'id_allergen'=>$allergens[$i],
-                'enabled'=> $data->enabled[$i]
+        foreach($data->toDelete as $allergenDelete){
+            array_push($toDelete, array(
+                "id_allergen" => $allergenDelete
             ));
         }
 
         try{
-            foreach ($allergens_array as $toUpdate){
-                array_push($update, array(
-                    'id_allergen'=> $toUpdate['id_allergen'],
-                    'enabled'=>$toUpdate['enabled']));
+            if($toAdd != null && $this->allergenMapper->existAllergensInFood($toAdd) == false){
+                try{
+                    $this->allergenMapper->addAllergenToFood($toAdd);
+                    header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
+                    header('Content-Type: application/json');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
             }
-
-            $this->AllergenMapper->updateFoodAllergens($food_id,$update);
-
-            //response OK. Also send post in content
-            header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
-            //header('Location: '.$_SERVER['REQUEST_URI']."/".$foodId);
-            header('Content-Type: application/json');
+            if($data->toDelete != null){
+                try{
+                    $this->allergenMapper->deleteFoodAllergens($food_id,$toDelete);
+                    header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
+                }catch (ValidationException $e){
+                    header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
+                    header('Content-Type: application/json');
+                    echo(json_encode($e->getErrors()));
+                }
+            }
         }catch(ValidationException $e){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             header('Content-Type: application/json');

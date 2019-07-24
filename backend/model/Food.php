@@ -165,6 +165,9 @@ class Food{
         if ($this->restaurant == NULL ) {
             $errors["restaurant"] = "Restaurant is mandatory";
         }
+        if($this->price == null || $this->price == 0){
+            $errors["price"] = "Price is mandatory";
+        }
 
         if (sizeof($errors) > 0){
             throw new ValidationException($errors, "food is not valid");

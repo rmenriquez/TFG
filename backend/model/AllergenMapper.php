@@ -127,7 +127,7 @@ class AllergenMapper
      * @return array of allergens for food
      */
     public function getFoodAllergens($food){
-        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen, food_allergen.enabled FROM food_allergen, allergen 
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
                                                 WHERE food_allergen.id_food = ? 
                                                 AND food_allergen.id_allergen = allergen.id_allergen");
         $stmt->execute(array($food));
@@ -136,7 +136,7 @@ class AllergenMapper
         $allergens = array();
 
         foreach($allergens_db as $allergen){
-            array_push($allergens, array("id_allergen"=>$allergen["id_allergen"], "name_allergen"=>$allergen["name_allergen"], "enabled"=>$allergen["enabled"]));
+            array_push($allergens, array("id_allergen"=>$allergen["id_allergen"], "name_allergen"=>$allergen["name_allergen"]));
         }
 
         return $allergens;
@@ -172,7 +172,7 @@ class AllergenMapper
             //Construct our SQL statement
             $sql = "INSERT INTO `food_allergen` (id_food," . implode(", ", $columnNames) . ") VALUES " .
                 implode(", ", $rowsSQL) .
-                " ON DUPLICATE KEY UPDATE id_food=VALUES(id_food), id_allergen=VALUES(id_allergen), enabled=VALUES(enabled)";
+                " ON DUPLICATE KEY UPDATE id_food=VALUES(id_food), id_allergen=VALUES(id_allergen)";
 
             //Prepare our PDO statement.
             $stmt = $this->db->prepare($sql);
@@ -185,6 +185,89 @@ class AllergenMapper
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
 
+    }
+
+    /**
+     * Deletes the given allergens from given food
+     * @param $food
+     * @param $data 
+     */
+    public function deleteFoodAllergens($food, $data){
+        $rowsSQL = array();
+
+        $toBind = array();
+
+        foreach($data as $arrayIndex => $row){
+            $params = array();
+            foreach($row as $columnName => $columnValue){
+                $param = ":" . $columnName . $arrayIndex;
+                $params[] = $param;
+                $toBind[$param] = $columnValue;
+            }
+            $rowsSQL[] = "(" . implode(", ", $params) . ")";
+        }
+
+        $sql = "DELETE FROM `food_allergen` WHERE `id_food` =". $food ." AND id_allergen IN (" . implode(", ", $rowsSQL) . ")";
+
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //Execute our statement (i.e. insert the data).
+        $stmt->execute();
+    }
+
+    /**
+     * Checks if the food already has the given allergens
+     * @param $foodsEvent
+     * @return bool
+     */
+    public function existAllergensInFood($allergensFood){
+        $rowsSQL = array();
+
+        $toBind = array();
+
+        $idsFood = array();
+        foreach ($allergensFood as $allergenFood){
+            //echo '\nallergenfood en existAllergensInFood\n';
+            array_push($idsFood, $allergenFood["id_allergen"]);
+        }
+
+        $params = array();
+        foreach($allergensFood as $row => $value){
+
+            $param = ":".$row;
+
+            $params[] = $param;
+
+            $toBind[$param] = $value["food"];
+        }
+        $rowsSQL[] = implode(" OR ", $params);
+
+        $sql = "SELECT count(*) as count from `food_allergen` WHERE id_food = " . $allergensFood[0]["id_food"] . " AND id_allergen = (" . implode(" OR ", $rowsSQL).")";
+
+        //print_r($sql);
+        $stmt = $this->db->prepare($sql);
+        //Bind our values.
+        foreach($toBind as $param => $val){
+            $stmt->bindValue($param, $val);
+        }
+        //print_r($sql);
+        //print_r($toBind);
+        //Execute our statement (i.e. insert the data).
+        echo $stmt->execute();
+
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //var_dump($data);
+        if($data['count'] == 0){
+            $exists = false;
+        }else{
+            $exists = true;
+        }
+
+        return $exists;
     }
 
 }

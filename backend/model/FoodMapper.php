@@ -45,11 +45,9 @@ class FoodMapper
      * Retrieves all allergens of food
      * @param $food
      * @return array of allergens for food
-     *
-     * añadi  AND food_allergen.enabled = 1 para mostrar sólo los activos
      */
     public function getFoodAllergens($food){
-        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen, enabled FROM food_allergen, allergen 
+        $stmt = $this->db->prepare("SELECT food_allergen.id_allergen, name_allergen FROM food_allergen, allergen 
                                                 WHERE food_allergen.id_food = ? 
                                                 AND food_allergen.id_allergen = allergen.id_allergen");
         $stmt->execute(array($food));
@@ -59,7 +57,6 @@ class FoodMapper
 
         foreach($allergens_db as $allergen){
             array_push($allergens, array("name_allergen"=>$allergen["name_allergen"],
-                    "enabled"=>$allergen["enabled"],
                     "id_allergen"=>$allergen["id_allergen"]
                 ));
         }
@@ -173,21 +170,6 @@ class FoodMapper
         return $exists;
     }
 
-
-    /***
-     * Gets from the DB the maximum id of saved foods
-     */
-    public function getMaximumId($restaurant){
-        $stmt = $this->db->prepare("SELECT MAX(id_food) as max_id FROM food WHERE restaurant = ?");
-        $stmt->execute(array($restaurant));
-        $max = $stmt->fetch(PDO::FETCH_ASSOC);
-        //echo "max FoodMapper";
-        //var_dump($max);
-        $aux = $max['max_id'];
-        //print_r($aux);
-        return $aux;
-    }
-
     /***
      * Assigns allergens to food
      * @param $allergen id of the allergen's food
@@ -261,7 +243,7 @@ class FoodMapper
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (id_food," . implode(", ", $columnNames) . ") VALUES " .
             implode(", ", $rowsSQL) .
-            " ON DUPLICATE KEY UPDATE id_food=VALUES(id_food), id_allergen=VALUES(id_allergen), enabled=VALUES(enabled)";
+            " ON DUPLICATE KEY UPDATE id_food=VALUES(id_food), id_allergen=VALUES(id_allergen)";
 
         //Prepare our PDO statement.
         $stmt = $this->db->prepare($sql);

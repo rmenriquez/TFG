@@ -52,6 +52,12 @@
   </form>
 </div>
 <div class="col-md-12" *ngIf="food !== undefined && allergensFood !== undefined">
+  <div class="alert alert-danger" *ngIf="allergensEdited == 'error'">
+    Los alérgenos de la comida no se ha modificado
+  </div>
+  <div class="alert alert-success" *ngIf="allergensEdited == 'success'">
+    Los alérgenos de la comida se ha modificado
+  </div>
   <div class="panel-group">
     <div class="panel panel-default">
       <div class="panel-heading">

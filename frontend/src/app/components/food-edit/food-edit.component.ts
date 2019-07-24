@@ -31,6 +31,7 @@ export class FoodEditComponent implements OnInit {
 
     allergensForm: FormGroup;
     allergens: Allergen[];
+    allergensEdited;
 
   constructor(
       private _formBuilder: FormBuilder,
@@ -100,7 +101,7 @@ export class FoodEditComponent implements OnInit {
 
   }
     onSubmitAllergens(form){
-      //Rcojo los alergenos seleccionados
+      //Recojo los alergenos seleccionados
         console.log(this.allergensFood);
       console.log(this.allergensForm.value.allergens);
         const selectedAllergenIds = this.allergensForm.value.allergens
@@ -109,10 +110,10 @@ export class FoodEditComponent implements OnInit {
 
         console.log(selectedAllergenIds);
 
-        let selectedAndUnselected = [];
-        let enableds = [];
+
+        let toDelete = [];
+        let toAdd = [];
         selectedAllergenIds.forEach((item, index) => {
-            //console.log(item);
             //Recorro los alergenos almacenados en BD
             //Busco para cada alérgeno de la BD si existe en los seleccionados en el form
             let aux = this.allergensFood.find(function (elem){
@@ -120,18 +121,9 @@ export class FoodEditComponent implements OnInit {
             });
             //Si aux es undefined, el alergeno no existe en BD, SE AÑADE
             if(aux === undefined){
-                //console.log('no existe en foodallergens');
-                selectedAndUnselected.push(item);
-                enableds.push(1);
+                toAdd.push(item);
             }
-            //Si aux es != undefined, el alergeno ya está en la BD pero deshabilitado,
-            //hay que habilitarlo
-            if(aux !== undefined && aux['enabled']==0){
-                //console.log(aux);
-                //console.log('existe en foodAllergens');
-                selectedAndUnselected.push(aux['id_allergen']);
-                enableds.push(1);
-            }
+
         });
         //Ahora hay que mirar que esté en la BD pero no en los seleccionados,
         //para poder deshabilitarlo
@@ -139,21 +131,24 @@ export class FoodEditComponent implements OnInit {
             let aux = selectedAllergenIds.find(function (elem){
                 return elem === allergenBd['id_allergen'];
             });
-            if(allergenBd['enabled'] === 1 && aux === undefined){
-                selectedAndUnselected.push(allergenBd['id_allergen']);
-                enableds.push(0);
+            if(aux === undefined){
+                toDelete.push(allergenBd['id_allergen']);
             }
         }
-        console.log(selectedAndUnselected);
-        console.log(enableds);
+
+        console.log(toDelete);
+        console.log(toAdd);
 
 
-        this._foodService.updateFoodAllergens(this.food.id_food, selectedAndUnselected, enableds).subscribe(
+
+        this._foodService.updateFoodAllergens(this.food.id_food, toAdd, toDelete).subscribe(
             response => {
                 console.log(response);
-                this._router.navigate(['foodDetail/',this.food.id_food]);
+                this.allergensEdited = 'success';
             },
             error => {
+                this.allergensEdited = 'error';
+
                 console.log(<any> error);
                 this.errors = error.error;
             }
@@ -167,7 +162,7 @@ export class FoodEditComponent implements OnInit {
 
             for(let allergen of this.allergens){
                 console.log(allergen['id_allergen']);
-                if((this.allergensFood.find(aux => aux['id_allergen'] === allergen['id_allergen'] && aux['enabled'] === 1 )) != undefined){
+                if((this.allergensFood.find(aux => aux['id_allergen'] === allergen['id_allergen'] )) != undefined){
                     console.log('hola');
                     controls.push(new FormControl(true));
                 }else{
