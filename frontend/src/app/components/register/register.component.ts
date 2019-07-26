@@ -4,6 +4,8 @@
 
 import {Component, OnInit} from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import {isUndefined} from "util";
@@ -14,7 +16,6 @@ import {isUndefined} from "util";
     providers: [UserService]
 })
 export class RegisterComponent implements OnInit{
-    public title: string;
     public user: User;
     public status: string;
 
@@ -23,10 +24,12 @@ export class RegisterComponent implements OnInit{
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private  _translate: TranslateService
+
     ){
-        this.title = 'Regístrate';
-        //this.user = new User(1,'name','user',0,0,0,0,'email','password');
+
+        _translate.setDefaultLang('es');
     }
 
     ngOnInit(){
@@ -56,5 +59,9 @@ export class RegisterComponent implements OnInit{
             }
         );
 
+    }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
     }
 }

@@ -32,10 +32,10 @@
             </ul>
             <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
                 <li>
-                    <a [routerLink]="['login']">Identificate</a>
+                    <a [routerLink]="['login']">{{'main.login' | translate }}</a>
                 </li>
                 <li>
-                    <a [routerLink]="['register']">Registro</a>
+                    <a [routerLink]="['register']">{{'main.registerTitle' | translate }}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

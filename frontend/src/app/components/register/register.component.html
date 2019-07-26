@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <h2>{{title}}</h2>
+    <h2>{{'register.title' | translate}}</h2>
 
     <div class="alert alert-success" *ngIf="status == 'success'">
         El registro se ha completado correctamente, <a [routerLink]="['/login']">identifícate aqui</a>
@@ -11,45 +11,45 @@
 
     <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-md-5">
         <p>
-            <label for="name">Nombre</label>
+            <label for="name">{{'user.bossName' | translate}}</label>
             <input ngModel type="text"  name="name" id="name" class="form-control" required />
         </p>
         <div *ngIf="errors.name !== undefined" class="alert alert-danger">{{errors.name}}</div>
-        <p> <label for="user">User</label>
+        <p> <label for="user">{{'user.userName' | translate}}</label>
             <input ngModel type="text"  name="user" id="user" class="form-control" required />
 
         </p>
         <div *ngIf="errors.user !== undefined" class="alert alert-danger">{{errors.user}}</div>
-        <p> <label for="password">Password</label>
+        <p> <label for="password">{{'user.password'| translate}}</label>
             <input ngModel type="password" name="password" id="password" class="form-control" required />
 
         </p>
         <div *ngIf="errors.password !== undefined" class="alert alert-danger">{{errors.password}}</div>
-        <p> <label for="n_cli_wedding">Número de clientes/camarero para bodas</label>
+        <p> <label for="n_cli_wedding">{{'user.num_cli_wed'| translate}}</label>
             <input ngModel type="text"  name="n_cli_wedding" id="n_cli_wedding" class="form-control" required />
 
         </p>
         <div *ngIf="errors.n_cli_wedding !== undefined" class="alert alert-danger">{{errors.n_cli_wedding}}</div>
-        <p> <label for="n_cli_christening">Número de clientes/camarero para bautizos</label>
+        <p> <label for="n_cli_christening">{{'user.num_cli_chr'| translate}}</label>
             <input ngModel type="text"  name="n_cli_christening" id="n_cli_christening" class="form-control" required />
         </p>
         <div *ngIf="errors.n_cli_christening !== undefined" class="alert alert-danger">{{errors.n_cli_christening}}</div>
-        <p> <label for="n_cli_communion">Número de clientes/camarero para comuniones</label>
+        <p> <label for="n_cli_communion">{{'user.num_cli_com'| translate}}</label>
             <input ngModel type="text"  name="n_cli_communion" id="n_cli_communion" class="form-control" required />
 
         </p>
         <div *ngIf="errors.n_cli_communion !== undefined" class="alert alert-danger">{{errors.n_cli_communion}}</div>
-        <p> <label for="n_cli_others">Número de clientes/camarero para otros eventos</label>
+        <p> <label for="n_cli_others">{{'user.num_cli_oth'| translate}}</label>
             <input ngModel type="text"  name="n_cli_others" id="n_cli_others" class="form-control" required />
 
         </p>
         <div *ngIf="errors.n_cli_others !== undefined" class="alert alert-danger">{{errors.n_cli_others}}</div>
-        <p> <label for="email">Email</label>
+        <p> <label for="email">{{'standard.email' | translate}}</label>
             <input ngModel type="email"  name="email" id="email" class="form-control" required />
         </p>
         <div *ngIf="errors.email !== undefined" class="alert alert-danger">{{errors.email}}</div>
 
-        <input type="submit" value="Regístrame" class="btn btn-success">
+        <input type="submit" value="{{'register.submit' | translate}}" class="btn btn-success">
 
     </form>
 </div>
