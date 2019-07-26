@@ -1,12 +1,12 @@
 <div class="col-md-12" *ngIf="staff">
     <h2>{{staff.name}} {{staff.surnames}}</h2>
-    <label>DNI</label>
+    <label>{{ 'staff.id_staff' | translate }}</label>
     <p>{{staff.id_staff}}</p>
-    <label>Fecha de nacimiento</label>
+    <label>{{ 'staff.birthdate' | translate }}</label>
     <p>{{staff.birthdate}} €</p>
-    <label>Email</label>
+    <label>{{ 'standard.email' | translate }}</label>
     <p>{{staff.email}}</p>
 </div>
 <div class="col-md-12">
-    <a [routerLink]="['/allStaff']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+    <a [routerLink]="['/allStaff']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate}}</span></a>
 </div>

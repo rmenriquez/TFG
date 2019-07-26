@@ -3,6 +3,8 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { StaffService } from '../../services/staff.service';
 import { Staff } from '../../models/staff';
 import { UserService } from '../../services/user.service';
@@ -21,8 +23,11 @@ export class StaffDetailComponent implements OnInit{
         private _route: ActivatedRoute,
         private _router: Router,
         private _staffService: StaffService,
-        private _userService: UserService
+        private _userService: UserService,
+        private  _translate: TranslateService
+
     ){
+        _translate.setDefaultLang('es');
 
     }
 
@@ -48,5 +53,9 @@ export class StaffDetailComponent implements OnInit{
                 );
             }
         );
+    }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
     }
 }

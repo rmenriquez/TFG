@@ -3,6 +3,8 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { UserService } from '../../services/user.service';
 import { Staff } from '../../models/staff';
 import { StaffService } from '../../services/staff.service';
@@ -14,7 +16,6 @@ import { StaffService } from '../../services/staff.service';
 })
 export class StaffNewComponent implements OnInit {
 
-  private page_title: string;
   private identity;
   private staff: Staff;
   public status: string;
@@ -25,10 +26,11 @@ export class StaffNewComponent implements OnInit {
       private _route: ActivatedRoute,
       private _router: Router,
       private _userService: UserService,
-      private _StaffService: StaffService
+      private _StaffService: StaffService,
+      private  _translate: TranslateService
   ) {
-    this.page_title = 'Create new staff';
     this.identity = this._userService.getIdentity();
+    _translate.setDefaultLang('es');
   }
 
   ngOnInit() {
@@ -54,6 +56,10 @@ export class StaffNewComponent implements OnInit {
           this.errors = error.error;
         }
     );
+  }
+
+  useLanguage(language: string) {
+    this._translate.use(language);
   }
 
 }

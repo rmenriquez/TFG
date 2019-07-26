@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngIf="page_title"><h2>{{page_title}}</h2>
+<div class="col-md-12" *ngIf="page_title"><h2>{{'staff.editStaffTitle' | translate}} {{page_title}}</h2>
 
     <div class="alert alert-danger" *ngIf="status == 'error'">
         El staff no se ha modificado
@@ -10,7 +10,7 @@
 
     <form #editStaff="ngForm" (ngSubmit)="onSubmit(editStaff)" class="col-md-5" *ngIf="staff">
         <p>
-            <label for="name">Nombre</label>
+            <label for="name">{{'staff.name' | translate}}</label>
             <input ngModel type="text" id="name" [(ngModel)]="staff.name" class="form-control" name="name" #name="ngModel" required />
             <span *ngIf="!name.valid && name.touched">
       El nombre no es válido
@@ -18,7 +18,7 @@
         </p>
 
         <p>
-            <label for="surnames">Apellidos</label>
+            <label for="surnames">{{'staff.surnames' | translate}}</label>
             <input ngModel type="text" class="form-control" id="surnames" [(ngModel)]="staff.surnames" name="surnames" #surnames="ngModel" required />
             <span *ngIf="!surnames.valid && surnames.touched">
       Los apellidos no son válidos
@@ -26,7 +26,7 @@
         </p>
 
         <p>
-            <label for="birthdate">Fecha de nacimiento</label>
+            <label for="birthdate">{{'staff.birthdate' | translate}}</label>
             <input ngModel type="date" class="form-control" id="birthdate" [(ngModel)]="staff.birthdate" name="birthdate" #birthdate="ngModel" />
             <span *ngIf="!birthdate.valid && birthdate.touched">
       La fecha de nacimiento no es válida
@@ -34,11 +34,11 @@
         </p>
 
         <p>
-            <label for="email">Email</label>
+            <label for="email">{{'standard.email' | translate}}</label>
             <input ngModel type="email" class="form-control" id="email" [(ngModel)]="staff.email" name="email" #email="ngModel" required />
         </p>
 
-        <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!editStaff.form.valid"/>
-        <a [routerLink]="['/allStaff']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
+        <input type="submit" value="{{'standard.send' | translate}}" class="btn btn-success" [disabled]="!editStaff.form.valid"/>
+        <a [routerLink]="['/allStaff']" ><input type="button" value="{{'standard.cancel' | translate}}" class="btn btn-danger" /> </a>
     </form>
 </div>

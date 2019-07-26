@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngIf="page_title"><h2>{{page_title}}</h2>
+<div class="col-md-12" ><h2>{{'staff.newStaffTitle'| translate}}</h2>
 
   <div class="alert alert-danger" *ngIf="status == 'error'">
     El empleado no se ha creado
@@ -9,7 +9,7 @@
 
   <form #newStaff="ngForm" (ngSubmit)="onSubmit(newStaff)" class="col-md-5" >
     <p>
-      <label for="id_staff">DNI</label>
+      <label for="id_staff">{{'staff.id_staff'| translate}}</label>
       <input ngModel type="text" id="id_staff" class="form-control" name="id_staff" #id_staff="ngModel" required />
       <span *ngIf="!id_staff.valid && id_staff.touched">
       El DNI no es válido
@@ -20,7 +20,7 @@
     </div>
 
     <p>
-      <label for="name">Nombre</label>
+      <label for="name">{{'staff.name'| translate}}</label>
       <input ngModel type="text" id="name" class="form-control" name="name" #name="ngModel" required />
       <span *ngIf="!name.valid && name.touched">
       El nombre no es válido
@@ -31,7 +31,7 @@
     </div>
 
     <p>
-      <label for="surnames">Apellidos</label>
+      <label for="surnames">{{'staff.surnames'| translate}}</label>
       <input ngModel type="text" class="form-control" id="surnames"  name="surnames" #surnames="ngModel" required />
       <span *ngIf="!surnames.valid && surnames.touched">
       Los apellidos no son válidos
@@ -42,7 +42,7 @@
     </div>
 
     <p>
-      <label for="birthdate">Fecha de Nacimiento</label>
+      <label for="birthdate">{{'staff.birthdate'| translate}}</label>
       <input ngModel type="date" class="form-control" id="birthdate" name="birthdate" #birthdate="ngModel" placeholder=""/>
       <span *ngIf="!birthdate.valid && birthdate.touched">
       La fecha de nacimiento no es válida
@@ -50,7 +50,7 @@
     </p>
 
     <p>
-      <label for="email">Email</label>
+      <label for="email">{{'standard.email'| translate}}</label>
       <input ngModel type="email" class="form-control" id="email" name="email" #email="ngModel" required/>
       <span *ngIf="!email.valid && email.touched">
       El email no es válido

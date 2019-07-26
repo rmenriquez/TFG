@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { StaffService } from '../../services/staff.service';
 import { UserService } from '../../services/user.service';
 import {isUndefined} from "util";
@@ -11,16 +13,17 @@ import {isUndefined} from "util";
 })
 export class StaffAllComponent implements OnInit {
 
-  private page_title: string;
   private staff: any[];
 
   constructor(
       private _route: ActivatedRoute,
       private _router: Router,
       private _staffService: StaffService,
-      private _userService: UserService
+      private _userService: UserService,
+      private  _translate: TranslateService
+
   ) {
-    this.page_title = 'Staff';
+      _translate.setDefaultLang('es');
   }
 
   ngOnInit() {

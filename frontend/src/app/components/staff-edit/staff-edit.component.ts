@@ -3,6 +3,8 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import {Staff} from "../../models/staff";
 import { StaffService } from '../../services/staff.service';
 import { UserService } from '../../services/user.service';
@@ -27,9 +29,10 @@ export class StaffEditComponent implements OnInit{
         private _route: ActivatedRoute,
         private _router: Router,
         private _staffService: StaffService,
-        private _userService: UserService
+        private _userService: UserService,
+        private  _translate: TranslateService
     ){
-
+        _translate.setDefaultLang('es');
     }
 
     ngOnInit(){
@@ -45,7 +48,7 @@ export class StaffEditComponent implements OnInit{
             response => {
                 //console.log(response);
                 this.staff = response;
-                this.page_title = 'Editar ' + this.staff.name + ' ' + this.staff.surnames;
+                this.page_title =  this.staff.name + ' ' + this.staff.surnames;
                 if(isUndefined(this.staff)){
                     this._router.navigate(['/allStaff']);
                 }
@@ -74,6 +77,10 @@ export class StaffEditComponent implements OnInit{
                 this.errors = error.error;
             }
         );
+    }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
     }
 
 }

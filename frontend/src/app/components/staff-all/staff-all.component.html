@@ -1,13 +1,13 @@
 <div class="loading" *ngIf="!staff">Cargando...</div>
 <div class="col-md-12" *ngIf="staff">
-  <h2>{{page_title}}</h2>
+  <h2>{{'staff.allStaff' | translate }}</h2>
 
   <table class="table table-hover table-striped" id="food-list" *ngIf="staff">
     <thead>
     <tr>
-      <th>Name</th>
-      <th>Surname</th>
-      <th>Email</th>
+      <th>{{'staff.name' | translate }}</th>
+      <th>{{'staff.surnames' | translate }}</th>
+      <th>{{'standard.email' | translate }}</th>
     </tr>
     </thead>
     <tbody>
@@ -18,8 +18,8 @@
       <td>{{person.surnames}}</td>
       <td>{{person.email}}</td>
       <td>
-        <a [routerLink]="['/editStaff', person.id_staff]" class="btn btn-warning">Edit</a>
-        <a (click)="deleteStaff(person.id_staff)" class="btn btn-danger"> Delete</a>
+        <a [routerLink]="['/editStaff', person.id_staff]" class="btn btn-warning">{{'standard.edit' | translate }}</a>
+        <a (click)="deleteStaff(person.id_staff)" class="btn btn-danger"> {{'standard.delete' | translate }}</a>
       </td>
     </tr>
     </tbody>
