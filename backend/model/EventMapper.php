@@ -28,7 +28,7 @@ class EventMapper
      */
     public function findAll($restaurant){
         $stmt = $this->db->prepare("SELECT id_event, type, name, moment, date, guests, children, sweet_table, 
-                                    observations, restaurant, phone, price FROM event WHERE restaurant =?");
+                                    observations, restaurant, phone, price FROM event WHERE restaurant =? ORDER BY date");
         $stmt->execute(array($restaurant));
 
         $events_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
