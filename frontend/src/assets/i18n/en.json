@@ -11,6 +11,7 @@
   "user.password":"Password",
   "standard.email":"Email",
   "main.login":"Login",
+  "main.loginTitle":"Login",
   "main.registerTitle":"Register",
   "main.title":"Main page",
   "main.logout":"Logout",

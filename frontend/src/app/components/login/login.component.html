@@ -1,5 +1,5 @@
 <div class="col-md-12">
-    <h2>{{title}}</h2>
+    <h2>{{'main.loginTitle' | translate }}</h2>
     <div class="alert alert-danger" *ngIf="status == 'error'">
         El login NO se ha completado correctamente <br>
         {{errors}}
@@ -7,20 +7,20 @@
 
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="col-md-5">
         <p>
-            <label for="user">User</label>
+            <label for="user">{{'user.userName' | translate }}</label>
             <input ngModel type="text" #user="ngModel"  name="user" id="user" class="form-control" required />
             <span *ngIf="(!user.valid && user.touched)">
                 El usuario no es válido {{errors.user}}
             </span>
         </p>
         <p>
-            <label for="password">Contraseña</label>
+            <label for="password">{{'user.password' | translate}}</label>
             <input ngModel type="password" #password="ngModel"  name="password" id="password" class="form-control" required />
             <span *ngIf="(!password.valid && password.touched)">
                 La contraseña no es válida {{errors.password}}
             </span>
         </p>
 
-        <input type="submit" value="Entrar" class="btn btn-primary" [disabled]="!loginForm.form.valid" />
+        <input type="submit" value="{{'main.login'| translate}}" class="btn btn-primary" [disabled]="!loginForm.form.valid" />
     </form>
 </div>

@@ -11,6 +11,7 @@
   "user.userName":"Nombre de usuario",
   "user.password":"Contraseña",
   "main.login":"Entrar",
+  "main.loginTitle":"Identifícate",
   "main.registerTitle":"Registrarse",
   "main.title":"Inicio",
   "main.logout":"Salir",
