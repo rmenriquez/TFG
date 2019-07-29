@@ -5,6 +5,7 @@
   "standard.back":"Back",
   "standard.delete":"Delete",
   "standard.edit":"Edit",
+  "standard.description":"Description",
   "register.title":"Register",
   "register.submit":"Register me",
   "user.userName":"Username",
@@ -32,6 +33,10 @@
   "staff.name":"Name",
   "staff.surnames":"Surnames",
   "staff.birthdate":"Birthdate",
-  "staff.editStaffTitle":" Edit "
+  "staff.editStaffTitle":" Edit ",
+  "food.newFoodTitle":"Create new food",
+  "food.title":"Food title",
+  "food.price":"Price",
+  "allergens.allergens": "Allergens "
 
 }

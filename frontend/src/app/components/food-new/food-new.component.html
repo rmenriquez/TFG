@@ -1,4 +1,4 @@
-<div class="col-md-12"><h2>{{page_title}}</h2>
+<div class="col-md-12"><h2>{{'food.newFoodTitle' | translate}}</h2>
 
   <div class="alert alert-danger" *ngIf="status == 'error'">
     La comida no se ha registrado
@@ -10,7 +10,7 @@
 
 <form #newFood="ngForm" (ngSubmit)="onSubmitFood(newFood)" class="col-md-5">
   <p>
-    <label for="title">Titulo</label>
+    <label for="title">{{'food.title' | translate}}</label>
     <input ngModel type="text" id="title" class="form-control" name="title" #title="ngModel" required />
     <span *ngIf="!title.valid && title.touched">
       El titulo no es válido
@@ -21,7 +21,7 @@
   </div>
 
   <p>
-    <label for="description">Descripción</label>
+    <label for="description">{{'standard.description' | translate}}</label>
     <textarea ngModel type="text" class="form-control" id="description" name="description" #description="ngModel" required ></textarea>
     <span *ngIf="!description.valid && description.touched">
       La description no es válido
@@ -32,29 +32,22 @@
   </div>
 
   <p>
-    <label for="image">Imágen</label>
-    <input ngModel type="text" class="form-control" id="image" name="image" #image="ngModel" />
-    <span *ngIf="!image.valid && image.touched">
-      La imágen no es válida
-    </span>
-  </p>
-
-  <p>
-    <label for="price">Precio</label>
+    <label for="price">{{'food.price' | translate}}</label>
     <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" placeholder="0,0" />
   </p>
 
-  <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newFood.form.valid"/>
+  <input type="submit" value="{{'standard.send' | translate}}" class="btn btn-success" [disabled]="!newFood.form.valid"/>
+  <a [routerLink]="['/allFoods']" ><input type="button" value="{{'standard.cancel' | translate}}" class="btn btn-danger" /> </a>
+
 </form>
 </div>
 
-<!--*ngIf="food !== undefined" Si que funciona-->
 <div class="col-md-12" *ngIf="food !== undefined">
 <div class="panel-group">
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
-        <a data-toggle="collapse" href="#collapse1">Allergens <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+        <a data-toggle="collapse" href="#collapse1">{{'allergens.allergens' | translate}} <span class="glyphicon glyphicon-triangle-bottom"></span></a>
       </h4>
     </div>
     <div id="collapse1" class="panel-collapse collapse">
@@ -67,7 +60,7 @@
 
           <br>
           <div class="col-md-5">
-            <input type="submit" value="Guardar" class="btn btn-success"/>
+            <input type="submit" value="{{'standard.send' | translate}}" class="btn btn-success"/>
           </div>
         </form>
       </div>

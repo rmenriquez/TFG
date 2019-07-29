@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
 
 import { UserService } from '../../services/user.service';
 import { Food } from '../../models/food';
@@ -14,7 +15,6 @@ import {Allergen} from "../../models/allergen";
   providers: [UserService, FoodService, AllergenService]
 })
 export class FoodNewComponent implements OnInit {
-  private page_title: string;
   private identity;
   public food: Food;
   public status: string;
@@ -30,10 +30,13 @@ export class FoodNewComponent implements OnInit {
       private _router: Router,
       private _userService: UserService,
       private _foodService: FoodService,
-      private _allergenService: AllergenService
+      private _allergenService: AllergenService,
+      private  _translate: TranslateService
+
   ) {
-      this.page_title = 'Create new food';
       this.identity = this._userService.getIdentity();
+      _translate.setDefaultLang('es');
+
   }
 
   ngOnInit() {
@@ -52,9 +55,6 @@ export class FoodNewComponent implements OnInit {
   }
 
   onSubmitFood(form){
-    //console.log(this._userService.getIdentity());
-    //console.log(this.food);
-    //this.food.restaurant = this._userService.identity.id_user;
     console.log(form.value);
     this._foodService.createFood(form.value).subscribe(
         response=>{
@@ -64,7 +64,6 @@ export class FoodNewComponent implements OnInit {
           let id = response['id_food'];
           console.log(id);
           this._foodService.setFood(response);
-          //this._router.navigate(['/foodSetAllergens/',id]);
 
         },
         error=>{
@@ -93,4 +92,7 @@ export class FoodNewComponent implements OnInit {
       );
   }
 
+    useLanguage(language: string) {
+        this._translate.use(language);
+    }
 }
