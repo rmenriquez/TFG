@@ -38,6 +38,20 @@
   "food.newFoodTitle":"Create new food",
   "food.title":"Food title",
   "food.price":"Price",
-  "allergens.allergens": "Allergens "
+  "allergens.allergens": "Allergens ",
+  "event.type":"Event type",
+  "event.name":"Name of the event",
+  "event.moment":"Moment of the day",
+  "event.date":"Date",
+  "event.guests":"Number of adult guests",
+  "event.children":"Number of children",
+  "event.sweet_table":"Do they have an external sweet table?",
+  "event.observations":"Observations ",
+  "event.phone":"Telephone contact",
+  "event.price":"Total price",
+  "event.newEventTitle":"Create new event",
+  "event.foods":"Foods",
+  "event.recommendedWaiters":"Recommended waiters"
+
 
 }

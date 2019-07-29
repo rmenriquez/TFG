@@ -38,5 +38,18 @@
   "food.newFoodTitle":"Crear nueva comida",
   "food.title":"Título de la comida",
   "food.price":"Precio",
-  "allergens.allergens": "Alérgenos "
+  "allergens.allergens": "Alérgenos ",
+  "event.type":"Tipo de evento",
+  "event.name":"Nombre del evento",
+  "event.moment":"Momento del día",
+  "event.date":"Fecha",
+  "event.guests":"Número de invitados adultos",
+  "event.children":"Número de niños",
+  "event.sweet_table":"¿Tienen mesa dulce externa?",
+  "event.observations":"Observaciones ",
+  "event.phone":"Teléfono de contacto",
+  "event.price":"Precio total",
+  "event.newEventTitle":"Crear nueva comida",
+  "event.foods":"Comidas",
+  "event.recommendedWaiters":"Camareros recomendados"
 }

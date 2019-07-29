@@ -4,13 +4,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
-
+import {TranslateService} from '@ngx-translate/core';
 
 import { UserService } from '../../services/user.service';
+
 import { Event } from '../../models/event';
 import { EventService } from '../../services/event.service';
+
 import { Food } from '../../models/food';
 import { FoodService } from '../../services/food.service';
+
 import { Staff } from '../../models/staff';
 import { StaffService } from '../../services/staff.service';
 
@@ -21,7 +24,6 @@ import { StaffService } from '../../services/staff.service';
 })
 export class EventNewComponent implements OnInit {
 
-  private page_title: string;
   private identity;
   private event: Event;
   private status: string;
@@ -47,10 +49,11 @@ export class EventNewComponent implements OnInit {
       private _userService: UserService,
       private _eventService: EventService,
       private _foodService: FoodService,
-      private _staffService: StaffService
+      private _staffService: StaffService,
+      private  _translate: TranslateService
   ) {
-    this.page_title = 'Create new event';
     this.identity = this._userService.getIdentity();
+      _translate.setDefaultLang('es');
   }
 
   ngOnInit() {
@@ -59,7 +62,6 @@ export class EventNewComponent implements OnInit {
     }
     this._foodService.getFoods().subscribe(foods => {
       this.foods = foods;
-      console.log(this.foods);
       const controls = this.foods.map(c => new FormControl(false));
 
       this.foodForm = this._formBuilder.group({
@@ -67,7 +69,6 @@ export class EventNewComponent implements OnInit {
       });
     });
     this._staffService.getStaff().subscribe(staff => {
-      console.log(staff);
       this.staff = staff;
       const controls = this.staff.map(c => new FormControl(false));
 
@@ -79,26 +80,39 @@ export class EventNewComponent implements OnInit {
   }
 
   onSubmit(form){
-    console.log(form.value);
     this._eventService.createEvent(form.value).subscribe(
         response => {
-          //console.log(response);
           this.status = 'success';
           this.event = response;
-          //this._router.navigate(['/allEvents']);
           let id = response['id_event'];
-          console.log(this.event);
           if(this.event.type === 'Boda' || this.event.type ==='boda'){
-            this.numberStaff = this.event.guests/this.identity.n_cli_wedding;
+              if(Math.trunc(this.event.guests/this.identity.n_cli_wedding) == 0){
+                  this.numberStaff = 1;
+              }else{
+                  this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_wedding);
+              }
+
           }
           if(this.event.type === 'Comunión' || this.event.type ==='Comunion' || this.event.type === 'comunión' || this.event.type === 'comunion'){
-            this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_communion);
+            if(Math.trunc(this.event.guests/this.identity.n_cli_communion) == 0){
+                this.numberStaff = 1;
+            }else{
+                this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_communion);
+            }
           }
           if(this.event.type === 'Bautizo' || this.event.type ==='bautizo'){
-            this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_christening);
+              if(Math.trunc(this.event.guests/this.identity.n_cli_christening) == 0){
+                  this.numberStaff = 1;
+              }else{
+                  this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_christening);
+              }
           }
           if(this.event.type === 'Otros' || this.event.type ==='otros'){
-            this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_others);
+              if(Math.trunc(this.event.guests/this.identity.n_cli_others) == 0){
+                  this.numberStaff = 1;
+              }else{
+                  this.numberStaff = Math.trunc(this.event.guests/this.identity.n_cli_others);
+              }
           }
         },
         error=> {
@@ -114,9 +128,7 @@ export class EventNewComponent implements OnInit {
         .map((v, i) => v ? this.foods[i].id_food : null)
         .filter(v => v !== null);
 
-    console.log(selectedFoodIds);
     selectedFoodIds.forEach((item, index) => {
-      console.log(item);
       //Recorro los alergenos almacenados en BD
       //Busco para cada alérgeno de la BD si existe en los seleccionados en el form
       let aux = this.foods.find(function (elem){
@@ -127,13 +139,10 @@ export class EventNewComponent implements OnInit {
         this.totalPriceFoodArray.push(parseFloat(aux.price));
       }
     });
-    //console.log(this.totalPriceFoodArray);
     this.totalPriceFoodReduce = this.totalPriceFoodArray.reduce((a,b)=>a+b);
-    //console.log(this.totalPriceFoodReduce);
     this._eventService.setFoodsEvent(this.event.id_event, selectedFoodIds).subscribe(
         response => {
-          //console.log(response);
-          //this._router.navigate(['eventDetail/',this.event.id_event]);
+
           this.foodsReady = true;
           this.foodsCreated = true;
         },
@@ -153,7 +162,6 @@ export class EventNewComponent implements OnInit {
     this._eventService.setStaffEvent(this.event.id_event, selectedStaffIds).subscribe(
         response => {
 
-          //this._router.navigate(['eventDetail/',this.event.id_event]);
         },
         error => {
           console.log(<any> error);
@@ -161,7 +169,6 @@ export class EventNewComponent implements OnInit {
         }
     );
     let totalPriceEvent = ((this.totalPriceFoodReduce * this.event.guests) + (5*selectedStaffIds.length));
-    console.log(totalPriceEvent);
     this.event.price = totalPriceEvent;
     this._eventService.updateEvent(this.event.id_event, this.event).subscribe(
         response => {
@@ -174,6 +181,8 @@ export class EventNewComponent implements OnInit {
     );
   }
 
-
+    useLanguage(language: string) {
+        this._translate.use(language);
+    }
 
 }
