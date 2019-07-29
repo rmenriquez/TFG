@@ -6,6 +6,7 @@
   "standard.back":"Atrás",
   "standard.delete":"Borrar",
   "standard.edit":"Editar ",
+  "standard.view":"Ver",
   "standard.description":"Descripción",
   "register.title":"Regístrate",
   "register.submit":"Regístrame",
@@ -52,5 +53,7 @@
   "event.newEventTitle":"Crear nueva comida",
   "event.foods":"Comidas",
   "event.waiters":"Extras",
-  "event.recommendedWaiters":"Camareros recomendados"
+  "event.recommendedWaiters":"Camareros recomendados",
+  "event.allEvents": "Lista de comidas "
+
 }

@@ -1,14 +1,14 @@
 <div class="loading" *ngIf="!events">Cargando...</div>
 <div class="col-md-12" *ngIf="events">
-    <h2>{{title}}</h2>
+    <h2>{{ 'event.allEvents' | translate }}</h2>
 
     <table class="table table-hover table-striped" id="food-list" *ngIf="events">
         <thead>
         <tr>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Moment</th>
-            <th>Date</th>
+            <th>{{ 'event.type' | translate }}</th>
+            <th>{{ 'event.name' | translate }}</th>
+            <th>{{ 'event.moment' | translate }}</th>
+            <th>{{ 'event.date' | translate }}</th>
         </tr>
         </thead>
         <tbody>
@@ -18,9 +18,9 @@
             <td>{{event.moment}}</td>
             <td>{{event.date}}</td>
             <td>
-                <a [routerLink]="['/eventDetail', event.id_event]" class="btn btn-success">View</a>
-                <a [routerLink]="['/editEvent', event.id_event]" class="btn btn-warning">Edit</a>
-                <a (click)="deleteEvent(event.id_event)" class="btn btn-danger"> Delete</a>
+                <a [routerLink]="['/eventDetail', event.id_event]" class="btn btn-success">{{'standard.view' | translate }}</a>
+                <a [routerLink]="['/editEvent', event.id_event]" class="btn btn-warning">{{'standard.edit' | translate }}</a>
+                <a (click)="deleteEvent(event.id_event)" class="btn btn-danger"> {{'standard.delete' | translate }}</a>
             </td>
         </tr>
         </tbody>

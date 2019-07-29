@@ -5,6 +5,7 @@
   "standard.back":"Back",
   "standard.delete":"Delete",
   "standard.edit":"Edit",
+  "standard.view":"View",
   "standard.description":"Description",
   "register.title":"Register",
   "register.submit":"Register me",
@@ -52,7 +53,6 @@
   "event.newEventTitle":"Create new event",
   "event.foods":"Foods",
   "event.waiters":"Extras",
-  "event.recommendedWaiters":"Recommended waiters"
-
-
+  "event.recommendedWaiters":"Recommended waiters",
+  "event.allEvents": "List of foods "
 }

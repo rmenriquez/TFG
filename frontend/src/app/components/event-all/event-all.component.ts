@@ -3,8 +3,12 @@
  */
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { EventService } from '../../services/event.service';
+
 import { UserService } from '../../services/user.service';
+
 import {isUndefined} from "util";
 
 @Component({
@@ -14,16 +18,17 @@ import {isUndefined} from "util";
 })
 export class EventAllComponent implements OnInit {
 
-    public title: string;
     public events: any = [];
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _eventService: EventService,
-        private _userService: UserService
+        private _userService: UserService,
+        private  _translate: TranslateService
     ) {
-        this.title = 'Events';
+        _translate.setDefaultLang('es');
+
     }
 
     ngOnInit() {
@@ -33,7 +38,6 @@ export class EventAllComponent implements OnInit {
         } else {
             this._eventService.getEvents().subscribe(
                 response => {
-                    //console.log(response);
                     this.events = response;
                 },
                 error => {
@@ -46,7 +50,6 @@ export class EventAllComponent implements OnInit {
     getEvents(){
         this._eventService.getEvents().subscribe(
             response => {
-                console.log(response);
                 this.events = response;
             },
             error => {
@@ -66,5 +69,9 @@ export class EventAllComponent implements OnInit {
 
             }
         );
+    }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
     }
 }
