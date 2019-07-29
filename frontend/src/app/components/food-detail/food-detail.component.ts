@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { FoodService } from '../../services/food.service';
 import { Food } from '../../models/food';
+
 import { UserService } from '../../services/user.service';
+
 import {isUndefined} from "util";
 
 @Component({
@@ -18,9 +22,10 @@ export class FoodDetailComponent implements OnInit {
       private _route: ActivatedRoute,
       private _router: Router,
       private _foodService: FoodService,
-      private _userService: UserService
+      private _userService: UserService,
+      private  _translate: TranslateService
   ) {
-
+    _translate.setDefaultLang('es');
   }
 
   ngOnInit() {
@@ -29,16 +34,10 @@ export class FoodDetailComponent implements OnInit {
 
   getFood(){
      this._route.params.subscribe(params =>{
-      //console.log(params);
       let id_food = params['id'];
-      //console.log(id_food);
       this._foodService.viewFood(id_food).subscribe(
         response => {
-            //console.log(response);
-          console.log(response['allergens'][0]);
-
-            //console.log('estoy dentro');
-            this.food = response;
+           this.food = response;
             if(isUndefined(this.food)){
               this._router.navigate(['allFoods']);
             }
@@ -50,6 +49,10 @@ export class FoodDetailComponent implements OnInit {
           }
       );
     });
+  }
+
+  useLanguage(language: string) {
+    this._translate.use(language);
   }
 
 }

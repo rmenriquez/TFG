@@ -1,7 +1,7 @@
 <div class="col-md-12" *ngIf="food">
   <h1>{{food.title}}</h1>
   <div>
-    <label>Description: </label>
+    <label>{{ 'standard.description' | translate }}: </label>
     <p>
       <textarea disabled>{{food.description}}</textarea>
     </p>
@@ -9,16 +9,7 @@
 
   <div>
     <label>
-      Image:
-    </label>
-    <p>
-      {{food.image}}
-    </p>
-  </div>
-
-  <div>
-    <label>
-      Price:
+      {{'food.price' | translate}}:
     </label>
     <p>
       {{food.price}} €
@@ -26,7 +17,7 @@
   </div>
 
   <div>
-    <label>Allergens: </label>
+    <label>{{'allergens.allergens' | translate}}: </label>
     <div *ngIf="food.allergens != null">
     <ul *ngFor="let allergen of food.allergens">
       <li>
@@ -40,5 +31,5 @@
   </div>
 </div>
 <div class="col-md-12">
-  <a [routerLink]="['/allFoods']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+  <a [routerLink]="['/allFoods']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
 </div>
