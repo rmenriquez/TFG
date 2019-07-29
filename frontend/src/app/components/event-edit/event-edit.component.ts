@@ -95,7 +95,6 @@ export class EventEditComponent implements OnInit {
     }
 
     onSubmit(form){
-        console.log(this.event.id_event);
         this._eventService.updateEvent(this.event, this.event.id_event).subscribe(
             response => {
                 if(response == null){
@@ -161,7 +160,6 @@ export class EventEditComponent implements OnInit {
     }
 
     getFoods(){
-        console.log(this.event.id_event);
         this._foodService.getFoods().subscribe((foods: Food[]) => {
             this.foods = foods;
             let controls = [];
@@ -183,8 +181,6 @@ export class EventEditComponent implements OnInit {
 
     onSubmitStaff(form){
         //Recojo las comidas seleccionados
-        console.log(this.staffEvent);
-        console.log(this.staffForm.value.staff);
         const selectedStaffIds = this.staffForm.value.staff
             .map((v, i) => v ? this.staff[i].id_staff : null)
             .filter(v => v !== null);
@@ -194,7 +190,6 @@ export class EventEditComponent implements OnInit {
         let toDelete = [];
         let toAdd = [];
         selectedStaffIds.forEach((item, index) => {
-            console.log(item);
             //Recorro los alergenos almacenados en BD
             //Busco para cada alérgeno de la BD si existe en los seleccionados en el form
             let aux = this.staffEvent.find(function (elem){
@@ -222,9 +217,7 @@ export class EventEditComponent implements OnInit {
 
         this._eventService.updateEventStaff(this.event.id_event, send).subscribe(
             response => {
-                //console.log(response);
                 this.staffEdited = 'success';
-                //this._router.navigate(['eventDetail/',this.event.id_event]);
             },
             error => {
                 this.staffEdited = 'error';
@@ -237,10 +230,8 @@ export class EventEditComponent implements OnInit {
     getStaff(){
         console.log(this.event.id_event);
         this._staffService.getStaff().subscribe((staff: Staff[]) => {
-            console.log(staff);
             this.staff = staff;
             let controls = [];
-            console.log('hola staff');
             for(let person of this.staff) {
 
                 if ((this.staffEvent.find(aux => aux['id_staff'] === person['id_staff'])) != undefined) {

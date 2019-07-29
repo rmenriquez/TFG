@@ -1,29 +1,29 @@
 <div class="col-md-12" *ngIf="event">
     <h1>{{event.type}} de {{event.name}}</h1>
-    <label>Fecha</label>
+    <label>{{'event.date' | translate }}</label>
     <p>{{event.date}}</p>
-    <label>Momento</label>
+    <label>{{'event.moment' | translate }}</label>
     <p>{{event.moment}}</p>
-    <label>Número de invitados</label>
+    <label>{{'event.guests' | translate }}</label>
     <p>{{event.guests}}</p>
-    <label>Número de niños</label>
+    <label>{{'event.children' | translate }}</label>
     <p>{{event.children}}</p>
-    <label>¿Tiene mesa dulce externa?</label>
+    <label>{{'event.sweet_table' | translate }}</label>
     <p *ngIf="event.sweet_table == 1">Si</p>
     <p *ngIf="event.sweet_table == 0">No</p>
-    <label>Observaciones</label>
+    <label>{{'event.observations' | translate }}</label>
     <p>{{event.observations}}</p>
-    <label>Teléfono de contacto</label>
+    <label>{{'event.phone' | translate }}</label>
     <p>{{event.phone}}</p>
-    <label>Precio final</label>
+    <label>{{'event.price' | translate }}</label>
     <p>{{event.price}}</p>
-    <label>Comidas</label>
+    <label>{{'event.foods' | translate }}</label>
     <div *ngIf="event['food'] != null">
     <ul *ngFor="let food of event.food">
         <li>{{food['title']}}</li>
     </ul>
     </div>
-    <label>Personal</label>
+    <label>{{'event.waiters' | translate }}</label>
     <div *ngIf="event['staff'] != null">
         <ul *ngFor="let person of event.staff">
             <li>{{person['name']}} {{person['surnames']}}</li>
@@ -31,5 +31,5 @@
     </div>
 </div>
 <div class="col-md-12">
-    <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+    <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
 </div>
