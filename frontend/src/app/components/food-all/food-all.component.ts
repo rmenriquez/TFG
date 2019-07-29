@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+
 import { FoodService } from '../../services/food.service';
+
 import { UserService } from '../../services/user.service';
+
 import {isUndefined} from "util";
 
 @Component({
@@ -11,16 +15,16 @@ import {isUndefined} from "util";
 })
 export class FoodAllComponent implements OnInit {
 
-  public title: string;
   public foods: any = [];
 
   constructor(
       private _route: ActivatedRoute,
       private _router: Router,
       private _foodService: FoodService,
-      private _userService: UserService
+      private _userService: UserService,
+      private  _translate: TranslateService
   ) {
-    this.title = 'Foods';
+      _translate.setDefaultLang('es');
   }
 
   ngOnInit() {
@@ -34,7 +38,6 @@ export class FoodAllComponent implements OnInit {
   getFoods(){
     this._foodService.getFoods().subscribe(
         response => {
-          //console.log(response);
           this.foods = response;
         },
         error => {
@@ -46,7 +49,6 @@ export class FoodAllComponent implements OnInit {
   deleteFood(id){
     this._foodService.deleteFood(id).subscribe(
         response => {
-          //this._router.navigate['home'];
           this.getFoods();
 
         },
@@ -55,4 +57,8 @@ export class FoodAllComponent implements OnInit {
         }
     );
   }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
+    }
 }

@@ -1,13 +1,12 @@
 <div class="loading" *ngIf="!foods">Cargando...</div>
 <div class="col-md-12" *ngIf="foods">
-  <h2>{{title}}</h2>
+  <h2>{{'food.allFoods' | translate }}</h2>
 
   <table class="table table-hover table-striped" id="food-list" *ngIf="foods">
     <thead>
     <tr>
-      <th>Food</th>
-      <th>Image</th>
-      <th>Price</th>
+      <th>{{'food.title' | translate}}</th>
+      <th>{{'food.price' | translate}}</th>
     </tr>
     </thead>
     <tbody>
@@ -15,11 +14,10 @@
       <td>
         <a [routerLink]="['/foodDetail', food.id_food]">{{food.title}}</a>
       </td>
-      <td>{{food.image}}</td>
       <td>{{food.price}}</td>
       <td>
-        <a [routerLink]="['/editFood', food.id_food]" class="btn btn-warning">Edit</a>
-        <a (click)="deleteFood(food.id_food)" class="btn btn-danger"> Delete</a>
+        <a [routerLink]="['/editFood', food.id_food]" class="btn btn-warning">{{'standard.edit' | translate}}</a>
+        <a (click)="deleteFood(food.id_food)" class="btn btn-danger"> {{'standard.delete' | translate}}</a>
       </td>
     </tr>
     </tbody>

@@ -34,6 +34,7 @@
   "staff.surnames":"Apellidos",
   "staff.birthdate":"Fecha de nacimiento",
   "staff.editStaffTitle":" Editar ",
+  "food.allFoods": "Lista de comidas ",
   "food.newFoodTitle":"Crear nueva comida",
   "food.title":"Título de la comida",
   "food.price":"Precio",
