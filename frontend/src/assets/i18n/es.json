@@ -51,5 +51,6 @@
   "event.price":"Precio total",
   "event.newEventTitle":"Crear nueva comida",
   "event.foods":"Comidas",
+  "event.waiters":"Extras",
   "event.recommendedWaiters":"Camareros recomendados"
 }

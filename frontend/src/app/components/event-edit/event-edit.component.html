@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngIf="page_title"><h2>{{page_title}}</h2>
+<div class="col-md-12" *ngIf="page_title"><h2>{{'standard.edit' | translate }} {{page_title}}</h2>
 
     <div class="alert alert-danger" *ngIf="status == 'error'">
         El evento no se ha modificado
@@ -9,7 +9,7 @@
 
     <form #editEvent="ngForm" (ngSubmit)="onSubmit(editEvent)" class="col-md-5" *ngIf="event">
         <p>
-            <label for="type">Tipo</label>
+            <label for="type">{{'event.type' | translate }}</label>
             <input ngModel type="text" id="type" [(ngModel)]="event.type" class="form-control" name="type" #type="ngModel" required />
             <span *ngIf="!type.valid && type.touched">
               El tipo no es válido
@@ -20,7 +20,7 @@
         </div>
 
         <p>
-            <label for="name">Nombre</label>
+            <label for="name">{{'event.name' | translate }}</label>
             <input ngModel type="text" class="form-control" id="name" [(ngModel)]="event.name" name="name" #name="ngModel" required />
             <span *ngIf="!name.valid && name.touched">
                 El nombre no es válido
@@ -31,7 +31,7 @@
         </div>
 
         <p>
-            <label for="date">Fecha</label>
+            <label for="date">{{'event.date' | translate }}</label>
             <input ngModel type="date" class="form-control" id="date" [(ngModel)]="event.date" name="date" #date="ngModel" required />
             <span *ngIf="!date.valid && date.touched">
                 La fecha no es válida
@@ -42,7 +42,7 @@
         </div>
 
         <p>
-            <label for="guests">Número de invitados</label>
+            <label for="guests">{{'event.guests' | translate }}</label>
             <input ngModel type="number" class="form-control" id="guests" [(ngModel)]="event.guests" name="guests" #guests="ngModel" required/>
             <span *ngIf="!guests.valid && guests.touched">
                 El número de invitados no es válido
@@ -53,7 +53,7 @@
         </div>
 
         <p>
-            <label for="children">Número de niños</label>
+            <label for="children">{{'event.children' | translate }}</label>
             <input ngModel type="number" class="form-control" id="children" [(ngModel)]="event.children" name="children" #children="ngModel" required/>
             <span *ngIf="!children.valid && children.touched">
                 El número de niño no es válido
@@ -64,7 +64,7 @@
         </div>
 
         <p>
-            <label>¿Tiene mesa dulce externa?</label>
+            <label>{{'event.sweet_table' | translate }}</label>
             <select ngModel class="form-control" name="sweet_table" [(ngModel)]="event.sweet_table" #sweet_table="ngModel" required>
                 <option >Selecciona</option>
                 <option value="0">No</option>
@@ -76,7 +76,7 @@
         </div>
 
         <p>
-            <label for="observations">Observaciones</label>
+            <label for="observations">{{'event.observations' | translate }}</label>
             <textarea ngModel class="form-control" id="observations" [(ngModel)]="event.observations" name="observations" #observations="ngModel" required></textarea>
             <span *ngIf="!observations.valid && observations.touched">
                 Las observaciones no son válidas. Introduce al menos la hora del evento o la hora de llegada.
@@ -87,7 +87,7 @@
         </div>
 
         <p>
-            <label for="phone">Teléfono de contacto</label>
+            <label for="phone">{{'event.phone' | translate }}</label>
             <input ngModel type="number" class="form-control" id="phone" [(ngModel)]="event.phone" name="phone" #phone="ngModel" required/>
             <span *ngIf="!phone.valid && phone.touched">
                 El teléfono no es válido
@@ -97,14 +97,14 @@
             {{errors['phone']}}
         </div>
         <p>
-            <label for="price">Precio</label>
+            <label for="price">{{'event.price' | translate }}</label>
             <input ngModel type="number" class="form-control" id="price" [(ngModel)]="event.price" name="price" #price="ngModel"/>
         </p>
         <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
             {{errors['price']}}
         </div>
-        <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!editEvent.form.valid"/>
-        <a [routerLink]="['/allEvents']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
+        <input type="submit" value="{{'standard.send' | translate }}" class="btn btn-success" [disabled]="!editEvent.form.valid"/>
+        <a [routerLink]="['/allEvents']" ><input type="button" value="{{'standard.cancel' | translate }}" class="btn btn-danger" /> </a>
     </form>
 
 </div>
@@ -120,7 +120,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse1">Foods ( {{foodsEvent.length}} ) <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                    <a data-toggle="collapse" href="#collapse1">{{'event.foods' | translate }} ( {{foodsEvent.length}} ) <span class="glyphicon glyphicon-triangle-bottom"></span></a>
                 </h4>
             </div>
             <div id="collapse1" class="panel-collapse collapse">
@@ -133,7 +133,7 @@
 
                         <br>
                         <div class="col-md-5">
-                            <input type="submit" value="Guardar" class="btn btn-success"/>
+                            <input type="submit" value="{{'standard.send' | translate }}" class="btn btn-success"/>
                         </div>
                     </form>
                 </div>
@@ -152,7 +152,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4 class="panel-title">
-                    <a data-toggle="collapse" href="#collapse2">Staff ( {{staffEvent.length}} ) <span class="glyphicon glyphicon-triangle-bottom"></span></a>
+                    <a data-toggle="collapse" href="#collapse2">{{'event.waiters' | translate}} ( {{staffEvent.length}} ) <span class="glyphicon glyphicon-triangle-bottom"></span></a>
                 </h4>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
@@ -165,7 +165,7 @@
 
                         <br>
                         <div class="col-md-5">
-                            <input type="submit" value="Guardar" class="btn btn-success"/>
+                            <input type="submit" value="{{'standard.send' | translate }}" class="btn btn-success"/>
                         </div>
                     </form>
                 </div>
