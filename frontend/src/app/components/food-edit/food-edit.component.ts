@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
+import {TranslateService} from '@ngx-translate/core';
+
 import { FoodService } from '../../services/food.service';
 import { Food } from '../../models/food';
+
 import { UserService } from '../../services/user.service';
+
 import { AllergenService } from '../../services/allergen.service';
 import { Allergen } from "../../models/allergen";
-import { FormBuilder, FormGroup, FormControl, FormArray } from '@angular/forms';
 
 
 import { isUndefined } from "util";
@@ -39,9 +43,11 @@ export class FoodEditComponent implements OnInit {
       private _router: Router,
       private _foodService: FoodService,
       private _userService: UserService,
-      private _allergenService: AllergenService
+      private _allergenService: AllergenService,
+      private  _translate: TranslateService
   ) {
       this.identity = this._userService.getIdentity();
+      _translate.setDefaultLang('es');
   }
 
   ngOnInit() {
@@ -49,7 +55,6 @@ export class FoodEditComponent implements OnInit {
           this._router.navigate(["/login"]);
       }
     this._route.params.subscribe(params => {
-      //console.log(params);
       let id_food = params['id'];
       this.getFood(id_food);
     });
@@ -58,18 +63,13 @@ export class FoodEditComponent implements OnInit {
   getFood(id_food){
       this._foodService.viewFood(id_food).subscribe(
           response => {
-            //console.log(response);
-
-            //console.log('estoy dentro');
             this.food = response;
             if(isUndefined(this.food)){
                 this._router.navigate(['allFoods']);
 
             }
-            //console.log(this.food.allergens);
-            //console.log(this.food.allergens[0]['name_allergen']);
             this.allergensFood = this.food.allergens;
-            this.page_title = 'Editar ' + this.food.title;
+            this.page_title =  this.food.title;
             this.getAllergens();
           },
           error => {
@@ -81,7 +81,6 @@ export class FoodEditComponent implements OnInit {
   }
 
   onSubmit(form){
-    //Servicio
     console.log(this.food.id_food);
     this._foodService.updateFood(this.food, this.food.id_food).subscribe(
         response => {
@@ -108,9 +107,6 @@ export class FoodEditComponent implements OnInit {
             .map((v, i) => v ? this.allergens[i].id_allergen : null)
             .filter(v => v !== null);
 
-        console.log(selectedAllergenIds);
-
-
         let toDelete = [];
         let toAdd = [];
         selectedAllergenIds.forEach((item, index) => {
@@ -136,9 +132,6 @@ export class FoodEditComponent implements OnInit {
             }
         }
 
-        console.log(toDelete);
-        console.log(toAdd);
-
 
 
         this._foodService.updateFoodAllergens(this.food.id_food, toAdd, toDelete).subscribe(
@@ -161,12 +154,9 @@ export class FoodEditComponent implements OnInit {
             let controls = [];
 
             for(let allergen of this.allergens){
-                console.log(allergen['id_allergen']);
                 if((this.allergensFood.find(aux => aux['id_allergen'] === allergen['id_allergen'] )) != undefined){
-                    console.log('hola');
                     controls.push(new FormControl(true));
                 }else{
-                    console.log('adios');
                     controls.push(new FormControl(false));
                 }
             }
@@ -175,6 +165,10 @@ export class FoodEditComponent implements OnInit {
                 allergens: new FormArray(controls)
             });
         });
+    }
+
+    useLanguage(language: string) {
+        this._translate.use(language);
     }
 
 }
