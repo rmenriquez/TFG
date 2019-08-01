@@ -1,12 +1,15 @@
-<div class="col-md-12" *ngIf="staff">
-    <h2>{{staff.name}} {{staff.surnames}}</h2>
-    <label>{{ 'staff.id_staff' | translate }}</label>
-    <p>{{staff.id_staff}}</p>
-    <label>{{ 'staff.birthdate' | translate }}</label>
-    <p>{{staff.birthdate}} €</p>
-    <label>{{ 'standard.email' | translate }}</label>
-    <p>{{staff.email}}</p>
-</div>
-<div class="col-md-12">
-    <a [routerLink]="['/allStaff']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate}}</span></a>
+<div id="container">
+    <div id="details" class="col-md-8" *ngIf="staff">
+        <h2>{{staff.name}} {{staff.surnames}}</h2>
+        <label>{{ 'staff.id_staff' | translate }}</label>
+        <p>{{staff.id_staff}}</p>
+        <label>{{ 'staff.birthdate' | translate }}</label>
+        <p>{{staff.birthdate}} €</p>
+        <label>{{ 'standard.email' | translate }}</label>
+        <p>{{staff.email}}</p>
+        <div class="col-md-12">
+            <a [routerLink]="['/allStaff']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate}}</span></a>
+        </div>
+    </div>
+
 </div>

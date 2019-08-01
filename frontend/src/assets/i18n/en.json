@@ -1,5 +1,4 @@
-{"demo.title":"Translation demo",
-  "demo.text":"this is a simple demostration",
+{"standard.email":"Email",
   "standard.send":"Save",
   "standard.cancel":"Cancel",
   "standard.back":"Back",
@@ -9,9 +8,9 @@
   "standard.description":"Description",
   "register.title":"Register",
   "register.submit":"Register me",
+  "register.charactersNotAllowed":"Accents and ñ letters are not allowed",
   "user.userName":"Username",
   "user.password":"Password",
-  "standard.email":"Email",
   "main.login":"Login",
   "main.loginTitle":"Login",
   "main.registerTitle":"Register",
@@ -54,5 +53,5 @@
   "event.foods":"Foods",
   "event.waiters":"Extras",
   "event.recommendedWaiters":"Recommended waiters",
-  "event.allEvents": "List of foods "
+  "event.allEvents": "List of events "
 }

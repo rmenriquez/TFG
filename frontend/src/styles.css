@@ -40,7 +40,7 @@ h3{
 }
 
 .hijo h2{
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .hijo > form{
@@ -54,7 +54,142 @@ h3{
     margin-top: 15px;
 }
 
+.hijo form > a{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
 form{
     text-align: center;
 }
 
+#register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+#default{
+    justify-content: center;
+    align-items: center;
+    opacity: 0.9;
+    background: #E0CBC6;
+    height: 350px;
+    border-radius: 36px 36px 36px 36px;
+
+}
+
+#new{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    opacity: 0.9;
+    margin-bottom: 20px;
+}
+
+#new textarea{
+    height:100px;
+}
+
+/*Default*/
+
+#container{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#list{
+    opacity: 0.9;
+    background: #E0CBC6;
+    border-radius: 36px 36px 36px 36px;
+    margin-bottom: 20px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+}
+
+#details{
+    flex-direction: column;
+    opacity: 0.9;
+    background: #E0CBC6;
+    border-radius: 36px 36px 36px 36px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+#details textarea {
+    width:300px;
+    height:100px;
+}
+
+.news {
+    opacity: 0.9;
+    background: #E0CBC6;
+    border-radius: 36px 36px 36px 36px;
+    text-align: center;
+    align-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+/*Food*/
+
+#food-list{
+    width: 70%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#food-list th,td{
+    text-align: center;
+}
+
+#food-list .btn{
+    text-align: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/*Event*/
+
+#event-list{
+    width: 70%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#event-list th,td{
+    text-align: center;
+}
+
+#event-list .btn{
+    text-align: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/*Staff*/
+#staff-list{
+    width: 70%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#staff-list th,td{
+    text-align: center;
+}
+
+#staff-list .btn{
+    text-align: left;
+    margin-left: 5px;
+    margin-right: 5px;
+}

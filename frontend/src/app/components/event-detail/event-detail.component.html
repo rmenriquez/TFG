@@ -1,4 +1,5 @@
-<div class="col-md-12" *ngIf="event">
+<div id="container">
+    <div id="details" class="col-md-10" *ngIf="event">
     <h1>{{event.type}} de {{event.name}}</h1>
     <label>{{'event.date' | translate }}</label>
     <p>{{event.date}}</p>
@@ -29,7 +30,9 @@
             <li>{{person['name']}} {{person['surnames']}}</li>
         </ul>
     </div>
+        <div class="col-md-12">
+            <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
+        </div>
 </div>
-<div class="col-md-12">
-    <a [routerLink]="['/allEvents']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
+
 </div>

@@ -1,5 +1,19 @@
 #header{
     margin-top: 10px;
     background: #E0CBC6;
+    border-color: transparent;
     border-radius: 15px 15px 15px 15px;
+}
+
+#esp{
+    background-image: url("../assets/images/es.svg");
+    width: 25px;
+    height: 20px;
+    border-radius: 5px 5px 5px 5px;
+}
+#eng{
+    background-image: url("../assets/images/gb.svg");
+    width: 25px;
+    height: 20px;
+    border-radius: 5px 5px 5px 5px;
 }

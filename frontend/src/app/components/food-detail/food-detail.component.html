@@ -1,35 +1,38 @@
-<div class="col-md-12" *ngIf="food">
-  <h1>{{food.title}}</h1>
-  <div>
-    <label>{{ 'standard.description' | translate }}: </label>
-    <p>
-      <textarea disabled>{{food.description}}</textarea>
-    </p>
-  </div>
-
-  <div>
-    <label>
-      {{'food.price' | translate}}:
-    </label>
-    <p>
-      {{food.price}} €
-    </p>
-  </div>
-
-  <div>
-    <label>{{'allergens.allergens' | translate}}: </label>
-    <div *ngIf="food.allergens != null">
-    <ul *ngFor="let allergen of food.allergens">
-      <li>
-        {{allergen.name_allergen}}
-      </li>
-    </ul>
+<div id="container">
+  <div id="details" class="col-md-8" *ngIf="food">
+    <h1>{{food.title}}</h1>
+    <div>
+      <label>{{ 'standard.description' | translate }}: </label>
+      <p>
+        <textarea disabled>{{food.description}}</textarea>
+      </p>
     </div>
-    <ul *ngIf="food.allergens == ''">
-      <label>No tiene alérgenos</label>
-    </ul>
+
+    <div>
+      <label>
+        {{'food.price' | translate}}:
+      </label>
+      <p>
+        {{food.price}} €
+      </p>
+    </div>
+
+    <div>
+      <label>{{'allergens.allergens' | translate}}: </label>
+      <div *ngIf="food.allergens != null">
+        <ul *ngFor="let allergen of food.allergens">
+          <li>
+            {{allergen.name_allergen}}
+          </li>
+        </ul>
+      </div>
+      <ul *ngIf="food.allergens == ''">
+        <label>No tiene alérgenos</label>
+      </ul>
+    </div>
+    <div class="col-md-12">
+      <a [routerLink]="['/allFoods']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
+    </div>
   </div>
-</div>
-<div class="col-md-12">
-  <a [routerLink]="['/allFoods']"><span class="glyphicon glyphicon-circle-arrow-left">{{'standard.back' | translate }}</span></a>
+
 </div>

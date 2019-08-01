@@ -1,8 +1,9 @@
+<div id="container">
 <div class="loading" *ngIf="!events">Cargando...</div>
-<div class="col-md-12" *ngIf="events">
+<div id="list" class="col-md-10" *ngIf="events">
     <h2>{{ 'event.allEvents' | translate }}</h2>
 
-    <table class="table table-hover table-striped" id="food-list" *ngIf="events">
+    <table class="table table-hover table-striped" id="event-list" *ngIf="events">
         <thead>
         <tr>
             <th>{{ 'event.type' | translate }}</th>
@@ -25,4 +26,5 @@
         </tr>
         </tbody>
     </table>
+</div>
 </div>

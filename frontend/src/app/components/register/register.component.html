@@ -1,4 +1,5 @@
-<div class="col-md-12">
+<div id="register" class="col-md-12">
+    <div class="hijo">
     <h2>{{'register.title' | translate}}</h2>
 
     <div class="alert alert-success" *ngIf="status == 'success'">
@@ -17,8 +18,10 @@
         <div *ngIf="errors.name !== undefined" class="alert alert-danger">{{errors.name}}</div>
         <p> <label for="user">{{'user.userName' | translate}}</label>
             <input ngModel type="text"  name="user" id="user" class="form-control" required />
-
         </p>
+        <div class="alert alert-warning" role="alert">
+            {{'register.charactersNotAllowed' | translate}}
+        </div>
         <div *ngIf="errors.user !== undefined" class="alert alert-danger">{{errors.user}}</div>
         <p> <label for="password">{{'user.password'| translate}}</label>
             <input ngModel type="password" name="password" id="password" class="form-control" required />
@@ -52,4 +55,5 @@
         <input type="submit" value="{{'register.submit' | translate}}" class="btn btn-success">
 
     </form>
+    </div>
 </div>

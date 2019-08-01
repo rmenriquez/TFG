@@ -1,6 +1,4 @@
-{"demo.title":"Demostracion de la demo",
-  "demo.text":"Es una mera demostración",
-  "standard.email":"Email",
+{"standard.email":"Email",
   "standard.send":"Guardar",
   "standard.cancel":"Cancelar",
   "standard.back":"Atrás",
@@ -10,6 +8,7 @@
   "standard.description":"Descripción",
   "register.title":"Regístrate",
   "register.submit":"Regístrame",
+  "register.charactersNotAllowed":"No se permiten letras con acentos ni la ñ",
   "user.userName":"Nombre de usuario",
   "user.password":"Contraseña",
   "main.login":"Entrar",
@@ -54,6 +53,6 @@
   "event.foods":"Comidas",
   "event.waiters":"Extras",
   "event.recommendedWaiters":"Camareros recomendados",
-  "event.allEvents": "Lista de comidas "
+  "event.allEvents": "Lista de eventos "
 
 }

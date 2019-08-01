@@ -1,4 +1,5 @@
-<div class="col-md-12" ><h2>{{'staff.newStaffTitle'| translate}}</h2>
+<div id="new">
+<div class="col-md-10 hijo" ><h2>{{'staff.newStaffTitle'| translate}}</h2>
 
   <div class="alert alert-danger" *ngIf="status == 'error'">
     El empleado no se ha creado
@@ -63,4 +64,5 @@
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newStaff.form.valid"/>
     <a [routerLink]="['/allStaff']" ><input type="button" value="Cancelar" class="btn btn-danger" /> </a>
   </form>
+</div>
 </div>
