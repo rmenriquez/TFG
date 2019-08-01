@@ -138,11 +138,14 @@ CREATE TABLE IF NOT EXISTS `food_event` (
 
 --
 -- Volcado de datos para la tabla `user`
--- Por cada 20 personas, atienden n_cli_X camareros 
+-- Número de personas que le tocan a cada camarero
+-- User: Novaino Pass: novaiño
+-- User: PazoMonterrey Pass: monterrey
+-- User: Galileo Pass: galileo
 INSERT INTO `user` (`id_user`, `name`, `user`, `password`, `n_cli_wedding`, `n_cli_christening`, `n_cli_communion`, `n_cli_others`) VALUES
-(1, 'Raquel', 'Novaino', 'novaiño', 1, 1, 1, 1),
-(2, 'Sandra', 'PazoMonterrey', 'monterrey', 2, 1, 1, 1),
-(3, 'Fabio', 'Galileo', 'galileo', 3, 2, 2, 2);
+(1, 'Raquel', 'Novaino', 'cc3bc5df1148022ba629cb2aae83ba29', 20, 21,22, 15),
+(2, 'Sandra', 'PazoMonterrey', '4e9eaa94e20007ec2e3a4cbba15ff974', 20, 20, 20, 25),
+(3, 'Fabio', 'Galileo', '638190bf025179ecebcc1b3d019a0230', 13, 15, 10, 10);
 
 --
 -- Volcado de datos para la tabla `food`
