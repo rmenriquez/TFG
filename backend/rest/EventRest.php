@@ -269,7 +269,7 @@ class EventRest extends BaseRest
 
     }
 
-    //Funciona a la perfección
+
     public function setFoodsEvent($id_event, $data){
         $foodsEvent = array();
         //var_dump($data);
@@ -300,7 +300,7 @@ class EventRest extends BaseRest
         }
     }
 
-    //Funciona a la perfección
+
     public function deleteFoodsEvent($id_event, $data){
 
         try{
@@ -313,7 +313,7 @@ class EventRest extends BaseRest
         }
     }
 
-    //Funciona a la perfección
+
     public function updateFoodsEvent($id_event, $data){
 
         $toAdd = array();
@@ -366,7 +366,7 @@ class EventRest extends BaseRest
 
     }
 
-    //Funciona a la perfección
+
     /**
      * @param $id_event
      * @param $data
@@ -421,27 +421,13 @@ class EventRest extends BaseRest
                 $generateUID = str_replace("T", "", $dateCreated)."@tfg.com";
 
                 $ical_start ="BEGIN:VCALENDAR
-                    VERSION:2.0
-                    PRODID:-//hacksw/handcal//NONSGML v1.0//EN
-                    METHOD:REQUEST
-                    X-WR-TIMEZONE:UTC";
-                /*$ical_content ="BEGIN:VEVENT
-                    UID:". $generateUID ."
-                    DTSTAMP:".$dateCreated.
-                    "ATTENDEE;RSVP=TRUE;CN=;X-NUM-GUESTS=0:MAILTO:".$currentUser->getEmail()."test@test.com
-                    LOCATION:
-                    ORGANIZER;CN=webnersolutions ;SENT-BY=”MAILTO:'".$currentUser->getEmail()."':MAILTO:
-                    ".$currentUser->getEmail()."
-                    DTSTART:".$dateStartICal.
-                    "
-                    DTEND:".$dateFinalICal.
-                    "
-                    DESCRIPTION:".$event->getType() ." " .$event->getName() ." - ". $event->getMoment() ."
-                    STATUS:CONFIRMED
-                    SEQUENCE:0
-                    SUMMARY:RSVP button
-                    TRANSP:OPAQUE
-                    END:VEVENT";*/
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+METHOD:REQUEST
+X-WR-TIMEZONE:UTC";
+
+                $summary = $event->getType() ." " .$event->getName(). " - " . $event->getMoment();
+
                 $finIcal = "END:VCALENDAR";
 
 
@@ -478,31 +464,28 @@ class EventRest extends BaseRest
                 /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
                 foreach ($arrayStaffEmail as $email){
                     $mail->AddAddress($email["email"]);
-                    $ical_start = $ical_start.
-                        "BEGIN:VEVENT
-                        UID:". $generateUID ."
-                        DTSTAMP:".$dateCreated.
-                            "ATTENDEE;RSVP=TRUE;CN=;X-NUM-GUESTS=0:MAILTO:".$email["email"]."
-                            DESCRIPTION:".$event->getType() ." " .$event->getName() ." - ". $event->getMoment() ."
-                        LOCATION:
-                        ORGANIZER;CN=".$currentUser->getName()." ;SENT-BY=”MAILTO:'".$currentUser->getEmail()."':MAILTO:
-                        ".$currentUser->getEmail()."
-                        DTSTART:".$dateStartICal.
-                            "
-                        DTEND:".$dateFinalICal.
-                            "                        
-                        STATUS:CONFIRMED
-                        SEQUENCE:0
-                        SUMMARY:RSVP button
-                        TRANSP:OPAQUE
-                        END:VEVENT
-                        ";
+                    $ical_start = $ical_start."
+BEGIN:VEVENT
+UID:". $generateUID ."
+DTSTAMP:".$dateCreated."
+ATTENDEE;RSVP=TRUE;CN=;X-NUM-GUESTS=0:MAILTO:".$email["email"]."
+DESCRIPTION:".$event->getType() ." " .$event->getName() ." - ". $event->getMoment() ."
+LOCATION:
+ORGANIZER;CN=".$currentUser->getName().";SENT-BY=MAILTO:".$currentUser->getEmail()."
+DTSTART:".$dateStartICal."
+DTEND:".$dateFinalICal."
+STATUS:CONFIRMED
+SEQUENCE:0
+SUMMARY:". $summary ."
+TRANSP:OPAQUE
+END:VEVENT
+";
 
                 }
 
                 $ical_content = $ical_start . $finIcal;
 
-                echo $ical_content;
+                //echo $ical_content;
 
                 $mail->AddReplyTo($currentUser->getEmail(),$currentUser->getName());
 
@@ -608,6 +591,32 @@ class EventRest extends BaseRest
                     $this->eventMapper->setStaffEvent($toAdd);
                     $mail = new PHPMailer();
 
+                    $dateCreated = new DateTime();
+                    $dateCreated = $dateCreated->format('Ymd His');
+                    $dateCreated = str_replace(" ", "T", $dateCreated);
+
+                    $dateStart = date_create_from_format('Y-m-d', $event->getDate());
+                    $dateStartICal = date_format($dateStart, 'Y-m-d H:i:s');
+                    $dateStartICal = str_replace("-", "", $dateStartICal);
+                    $dateStartICal = str_replace(" ", "T", $dateStartICal);
+                    $dateStartICal = str_replace(":", "", $dateStartICal);
+
+                    $aux = $dateStart->add(new DateInterval('P1D'));
+                    $dateFinalICal = $aux->format('Ymd His');
+                    $dateFinalICal = str_replace(" ", "T", $dateFinalICal);
+
+                    $generateUID = str_replace("T", "", $dateCreated)."@tfg.com";
+
+                    $ical_start ="BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+METHOD:REQUEST
+X-WR-TIMEZONE:UTC";
+
+                    $summary = $event->getType() ." " .$event->getName(). " - " . $event->getMoment();
+
+                    $finIcal = "END:VCALENDAR";
+
                     $date = $event->getDate();
                     $time = strtotime($date);
                     $myFormatForView = date("d/m/Y", $time);
@@ -641,12 +650,32 @@ class EventRest extends BaseRest
                     /* Sustituye  (CuentaDestino )  por la cuenta a la que deseas enviar por ejem. admin@domitienda.com  */
                     foreach ($arrayStaffEmailAdd as $email){
                         $mail->AddAddress($email["email"]);
+                        $ical_start = $ical_start."
+BEGIN:VEVENT
+UID:". $generateUID ."
+DTSTAMP:".$dateCreated."
+ATTENDEE;RSVP=TRUE;CN=;X-NUM-GUESTS=0:MAILTO:".$email["email"]."
+DESCRIPTION:".$event->getType() ." " .$event->getName() ." - ". $event->getMoment() ."
+LOCATION:
+ORGANIZER;CN=".$currentUser->getName().";SENT-BY=MAILTO:".$currentUser->getEmail()."
+DTSTART:".$dateStartICal."
+DTEND:".$dateFinalICal."
+STATUS:CONFIRMED
+SEQUENCE:0
+SUMMARY:". $summary ."
+TRANSP:OPAQUE
+END:VEVENT
+";
                     }
+
+                    $ical_content = $ical_start . $finIcal;
 
                     $mail->AddReplyTo($currentUser->getEmail(),$currentUser->getName());
 
                     $mail->AltBody = 'Hola! ¿Podrías venir el ' . $myFormatForView . ' a trabajar al evento '. $event->getType() . ' de ' . $event->getName() .'? 
                                 Te ruego me contestes en cuanto sea posible. Con cualquier duda o contratiempo llámame.';
+
+                    $mail->addStringAttachment($ical_content,'ical.ics','base64','text/calendar');
 
                     /* Sustituye (CuentaDeEnvio )  por la misma cuenta que usaste en la parte superior en este caso  prueba@domitienda.com  y sustituye (ContraseñaDeEnvio)  por la contraseña que tenga dicha cuenta */
 
