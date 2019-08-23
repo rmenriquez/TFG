@@ -145,14 +145,14 @@ class EventRest extends BaseRest
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
             echo("Event with id ".$eventId." not found");
         }
-        if($event->getRestaurant() != $currentUser->getIdUser()){
+        if($event != null && $event->getRestaurant() != $currentUser->getIdUser()){
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
-            echo("You are not the authorized user for view this note");
+            echo("You are not the authorized user for view this event");
             return;
         }
 
         $food = $this->eventMapper->AllFoodEvent($eventId);
-        $staff = $this->eventMapper->getAllstaffEvent($eventId);
+        $staff = $this->eventMapper->getAllstaffEvent($eventId, $currentUser->getIdUser());
         $event_array = array(
             "id_event"=>$event->getIdEvent(),
             "type"=>$event->getType(),
@@ -177,8 +177,6 @@ class EventRest extends BaseRest
 
 //Funciona a la perfección
     public function updateEvent($eventId, $data){
-        //var_dump($data);
-        //var_dump($eventId);
         $currentUser = parent::authenticateUser();
 
         $event = $this->eventMapper->findById($eventId);
@@ -380,8 +378,8 @@ class EventRest extends BaseRest
         foreach ($data as $staff){
             //inserta nombre del personal y el mail
             array_push($arrayStaffEmail, array(
-                "name" => $this->staffMapper->findById($staff)->getName(),
-                "email" => $this->staffMapper->findById($staff)->getEmail()
+                "name" => $this->staffMapper->findById($staff, $currentUser->getIdUser())->getName(),
+                "email" => $this->staffMapper->findById($staff, $currentUser->getIdUser())->getEmail()
             ));
             //inserta el personal y el evento
             array_push($staffEvent,array(
@@ -568,8 +566,8 @@ END:VEVENT
                     "invited" => 1
                 ));
                 array_push($arrayStaffEmailAdd, array(
-                    "name" => $this->staffMapper->findById($personAdd)->getName(),
-                    "email" => $this->staffMapper->findById($personAdd)->getEmail()
+                    "name" => $this->staffMapper->findById($personAdd, $currentUser->getIdUser())->getName(),
+                    "email" => $this->staffMapper->findById($personAdd, $currentUser->getIdUser())->getEmail()
                 ));
             }
         }
@@ -579,8 +577,8 @@ END:VEVENT
                     "staff" => $personDelete
                 ));
                 array_push($arrayStaffEmailDelete, array(
-                    "name" => $this->staffMapper->findById($personDelete)->getName(),
-                    "email" => $this->staffMapper->findById($personDelete)->getEmail()
+                    "name" => $this->staffMapper->findById($personDelete, $currentUser->getIdUser())->getName(),
+                    "email" => $this->staffMapper->findById($personDelete,$currentUser->getIdUser())->getEmail()
                 ));
             }
         }

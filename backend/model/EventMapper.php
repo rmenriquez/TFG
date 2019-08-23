@@ -111,9 +111,12 @@ class EventMapper
 
 
     public function findById($idEvent){
-        $stmt = $this->db->prepare("SELECT event.id_event, event.type, event.name, event.moment, event.date, event.guests, event.children, event.sweet_table, event.observations, event.phone, event.restaurant, event.price
-                                        FROM event, user WHERE event.id_event =? AND event.restaurant = user.id_user");
-        $stmt->execute(array($idEvent));
+
+       $stmt = $this->db->prepare("SELECT e.id_event, e.type, e.name, e.moment, e.date, e.guests, e.children, e.sweet_table, e.observations, e.phone, e.restaurant, e.price FROM event e JOIN user u ON e.restaurant = u.id_user WHERE e.id_event = :i");
+
+        $stmt->bindParam(":i", $idEvent);
+
+        $stmt->execute();
         $event = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if($event != null) {
@@ -134,6 +137,7 @@ class EventMapper
             return NULL;
         }
     }
+
 
     /**
      * Saves an Event into the database
@@ -182,10 +186,10 @@ class EventMapper
      * Retrieves all staff for that $event
      * @param Event $event
      */
-    public function getAllstaffEvent($event){
+    public function getAllstaffEvent($event, $restaurant){
         $stmt = $this->db->prepare("SELECT id_staff, name, surnames FROM staff
-                                        WHERE id_staff IN (SELECT staff FROM staff_event WHERE event =?)");
-        $stmt->execute(array($event));
+                                        WHERE restaurant = ? AND id_staff IN (SELECT staff FROM staff_event WHERE event =?)");
+        $stmt->execute(array($restaurant,$event));
         $staffs_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         return $staffs_db;

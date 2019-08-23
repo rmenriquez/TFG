@@ -1,7 +1,8 @@
-<div class="col-md-12" *ngIf="user">
+<div id="container">
+<div id="details" class="col-md-10" *ngIf="user">
     <h1>{{user['user']}}</h1>
     <div>
-        <label>{{ 'user.name' | translate }} </label>
+        <label>{{ 'user.bossName' | translate }} </label>
         <p>
             {{user['name']}}
         </p>
@@ -44,12 +45,14 @@
     </div>
 
     <div>
-        <label>{{ 'user.email' | translate }} </label>
+        <label>{{ 'standard.email' | translate }} </label>
         <p>
             {{user['email']}}
         </p>
     </div>
-</div>
+
 <div class="col-md-12">
     <a [routerLink]="['']"><span class="glyphicon glyphicon-circle-arrow-left">Back</span></a>
+</div>
+</div>
 </div>
