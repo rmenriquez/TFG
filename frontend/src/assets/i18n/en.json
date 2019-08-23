@@ -53,5 +53,7 @@
   "event.foods":"Foods",
   "event.waiters":"Extras",
   "event.recommendedWaiters":"Recommended waiters",
-  "event.allEvents": "List of events "
+  "event.allEvents": "List of events ",
+  "event.messageTypes": "The types of events are: Wedding, Christening, Communion or Others",
+  "event.messageMoment": "The moments are: Morning or Night"
 }

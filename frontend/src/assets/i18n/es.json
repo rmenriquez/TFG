@@ -49,10 +49,12 @@
   "event.observations":"Observaciones ",
   "event.phone":"Teléfono de contacto",
   "event.price":"Precio total",
-  "event.newEventTitle":"Crear nueva comida",
+  "event.newEventTitle":"Crear nuevo evento",
   "event.foods":"Comidas",
   "event.waiters":"Extras",
   "event.recommendedWaiters":"Camareros recomendados",
-  "event.allEvents": "Lista de eventos "
+  "event.allEvents": "Lista de eventos ",
+  "event.messageTypes": "Los tipos de eventos son : Boda, Bautizo, Comunión u Otros",
+  "event.messageMoment": "Los momentos son: Mañana o Noche"
 
 }

@@ -11,7 +11,10 @@
     <form #newEvent="ngForm" (ngSubmit)="onSubmit(newEvent)" class="col-md-5">
       <p>
         <label for="type">{{'event.type' | translate }}</label>
-        <input ngModel type="text" id="type" class="form-control" name="type" #type="ngModel" required />
+        <input ngModel type="text" id="type" class="form-control span-message" name="type" #type="ngModel" required />
+        <span class="alert alert-warning" >
+          {{'event.messageTypes' | translate }}
+        </span>
         <span *ngIf="!type.valid && type.touched">
                 El tipo no es válido
         </span>
@@ -32,7 +35,10 @@
       </div>
       <p>
         <label for="moment">{{'event.moment' | translate }}</label>
-        <input ngModel type="text" class="form-control" id="moment"  name="moment" #moment="ngModel" required />
+        <input ngModel type="text" class="form-control span-message" id="moment"  name="moment" #moment="ngModel" required />
+        <span class="alert alert-warning" >
+          {{'event.messageMoment' | translate }}
+        </span>
         <span *ngIf="!name.valid && name.touched">
                   El momento no es válido
         </span>

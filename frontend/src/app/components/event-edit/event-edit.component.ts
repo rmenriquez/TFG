@@ -95,7 +95,7 @@ export class EventEditComponent implements OnInit {
     }
 
     onSubmit(form){
-        this._eventService.updateEvent(this.event, this.event.id_event).subscribe(
+        this._eventService.updateEvent(this.event.id_event,this.event).subscribe(
             response => {
                 if(response == null){
                     this.status = 'success';

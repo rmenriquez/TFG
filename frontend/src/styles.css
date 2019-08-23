@@ -126,11 +126,6 @@ form{
     padding-bottom: 15px;
 }
 
-#details textarea {
-    width:300px;
-    height:100px;
-}
-
 .news {
     opacity: 0.9;
     background: #E0CBC6;
@@ -139,6 +134,10 @@ form{
     align-content: center;
     align-items: center;
     padding-bottom: 15px;
+}
+
+.span-message{
+    margin-bottom: 20px;
 }
 
 /*Food*/
