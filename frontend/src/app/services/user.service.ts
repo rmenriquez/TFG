@@ -27,10 +27,8 @@ export class UserService {
         console.log(user);
         console.log(user['password']);
         let pwd = user['password'];
-        console.log(Md5.init(pwd));
         user['password'] = Md5.init(pwd);
         let params = JSON.stringify(user as User);
-        //console.log(params);
 
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
@@ -43,7 +41,7 @@ export class UserService {
         let headers = new HttpHeaders({'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(login + ':'+Md5.init(password))});
 
-        return this._http.get<User>(`http://localhost:8888/TFG/backend/rest/user/${login}`, {headers: headers})
+        return this._http.get<User>(`http://localhost:8080/TFG/backend/rest/user/${login}`, {headers: headers})
         .pipe(
             tap(response => {
                 this.identity = response as User;
