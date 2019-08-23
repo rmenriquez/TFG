@@ -20,7 +20,7 @@ export class StaffNewComponent implements OnInit {
   private staff: Staff;
   public status: string;
 
-  private errors = {};
+  public errors = {};
 
   constructor(
       private _route: ActivatedRoute,

@@ -25,10 +25,10 @@ import { StaffService } from '../../services/staff.service';
 export class EventNewComponent implements OnInit {
 
   private identity;
-  private event: Event;
-  private status: string;
+  public event: Event;
+  public status: string;
 
-  private errors = {};
+  public errors = {};
 
   foodForm: FormGroup;
   foods: Food[];

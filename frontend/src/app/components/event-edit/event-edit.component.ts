@@ -27,10 +27,10 @@ import {isUndefined} from "util";
 export class EventEditComponent implements OnInit {
 
     private identity;
-    private page_title: string;
+    public page_title: string;
     private status: string;
 
-    private event: Event;
+    public event: Event;
 
     private errors: {};
 

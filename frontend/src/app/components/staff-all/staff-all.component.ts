@@ -13,7 +13,7 @@ import {isUndefined} from "util";
 })
 export class StaffAllComponent implements OnInit {
 
-  private staff: any[];
+  public staff: any[];
 
   constructor(
       private _route: ActivatedRoute,

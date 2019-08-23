@@ -19,7 +19,7 @@ import {isUndefined} from "util";
 
 export class StaffEditComponent implements OnInit{
 
-    private page_title: string;
+    public page_title: string;
     private status: string;
     private staff: Staff;
 

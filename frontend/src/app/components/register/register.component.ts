@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit{
     public user: User;
     public status: string;
 
-    public errors = {};
+    public errors:any = {};
 
     constructor(
         private _route: ActivatedRoute,

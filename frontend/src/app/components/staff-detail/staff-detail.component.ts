@@ -17,7 +17,7 @@ import {isUndefined} from "util";
 })
 
 export class StaffDetailComponent implements OnInit{
-    private staff: Staff;
+    public staff: Staff;
 
     constructor(
         private _route: ActivatedRoute,

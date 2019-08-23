@@ -21,7 +21,7 @@ import { isUndefined } from "util";
 })
 export class FoodEditComponent implements OnInit {
 
-  private page_title: string;
+  public page_title: string;
   private status: string;
   private identity;
 
