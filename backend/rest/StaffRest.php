@@ -50,7 +50,7 @@ class StaffRest extends BaseRest{
     public function viewPerson($staffId){
         $currentUser = parent::authenticateUser();
 
-        $staff = $this->staffMapper->findById($staffId);
+        $staff = $this->staffMapper->findById($staffId, $currentUser->getIdUser());
 
         if($staff == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');

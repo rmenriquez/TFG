@@ -72,9 +72,9 @@ class StaffMapper
      * @param $id
      * @return null|Staff
      */
-    public function findById($id){
-        $stmt = $this->db->prepare("SELECT * FROM staff WHERE id_staff = ?");
-        $stmt->execute(array($id));
+    public function findById($idStaff, $restaurant){
+        $stmt = $this->db->prepare("SELECT * FROM staff WHERE id_staff = ? and restaurant = ?");
+        $stmt->execute(array($idStaff, $restaurant));
 
         $staff = $stmt->fetch(PDO::FETCH_ASSOC);
 
