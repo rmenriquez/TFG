@@ -28,16 +28,13 @@ class FoodMapper
         $stmt = $this->db->prepare("SELECT id_food, title, description, image, price
                                                 FROM food, user WHERE restaurant = ? AND id_user = restaurant");
         $stmt->execute(array($restaurant));
-        //print_r($stmt);
         $foods_db = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        //print_r($foods_db);
         $foods = array();
 
         foreach ($foods_db as $food){
             array_push($foods, new Food($food["id_food"], $food["title"], $food["description"], $food["image"], $food["restaurant"], $food["price"]));
         }
-        //print_r($foods);
         return $foods;
     }
 
@@ -197,8 +194,7 @@ class FoodMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-        //var_dump($rowsSQL);
-        //
+
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
 
@@ -208,7 +204,7 @@ class FoodMapper
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
     }
@@ -227,7 +223,6 @@ class FoodMapper
 
         //Get a list of column names to use in the SQL statement.
         $columnNames = array_keys($allergens_food[0]);
-        //var_dump($columnNames);
 
         //Loop through our $data array.
         foreach($allergens_food as $arrayIndex => $row){
@@ -251,8 +246,7 @@ class FoodMapper
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //echo "toBind";
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
 

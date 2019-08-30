@@ -24,8 +24,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 require_once (__DIR__."/../lib/PHPMailer/SMTP.php");
 require_once (__DIR__."/../lib/PHPMailer/PHPMailer.php");
 
-//require_once(__DIR__."../core/PHPMailer-master/src/PHPMailer.php");
-//require_once(__DIR__."../core/PHPMailer-master/src/SMTP.php");
 
 class EventRest extends BaseRest
 {
@@ -44,7 +42,6 @@ class EventRest extends BaseRest
         $this->staffMapper = new StaffMapper();
     }
 
-    //Funciona a la perfección
     public function getEvents(){
         $currentUser = parent::authenticateUser();
 
@@ -73,7 +70,6 @@ class EventRest extends BaseRest
 
     }
 
-    //Funciona a la perfección
     public function createEvent($data){
         $currentUser = parent::authenticateUser();
         $event = new Event();
@@ -135,7 +131,6 @@ class EventRest extends BaseRest
         }
     }
 
-//Funciona a la perfección
     public function viewEvent($eventId){
         $currentUser = parent::authenticateUser();
 
@@ -175,7 +170,6 @@ class EventRest extends BaseRest
         echo(json_encode($event_array));
     }
 
-//Funciona a la perfección
     public function updateEvent($eventId, $data){
         $currentUser = parent::authenticateUser();
 
@@ -191,7 +185,6 @@ class EventRest extends BaseRest
            return;
        }
        $aux  = round($data->price * 100) / 100;
-       //var_dump($aux);
        $event->setType($data->type);
         $event->setName($data->name);
         $event->setMoment($data->moment);
@@ -215,7 +208,6 @@ class EventRest extends BaseRest
         }
     }
 
-    //Funciona a la perfección
     public function deleteEvent($eventId){
         $currentUser = parent::authenticateUser();
         $event = $this->eventMapper->findById($eventId);
@@ -243,7 +235,6 @@ class EventRest extends BaseRest
     public function getFoodsEvent($id_event){
         try{
             $foodsEvent = $this->eventMapper->AllFoodEvent($id_event);
-            //print_r($foodsEvent);
             $foodEvent_array = array();
             foreach ($foodsEvent as $foodEvent) {
                 array_push($foodEvent_array, array(
@@ -270,7 +261,6 @@ class EventRest extends BaseRest
 
     public function setFoodsEvent($id_event, $data){
         $foodsEvent = array();
-        //var_dump($data);
 
         foreach ($data as $food){
             array_push($foodsEvent,array(
@@ -284,7 +274,6 @@ class EventRest extends BaseRest
                 $this->eventMapper->setFoodEvent($foodsEvent);
                 header($_SERVER['SERVER_PROTOCOL'].' 201 Created');
                 header('Content-Type: application/json');
-                //echo(json_encode($foodsEvent));
             }else{
                 header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
                 header('Content-Type: application/json');
@@ -522,32 +511,6 @@ END:VEVENT
         }
     }
 
-    /*public function deleteStaffEvent($id_event, $data){
-        $staffEvent = array();
-        //var_dump($data);
-
-        foreach ($data as $person){
-            array_push($staffEvent,array(
-                "staff"=>$person,
-                "event"=>$id_event
-            ));
-        }
-
-        try{
-
-            $this->eventMapper->setFoodEvent($staffEvent);
-            header($_SERVER['SERVER_PROTOCOL'].' 200 OK');
-            header('Content-Type: application/json');
-            //echo(json_encode($foodsEvent));
-
-
-        }catch (ValidationException $e){
-            header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
-            header('Content-Type: application/json');
-            echo(json_encode($e->getErrors()));
-        }
-    }*/
-
     public function updateStaffEvent($id_event, $data){
         $currentUser = parent::authenticateUser();
 
@@ -682,9 +645,7 @@ END:VEVENT
 
                     if(!$mail->Send()) {
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
-                    } /*else {
-                        echo 'Message sent!';
-                    }*/
+                    }
                     header($_SERVER['SERVER_PROTOCOL'].' 200 Created');
                     header('Content-Type: application/json');
                 }catch (ValidationException $e){
@@ -747,9 +708,7 @@ END:VEVENT
 
                     if(!$mail->Send()) {
                         echo 'Mailer Error: ' . $mail->ErrorInfo;
-                    } /*else {
-                        echo 'Message sent!';
-                    }*/
+                    }
                     header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
                 }catch (ValidationException $e){
                     header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');

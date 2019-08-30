@@ -116,9 +116,9 @@ class StaffMapper
      * Deletes a Staff into the database
      * @param Staff $staff
      */
-    public function delete(Staff $staff){
-        $stmt = $this->db->prepare("DELETE FROM staff WHERE id_staff =?");
-        $stmt->execute(array($staff->getIdStaff()));
+    public function delete(Staff $staff, $restaurant){
+        $stmt = $this->db->prepare("DELETE FROM staff WHERE id_staff =? AND restaurant=?");
+        $stmt->execute(array($staff->getIdStaff(), $restaurant));
     }
 
 

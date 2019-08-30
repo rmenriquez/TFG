@@ -319,14 +319,12 @@ class Event
     public function checkIsValidForCreate(){
         $errors = array();
 
-        if(!preg_match("/^((b|B)oda|(b|B)autizo|(o|O)tros|(c|C)omuni(ó|o)n)$/i", $this->type)){
+       if(!preg_match("/^((b|B)oda|(b|B)autizo|(o|O)tros|(c|C)omuni(ó|o)n)$/i", $this->type)){
             $errors["type"] = "type is mandatory or it is wrong";
-//            echo("No tiene bien el tipo de evento");
         }
 
-        if(!preg_match("/^((m|M)añana|(n|N)oche)$/i", $this->moment)){
+        if(!preg_match("/^((m|M)añana|(n|N)oche|(t|T)arde)$/i", $this->moment)){
             $errors["moment"] = "moment is mandatory or it is wrong";
-//            echo("No tiene bien el tipo de evento");
         }
 
         if (strlen(trim($this->name)) == 0){

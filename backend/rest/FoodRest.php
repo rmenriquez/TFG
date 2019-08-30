@@ -32,23 +32,16 @@ class FoodRest extends BaseRest{
         $this->userMapper = new UserMapper();
     }
 
-    //Funciona a la perfección
     public function getFoods(){
         $currentUser = parent::authenticateUser();
         $foods = $this->foodMapper->findAll($currentUser->getIdUser());
 
-        // json_encode Note objects.
-        // since Note objects have private fields, the PHP json_encode will not
-        // encode them, so we will create an intermediate array using getters and
-        // encode it finally
+
         $foods_array = array();
         foreach($foods as $food) {
-            //echo ($food->getIdFood());
-            //$allergen = $this->foodMapper->getFoodAllergens($food->getIdFood());
             array_push($foods_array, array(
                 "id_food" => $food->getIdFood(),
                 "title" => $food->getTitle(),
-                //"description" => $food->getDescription(),
                 "price" => $food->getPrice(),
                 "image" => $food->getImage()
             ));
@@ -105,7 +98,7 @@ class FoodRest extends BaseRest{
         }
     }
 
-    //Funciona a la perfección
+
     public function viewFood($foodId){
         $currentUser = parent::authenticateUser();
         //find the Food object in the database
@@ -137,7 +130,6 @@ class FoodRest extends BaseRest{
         echo(json_encode($food_array));
     }
 
-    //Funciona a la perfección
     public function updateFood($foodId, $data){
         $currentUser = parent::authenticateUser();
         //find the Food object in the database
@@ -169,7 +161,7 @@ class FoodRest extends BaseRest{
         }
     }
 
-    //Funciona a la perfección
+
     public function deleteFood($foodId){
         $currentUser = parent::authenticateUser();
         $food = $this->foodMapper->findById($foodId);
@@ -207,26 +199,13 @@ class FoodRest extends BaseRest{
             return;
         }
 
-        //var_dump($data);
         $allergens_food_array = array();
-        //echo "allergens\n";
-        //$allergens = explode( ',', $data->allergens);
         $allergens = array();
 
         for($i =0; $i< count($data->allergens); $i++){
             $allergens[$i] = intval($data->allergens[$i]);
         }
-        //var_dump($allergens);
 
-        //echo "enable?\n";
-        //$allergens_enabled = explode( ',', $data->enabled);
-        /*$allergens_enabled = array();
-        for($i =0; $i< count($data->enabled); $i++){
-            $allergens_enabled[$i] = intval($data->enabled[$i]);
-        }*/
-        //var_dump($allergens_enabled);
-
-        /* && $allergens_enabled!=null*/
         if($allergens!=null){
             $i=0;
             foreach ($data->allergens as $allergen){

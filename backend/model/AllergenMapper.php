@@ -67,7 +67,6 @@ class AllergenMapper
      * @param $name_allergen
      * @return bool
      */
-    //Lo óptimo sería buscar solo el nombre del alérgeno
     public function nameAllergenExists($name_allergen) {
         $stmt = $this->db->prepare("SELECT count(name_allergen) FROM allergen where name_allergen LIKE %?%");
         $stmt->execute(array($name_allergen));
@@ -93,7 +92,6 @@ class AllergenMapper
 
         //Get a list of column names to use in the SQL statement.
         $columnNames = array_keys($allergens_food[0]);
-        //var_dump($columnNames);
 
         //Loop through our $data array.
         foreach($allergens_food as $arrayIndex => $row){
@@ -105,8 +103,7 @@ class AllergenMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-        //var_dump($rowsSQL);
-        //
+
         //Construct our SQL statement
         $sql = "INSERT INTO `food_allergen` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
 
@@ -116,7 +113,6 @@ class AllergenMapper
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($toBind);
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
     }
@@ -180,8 +176,7 @@ class AllergenMapper
             foreach($toBind as $param => $val){
                 $stmt->bindValue($param, $val);
             }
-        //echo "toBind";
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
 
@@ -230,7 +225,6 @@ class AllergenMapper
 
         $idsFood = array();
         foreach ($allergensFood as $allergenFood){
-            //echo '\nallergenfood en existAllergensInFood\n';
             array_push($idsFood, $allergenFood["id_allergen"]);
         }
 
@@ -253,14 +247,12 @@ class AllergenMapper
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($sql);
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         echo $stmt->execute();
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //var_dump($data);
         if($data['count'] == 0){
             $exists = false;
         }else{

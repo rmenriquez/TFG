@@ -185,7 +185,6 @@ class Staff
             $errors["email"] = "The email is mandatory";
         }
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
-              //var_dump($this->email);
             $errors["email"] = "The email is incorrect";
         }
         if ($this->restaurant == NULL ) {
@@ -212,13 +211,13 @@ class Staff
             $errors["id_staff"] = "id_staff is mandatory";
         }
         if(!isset($this->name) ){
-            $errors["name"] = "name is mandatory";
+            $errors["name"] = "Name is mandatory";
         }
         if (!isset($this->surnames)){
-            $errors["surnames"] = "surnames is mandatory";
+            $errors["surnames"] = "Surnames are mandatory";
         }
         if(!isset($this->email)){
-            $errors["email"] = "email is mandatory";
+            $errors["email"] = "The email is mandatory";
         }
 
         try{

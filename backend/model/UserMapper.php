@@ -57,7 +57,6 @@ class UserMapper {
 		}
 	}
 
-//Funciona
 	public function getIdUserAux($user){
 	    $stmt = $this->db->prepare("SELECT id_user FROM user WHERE user.user =?");
 	    $stmt->execute(array($user));
@@ -71,7 +70,6 @@ class UserMapper {
 
     }
 
-    //Funciona
     /**
      * Returns the complete user for that username
      *
@@ -110,16 +108,7 @@ class UserMapper {
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user != null){
-            /*return new User(
-                $user["id_user"],
-                $user["name"],
-                $user["user"],
-                $user["n_cli_wedding"],
-                $user["n_cli_christening"],
-                $user["n_cli_communion"],
-                $user["n_cli_others"],
-                $user["email"]
-            );*/
+
             return $user;
         }else{
             return NULL;

@@ -344,20 +344,17 @@ class EventMapper
 
         $sql = "SELECT count(*) as count from `food_event` WHERE event = " . $foodsEvent[0]["event"] . " AND food = (" . implode(" OR ", $rowsSQL).")";
 
-        //print_r($sql);
         $stmt = $this->db->prepare($sql);
         //Bind our values.
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($sql);
-        //print_r($toBind);
+
         //Execute our statement (i.e. insert the data).
         $stmt->execute();
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //var_dump($data);
         if($data['count'] == 0){
             $exists = false;
         }else{
@@ -396,20 +393,16 @@ class EventMapper
 
         $sql = "SELECT count(*) as count from `staff_event` WHERE event = " . $staffEvent[0]["event"] . " AND staff = (" . implode(" OR ", $rowsSQL).")";
 
-        //print_r($sql);
         $stmt = $this->db->prepare($sql);
         //Bind our values.
         foreach($toBind as $param => $val){
             $stmt->bindValue($param, $val);
         }
-        //print_r($sql);
-        //print_r($toBind);
         //Execute our statement (i.e. insert the data).
         echo $stmt->execute();
 
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //var_dump($data);
         if($data['count'] == 0){
             $exists = false;
         }else{
@@ -456,10 +449,6 @@ class EventMapper
      */
     public function updateFoodsFromEvent($toUpdate){
 
-       //echo "\ntoUpdate\n";
-       //print_r($toUpdate);
-
-
         // $rowsToInsert es $allergens_food
         $rowsSQL = array();
 
@@ -468,7 +457,6 @@ class EventMapper
 
         //Get a list of column names to use in the SQL statement.
         $columnNames = array_keys($toUpdate[0]);
-        //var_dump($columnNames);
 
         //Loop through our $data array.
         foreach($toUpdate as $arrayIndex => $row){
@@ -480,14 +468,13 @@ class EventMapper
             }
             $rowsSQL[] = "(" . implode(", ", $params) . ")";
         }
-        //print_r($rowsSQL);
-        //
+
         //Construct our SQL statement
         $sql = "INSERT INTO `food_event` (food,event) VALUES " .
             implode(", ", $rowsSQL) .
             " ON DUPLICATE KEY UPDATE food=VALUES(food), event=VALUES(event)";
 
-        //echo $sql;
+
         //Prepare our PDO statement.
         $stmt = $this->db->prepare($sql);
         //Bind our values.
@@ -507,8 +494,7 @@ class EventMapper
      * @param $data
      */
     public function deleteStaffFromEvent($event, $data){
-        echo '\ndata en eventMapper\n';
-        var_dump($data);
+
         $rowsSQL = array();
 
         $toBind = array();

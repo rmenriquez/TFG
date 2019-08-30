@@ -30,7 +30,6 @@ class UserRest extends BaseRest
         $currentUser = parent::authenticateUser();
 
         $user = $this->userMapper->findById($userId);
-        //var_dump($user);
         if ($user["id_user"] != $currentUser->getIdUser()) {
             header($_SERVER['SERVER_PROTOCOL'].' 403 Forbidden');
             echo("You are not the authorized for this");
@@ -75,7 +74,6 @@ class UserRest extends BaseRest
             echo json_encode("You are not authorized to login as anyone but you");
         } else {
             header($_SERVER['SERVER_PROTOCOL'].' 200 Ok');
-            //echo json_encode("Hello ".$username);
             $user = array(
                 "id_user"=> $currentLogged->getIdUser(),
                 "name"=> $currentLogged->getName(),
@@ -88,7 +86,6 @@ class UserRest extends BaseRest
                 "password" => $currentLogged->getPassword()
                 );
             echo json_encode($user);
-            //return json_encode($user);
         }
     }
 }

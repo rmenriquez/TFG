@@ -36,7 +36,6 @@ class AllergenRest extends BaseRest
     public function getAllergens(){
         $allergens = $this->AllergenMapper->findAll();
 
-        //print_r($allergens);
 
         $allergens_array = array();
         foreach($allergens as $allergen){

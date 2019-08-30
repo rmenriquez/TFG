@@ -161,7 +161,7 @@ class Food{
         if (strlen(trim($this->description)) == 0 ) {
             $errors["description"] = "Content is mandatory";
         }
-        //Como comprobar que sea el restaurante logueado
+
         if ($this->restaurant == NULL ) {
             $errors["restaurant"] = "Restaurant is mandatory";
         }

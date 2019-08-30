@@ -124,7 +124,7 @@ class StaffRest extends BaseRest{
     public function updatePerson($id_staff, $data){
         $currentUser = parent::authenticateUser();
 
-        $staff = $this->staffMapper->findById($id_staff);
+        $staff = $this->staffMapper->findById($id_staff,$currentUser->getIdUser());
 
         if($staff == NULL){
             header($_SERVER['SERVER_PROTOCOL'].' 400 Bad request');
@@ -170,7 +170,7 @@ class StaffRest extends BaseRest{
             return;
         }
 
-        $this->staffMapper->delete($staff);
+        $this->staffMapper->delete($staff, $currentUser->getIdUser());
         header($_SERVER['SERVER_PROTOCOL'].' 204 No Content');
     }
 }
