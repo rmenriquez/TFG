@@ -43,19 +43,14 @@ export class RegisterComponent implements OnInit{
 
         this._userService.register(form.value).subscribe(
             response => {
-                console.log(response);
                 if(response.status == 201){
                     this.status = 'success';
-                    //this.user = new User(1,'name','user',0,0,0,0,'email','password');
                     form.reset();
                 }
             },
             error => {
-                console.log(error.error);
                 this.status = 'error';
                 this.errors = error.error;
-                console.log(<any> error);
-                console.log(this.status);
             }
         );
 

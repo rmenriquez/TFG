@@ -73,7 +73,6 @@ export class FoodEditComponent implements OnInit {
             this.getAllergens();
           },
           error => {
-            console.log(<any> error);
             this.errors = error.error;
             this._router.navigate(['allFoods']);
           }
@@ -81,18 +80,15 @@ export class FoodEditComponent implements OnInit {
   }
 
   onSubmit(form){
-    console.log(this.food.id_food);
     this._foodService.updateFood(this.food, this.food.id_food).subscribe(
         response => {
           if(response == null){
             this.status = 'success';
             this._router.navigate(['/allFoods']);
           }
-          console.log(this.status);
 
         },
         error => {
-          console.log(<any> error);
           this.status = 'error';
           this.errors = error.error;
         }
@@ -101,8 +97,6 @@ export class FoodEditComponent implements OnInit {
   }
     onSubmitAllergens(form){
       //Recojo los alergenos seleccionados
-        console.log(this.allergensFood);
-      console.log(this.allergensForm.value.allergens);
         const selectedAllergenIds = this.allergensForm.value.allergens
             .map((v, i) => v ? this.allergens[i].id_allergen : null)
             .filter(v => v !== null);
@@ -136,13 +130,11 @@ export class FoodEditComponent implements OnInit {
 
         this._foodService.updateFoodAllergens(this.food.id_food, toAdd, toDelete).subscribe(
             response => {
-                console.log(response);
                 this.allergensEdited = 'success';
             },
             error => {
                 this.allergensEdited = 'error';
 
-                console.log(<any> error);
                 this.errors = error.error;
             }
         );

@@ -21,12 +21,9 @@ export class EventService {
 
   createEvent(event: Event): Observable<any>{
     let json = JSON.stringify(event);
-    console.log(json);
-    console.log(event);
 
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    //return this._http.post(this._url + 'event', event, {headers: headers}).pipe(retry(1));
     return this._http.post(this._url + 'event', event, {headers: headers}).pipe(tap(response => {
       let identity = JSON.parse(localStorage.getItem('identity'));
       event.restaurant = identity['id_user'];

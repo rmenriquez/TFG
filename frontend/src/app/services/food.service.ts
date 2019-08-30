@@ -22,7 +22,6 @@ export class FoodService {
 
     createFood(food: Food): Observable<any>{
         let json = JSON.stringify(food);
-        console.log(json);
         if( food['price'] == null || food.price == '' ){
             food['price'] = 0.0;
         }
@@ -31,9 +30,7 @@ export class FoodService {
 
         return this._http.post(this.url + 'food', food, {headers: headers}).pipe(tap(response => {
             let identity = JSON.parse(localStorage.getItem('identity'));
-            //console.log(identity);
             food.restaurant = identity['id_user'];
-            console.log(food);
         }));
     }
 
@@ -68,7 +65,6 @@ export class FoodService {
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
 
         let json =  { allergens};
-        //console.log(json);
         return this._http.post(this.url + 'food/'+id_food+'/allergen', json, {headers:headers});
     }
 

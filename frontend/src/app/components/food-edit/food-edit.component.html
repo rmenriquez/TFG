@@ -2,11 +2,11 @@
   <div class="col-md-10 hijo" *ngIf="page_title"><h2>{{'standard.edit' | translate }}{{page_title}}</h2>
 
     <div class="alert alert-danger" *ngIf="status == 'error'">
-      La comida no se ha modificado
-      {{errors}}
+      {{'food.updatedError' | translate }}
+      {{errors | translate }}
     </div>
     <div class="alert alert-success" *ngIf="status == 'success'">
-      La comida se ha modificado
+      {{'food.updated' | translate }}
     </div>
 
     <form #editFood="ngForm" (ngSubmit)="onSubmit(editFood)" class="col-md-5" *ngIf="food">
@@ -14,22 +14,22 @@
         <label for="title">{{'food.title' | translate }}</label>
         <input ngModel type="text" id="title" [(ngModel)]="food.title" class="form-control" name="title" #title="ngModel" required />
         <span *ngIf="!title.valid && title.touched">
-      El titulo no es válido
+     {{'food.titleError' | translate }}
     </span>
       </p>
       <div class="alert alert-danger" *ngIf="status == 'error' && errors['title']!=null">
-        {{errors['title']}}
+        {{errors['title'] | translate }}
       </div>
 
       <p>
         <label for="description">{{'standard.description' | translate }}</label>
         <textarea ngModel class="form-control" id="description" [(ngModel)]="food.description" name="description" #description="ngModel" required ></textarea>
         <span *ngIf="!description.valid && description.touched">
-      La description no es válido
+       {{'food.descriptionError' | translate }}
     </span>
       </p>
       <div class="alert alert-danger" *ngIf="status == 'error' && errors['description']!=null">
-        {{errors['description']}}
+        {{errors['description'] | translate }}
       </div>
 
       <p>
@@ -37,7 +37,7 @@
         <input ngModel type="number" class="form-control" id="price" [(ngModel)]="food.price" name="price" #price="ngModel" placeholder="0,0" />
       </p>
       <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
-        {{errors['price']}}
+        {{errors['price'] | translate }}
       </div>
 
       <input type="submit" value="{{'standard.send' | translate }}" class="btn btn-success" [disabled]="!editFood.form.valid"/>
@@ -46,10 +46,10 @@
   </div>
   <div class="col-md-10 hijo" *ngIf="food !== undefined && allergensFood !== undefined">
     <div class="alert alert-danger" *ngIf="allergensEdited == 'error'">
-      Los alérgenos de la comida no se ha modificado
+      {{'food.assignedAllergensNotUpdated' | translate }}
     </div>
     <div class="alert alert-success" *ngIf="allergensEdited == 'success'">
-      Los alérgenos de la comida se ha modificado
+      {{'food.assignedAllergensUpdated' | translate }}
     </div>
     <div class="panel-group">
       <div class="panel panel-default">

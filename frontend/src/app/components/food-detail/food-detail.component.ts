@@ -44,7 +44,6 @@ export class FoodDetailComponent implements OnInit {
 
         },
           error => {
-          console.log(<any> error);
             this._router.navigate(['allFoods']);
           }
       );

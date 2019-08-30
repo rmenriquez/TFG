@@ -40,10 +40,6 @@ export class StaffNewComponent implements OnInit {
   }
 
   onSubmit(form){
-    //console.log(this._userService.getIdentity());
-    //console.log(this.food);
-    //this.food.restaurant = this._userService.identity.id_user;
-    console.log(form.value);
     this._StaffService.createStaff(form.value).subscribe(
         response=>{
           console.log(response);

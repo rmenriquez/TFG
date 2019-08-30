@@ -55,19 +55,15 @@ export class FoodNewComponent implements OnInit {
   }
 
   onSubmitFood(form){
-    console.log(form.value);
     this._foodService.createFood(form.value).subscribe(
         response=>{
-          console.log(response);
           this.status = 'success';
           this.food = response;
           let id = response['id_food'];
-          console.log(id);
           this._foodService.setFood(response);
 
         },
         error=>{
-          console.log(<any> error);
           this.status = 'error';
           this.errors = error.error;
         }
@@ -79,14 +75,11 @@ export class FoodNewComponent implements OnInit {
           .map((v, i) => v ? this.allergens[i].id_allergen : null)
           .filter(v => v !== null);
 
-      console.log(selectedAllergenIds);
       this._foodService.setFoodAllergens(this.food.id_food, selectedAllergenIds).subscribe(
           response => {
-              console.log(response);
               this._router.navigate(['foodDetail/',this.food.id_food]);
           },
           error => {
-              console.log(<any> error);
               this.errors = error.error;
           }
       );

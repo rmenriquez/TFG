@@ -41,7 +41,6 @@ export class EventAllComponent implements OnInit {
                     this.events = response;
                 },
                 error => {
-                    console.log(<any> error);
                 }
             );
         }
@@ -53,7 +52,6 @@ export class EventAllComponent implements OnInit {
                 this.events = response;
             },
             error => {
-                console.log(<any> error);
             }
         );
     }

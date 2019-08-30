@@ -2,10 +2,10 @@
 <div class="col-md-10 hijo" ><h2>{{'staff.newStaffTitle'| translate}}</h2>
 
   <div class="alert alert-danger" *ngIf="status == 'error'">
-    El empleado no se ha creado
+    {{'staff.createdError' | translate }}
   </div>
   <div class="alert alert-success" *ngIf="status == 'success'">
-    El empleado se ha modificado
+    {{'staff.created' | translate }}
   </div>
 
   <form #newStaff="ngForm" (ngSubmit)="onSubmit(newStaff)" class="col-md-5" >
@@ -13,40 +13,41 @@
       <label for="id_staff">{{'staff.id_staff'| translate}}</label>
       <input ngModel type="text" id="id_staff" class="form-control" name="id_staff" #id_staff="ngModel" required />
       <span *ngIf="!id_staff.valid && id_staff.touched">
-      El DNI no es válido
+        {{'staff.idError' | translate }}
     </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['id_staff']!=null">
-      {{errors['id_staff']}}
+      {{errors['id_staff'] | translate}}
     </div>
 
     <p>
       <label for="name">{{'staff.name'| translate}}</label>
       <input ngModel type="text" id="name" class="form-control" name="name" #name="ngModel" required />
       <span *ngIf="!name.valid && name.touched">
-      El nombre no es válido
+        {{'staff.nameError' | translate}}
     </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
-      {{errors['name']}}
+      {{errors['name'] | translate }}
     </div>
 
     <p>
       <label for="surnames">{{'staff.surnames'| translate}}</label>
       <input ngModel type="text" class="form-control" id="surnames"  name="surnames" #surnames="ngModel" required />
       <span *ngIf="!surnames.valid && surnames.touched">
-      Los apellidos no son válidos
+      {{'staff.surnamesError' | translate}}
+
     </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['surnames']!=null">
-      {{errors['surnames']}}
+      {{errors['surnames'] | translate }}
     </div>
 
     <p>
       <label for="birthdate">{{'staff.birthdate'| translate}}</label>
       <input ngModel type="date" class="form-control" id="birthdate" name="birthdate" #birthdate="ngModel" placeholder=""/>
       <span *ngIf="!birthdate.valid && birthdate.touched">
-      La fecha de nacimiento no es válida
+        {{'staff.birthdateError' | translate}}
     </span>
     </p>
 
@@ -54,11 +55,11 @@
       <label for="email">{{'standard.email'| translate}}</label>
       <input ngModel type="email" class="form-control" id="email" name="email" #email="ngModel" required/>
       <span *ngIf="!email.valid && email.touched">
-      El email no es válido
+        {{'staff.emailError' | translate}}
     </span>
     </p>
     <div class="alert alert-danger" *ngIf="status == 'error' && errors['email']!=null">
-      {{errors['email']}}
+      {{errors['email'] | translate }}
     </div>
 
     <input type="submit" value="Guardar" class="btn btn-success" [disabled]="!newStaff.form.valid"/>

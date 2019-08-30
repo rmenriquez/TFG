@@ -51,7 +51,6 @@ export class EventDetailComponent implements OnInit {
 
                 },
                 error => {
-                    console.log(<any> error);
                     this._router.navigate(['allEvents']);
                 }
             );

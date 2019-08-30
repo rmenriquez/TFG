@@ -2,107 +2,127 @@
     <div class="col-md-10 hijo" *ngIf="page_title"><h2>{{'standard.edit' | translate }} {{page_title}}</h2>
 
         <div class="alert alert-danger" *ngIf="status == 'error'">
-            El evento no se ha modificado
+            {{'event.notUpdated' | translate }}
         </div>
         <div class="alert alert-success" *ngIf="status == 'success'">
-            El evento se ha modificado
+            {{'event.updated' | translate}}
         </div>
 
         <form #editEvent="ngForm" (ngSubmit)="onSubmit(editEvent)" class="col-md-5" *ngIf="event">
             <p>
                 <label for="type">{{'event.type' | translate }}</label>
-                <input ngModel type="text" id="type" [(ngModel)]="event.type" class="form-control" name="type" #type="ngModel" required />
+                <!--<input ngModel type="text" id="type" [(ngModel)]="event.type" class="form-control" name="type" #type="ngModel" required />-->
+                <select ngModel class="form-control" id="type" [(ngModel)]="event.type" name="type" #type="ngModel" required>
+                    <option value="Boda">{{'event.wedding' | translate }}</option>
+                    <option value="Bautizo">{{'event.christening' | translate }}</option>
+                    <option value="Comunion">{{'event.communion' | translate }}</option>
+                    <option value="Otros">{{'event.others' | translate }}</option>
+                </select>
                 <span *ngIf="!type.valid && type.touched">
-              El tipo no es válido
+              {{'event.typeError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['type']!=null">
-                {{errors['type']}}
+                {{errors['type'] | translate }}
             </div>
 
             <p>
                 <label for="name">{{'event.name' | translate }}</label>
                 <input ngModel type="text" class="form-control" id="name" [(ngModel)]="event.name" name="name" #name="ngModel" required />
                 <span *ngIf="!name.valid && name.touched">
-                El nombre no es válido
+                {{'event.nameError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['name']!=null">
-                {{errors['name']}}
+                {{errors['name'] | translate }}
+            </div>
+
+            <p>
+                <label for="moment">{{'event.moment' | translate }}</label>
+                <select ngModel class="form-control" id="moment" [(ngModel)]="event.moment" name="moment" #moment="ngModel" required>
+                    <option value="Mañana">{{'event.morning' | translate }}</option>
+                    <option value="Tarde">{{'event.afternoon' | translate }}</option>
+                    <option value="Noche">{{'event.night' | translate }}</option>
+                </select>                <span *ngIf="!moment.valid && moment.touched">
+                {{ 'event.momentError' | translate }}
+            </span>
+            </p>
+            <div class="alert alert-danger" *ngIf="status == 'error' && errors['moment']!=null">
+                {{errors['moment'] | translate }}
             </div>
 
             <p>
                 <label for="date">{{'event.date' | translate }}</label>
                 <input ngModel type="date" class="form-control" id="date" [(ngModel)]="event.date" name="date" #date="ngModel" required />
                 <span *ngIf="!date.valid && date.touched">
-                La fecha no es válida
+                {{ 'event.dateError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['date']!=null">
-                {{errors['date']}}
+                {{errors['date'] | translate }}
             </div>
 
             <p>
                 <label for="guests">{{'event.guests' | translate }}</label>
                 <input ngModel type="number" class="form-control" id="guests" [(ngModel)]="event.guests" name="guests" #guests="ngModel" required/>
                 <span *ngIf="!guests.valid && guests.touched">
-                El número de invitados no es válido
+                {{'event.numGuestError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['guests']!=null">
-                {{errors['guests']}}
+                {{errors['guests'] | translate }}
             </div>
 
             <p>
                 <label for="children">{{'event.children' | translate }}</label>
                 <input ngModel type="number" class="form-control" id="children" [(ngModel)]="event.children" name="children" #children="ngModel" required/>
                 <span *ngIf="!children.valid && children.touched">
-                El número de niño no es válido
+                {{'event.numGuestChildrenError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['children']!=null">
-                {{errors['children']}}
+                {{errors['children'] | translate }}
             </div>
 
             <p>
                 <label>{{'event.sweet_table' | translate }}</label>
                 <select ngModel class="form-control" name="sweet_table" [(ngModel)]="event.sweet_table" #sweet_table="ngModel" required>
                     <option >Selecciona</option>
-                    <option value="0">No</option>
-                    <option value="1">Si</option>
+                    <option value="0">{{'standard.no' | translate }}</option>
+                    <option value="1">{{'standard.yes' | translate }}</option>
                 </select>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['sweet_table']!=null">
-                {{errors['sweet_table']}}
+                {{errors['sweet_table'] | translate }}
             </div>
 
             <p>
                 <label for="observations">{{'event.observations' | translate }}</label>
                 <textarea ngModel class="form-control" id="observations" [(ngModel)]="event.observations" name="observations" #observations="ngModel" required></textarea>
                 <span *ngIf="!observations.valid && observations.touched">
-                Las observaciones no son válidas. Introduce al menos la hora del evento o la hora de llegada.
+                {{'event.observationsError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['observations']!=null">
-                {{errors['observations']}}
+                {{errors['observations'] | translate }}
             </div>
 
             <p>
                 <label for="phone">{{'event.phone' | translate }}</label>
                 <input ngModel type="number" class="form-control" id="phone" [(ngModel)]="event.phone" name="phone" #phone="ngModel" required/>
                 <span *ngIf="!phone.valid && phone.touched">
-                El teléfono no es válido
+                {{'event.phoneError' | translate }}
             </span>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['phone']!=null">
-                {{errors['phone']}}
+                {{errors['phone'] | translate }}
             </div>
             <p>
                 <label for="price">{{'event.price' | translate }}</label>
                 <input ngModel type="number" class="form-control" id="price" [(ngModel)]="event.price" name="price" #price="ngModel"/>
             </p>
             <div class="alert alert-danger" *ngIf="status == 'error' && errors['price']!=null">
-                {{errors['price']}}
+                {{errors['price'] | translate }}
             </div>
             <input type="submit" value="{{'standard.send' | translate }}" class="btn btn-success" [disabled]="!editEvent.form.valid"/>
             <a [routerLink]="['/allEvents']" ><input type="button" value="{{'standard.cancel' | translate }}" class="btn btn-danger" /> </a>
@@ -111,10 +131,10 @@
     </div>
     <div class="col-md-10 hijo">
         <div class="alert alert-danger" *ngIf="foodsEdited == 'error'">
-            La comida del evento no se ha modificado
+            {{'event.assignedFoodsNotUpdated' | translate }}
         </div>
         <div class="alert alert-success" *ngIf="foodsEdited == 'success'">
-            La comida del evento se ha modificado
+            {{'event.assignedFoodsUpdated' | translate }}
         </div>
         <div class="col-md-10" *ngIf="event !== undefined && foodsEvent !== undefined">
             <div class="panel-group">
@@ -143,10 +163,10 @@
             </div>
         </div>
         <div class="alert alert-danger" *ngIf="staffEdited == 'error'">
-            El staff del evento no se ha modificado
+            {{ 'event.assignedStaffNotUpdated' | translate }}
         </div>
         <div class="alert alert-success" *ngIf="staffEdited == 'success'">
-            El staff del evento se ha modificado
+            {{ 'event.assignedStaffUpdated' | translate }}
         </div>
         <div class="col-md-10 hijo" *ngIf="event !== undefined && foodsEvent !== undefined">
             <div class="panel-group">

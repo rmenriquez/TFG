@@ -41,7 +41,6 @@ export class FoodAllComponent implements OnInit {
           this.foods = response;
         },
         error => {
-          console.log(<any> error);
         }
     );
   }

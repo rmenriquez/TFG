@@ -2,11 +2,11 @@
     <div class="col-md-10 hijo" *ngIf="page_title"><h2>{{'staff.editStaffTitle' | translate}} {{page_title}}</h2>
 
         <div class="alert alert-danger" *ngIf="status == 'error'">
-            El staff no se ha modificado
+            {{'staff.notUpdated' | translate}}
             {{errors}}
         </div>
         <div class="alert alert-success" *ngIf="status == 'success'">
-            El staff se ha modificado
+            {{'staff.updated' | translate}}
         </div>
 
         <form #editStaff="ngForm" (ngSubmit)="onSubmit(editStaff)" class="col-md-5" *ngIf="staff">
@@ -14,7 +14,7 @@
                 <label for="name">{{'staff.name' | translate}}</label>
                 <input ngModel type="text" id="name" [(ngModel)]="staff.name" class="form-control" name="name" #name="ngModel" required />
                 <span *ngIf="!name.valid && name.touched">
-      El nombre no es válido
+      {{'staff.nameError' | translate}}
     </span>
             </p>
 
@@ -22,7 +22,7 @@
                 <label for="surnames">{{'staff.surnames' | translate}}</label>
                 <input ngModel type="text" class="form-control" id="surnames" [(ngModel)]="staff.surnames" name="surnames" #surnames="ngModel" required />
                 <span *ngIf="!surnames.valid && surnames.touched">
-      Los apellidos no son válidos
+     {{'staff.surnamesError' | translate}}
     </span>
             </p>
 
@@ -30,7 +30,7 @@
                 <label for="birthdate">{{'staff.birthdate' | translate}}</label>
                 <input ngModel type="date" class="form-control" id="birthdate" [(ngModel)]="staff.birthdate" name="birthdate" #birthdate="ngModel" />
                 <span *ngIf="!birthdate.valid && birthdate.touched">
-      La fecha de nacimiento no es válida
+      {{'staff.birthdateError' | translate}}
     </span>
             </p>
 

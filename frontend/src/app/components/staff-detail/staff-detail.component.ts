@@ -47,7 +47,6 @@ export class StaffDetailComponent implements OnInit{
                         }
                     },
                     error => {
-                        console.log(<any> error);
                         this._router.navigate(['/allStaff']);
                     }
                 );

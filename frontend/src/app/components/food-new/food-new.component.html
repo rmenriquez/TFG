@@ -2,11 +2,11 @@
   <div class="col-md-10 hijo"><h2>{{'food.newFoodTitle' | translate}}</h2>
 
     <div class="alert alert-danger" *ngIf="status == 'error'">
-      La comida no se ha registrado
-      {{errors}}
+      {{'food.createdError' | translate }}
+      {{errors | translate }}
     </div>
     <div class="alert alert-success" *ngIf="status == 'success'">
-      La comida se ha guardado
+      {{'food.created' | translate }}
     </div>
 
     <form #newFood="ngForm" (ngSubmit)="onSubmitFood(newFood)" class="col-md-5">
@@ -14,22 +14,22 @@
         <label for="title">{{'food.title' | translate}}</label>
         <input ngModel type="text" id="title" class="form-control" name="title" #title="ngModel" required />
         <span *ngIf="!title.valid && title.touched">
-      El titulo no es válido
+          {{'food.titleError' | translate }}
     </span>
       </p>
       <div class="alert alert-danger" *ngIf="status == 'error' && errors['title']!=null">
-        {{errors['title']}}
+        {{errors['title'] | translate }}
       </div>
 
       <p>
         <label for="description">{{'standard.description' | translate}}</label>
         <textarea ngModel type="text" class="form-control" id="description" name="description" #description="ngModel" required ></textarea>
         <span *ngIf="!description.valid && description.touched">
-      La description no es válido
+          {{'food.descriptionError' | translate }}
     </span>
       </p>
       <div class="alert alert-danger" *ngIf="status == 'error' && errors['description']!=null">
-        {{errors['description']}}
+        {{errors['description'] | translate }}
       </div>
 
       <p>

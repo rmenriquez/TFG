@@ -2,8 +2,8 @@
     <div class="hijo">
         <h2>{{'main.loginTitle' | translate }}</h2>
         <div class="alert alert-danger" *ngIf="status == 'error'">
-            El login NO se ha completado correctamente <br>
-            {{errors}}
+            {{'login.notLogin' | translate}}<br>
+            {{errors | translate}}
         </div>
 
         <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="col-md-5">
@@ -11,14 +11,15 @@
                 <label for="user">{{'user.userName' | translate }}</label>
                 <input ngModel type="text" #user="ngModel"  name="user" id="user" class="form-control" required />
                 <span *ngIf="(!user.valid && user.touched)">
-                El usuario no es válido {{errors.user}}
+                {{'login.userError' | translate}}
+                    {{errors.user | translate}}
             </span>
             </p>
             <p>
                 <label for="password">{{'user.password' | translate}}</label>
                 <input ngModel type="password" #password="ngModel"  name="password" id="password" class="form-control" required />
                 <span *ngIf="(!password.valid && password.touched)">
-                La contraseña no es válida {{errors.password}}
+                {{'login.passError' | translate}} {{errors.password | translate}}
             </span>
             </p>
 

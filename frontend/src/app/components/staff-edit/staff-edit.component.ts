@@ -37,7 +37,6 @@ export class StaffEditComponent implements OnInit{
 
     ngOnInit(){
         this._route.params.subscribe(params => {
-            //console.log(params);
             let id_staff = params['id'];
             this.getStaff(id_staff);
         })
@@ -46,7 +45,6 @@ export class StaffEditComponent implements OnInit{
     getStaff(id_staff){
         this._staffService.viewStaff(id_staff).subscribe(
             response => {
-                //console.log(response);
                 this.staff = response;
                 this.page_title =  this.staff.name + ' ' + this.staff.surnames;
                 if(isUndefined(this.staff)){
@@ -54,7 +52,6 @@ export class StaffEditComponent implements OnInit{
                 }
             },
             error => {
-                console.log(<any> error);
                 this._router.navigate(['/allStaff']);
             }
         );
@@ -64,12 +61,10 @@ export class StaffEditComponent implements OnInit{
         console.log(this.staff.id_staff);
         this._staffService.updateStaff(this.staff, this.staff.id_staff).subscribe(
             response => {
-                //console.log(response);
                 if(response == null){
                     this.status = 'success';
                     this._router.navigate(['/allStaff']);
                 }
-                //console.log(status);
             },
             error => {
                 console.log(<any> error);

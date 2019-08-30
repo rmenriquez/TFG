@@ -33,7 +33,6 @@ export class DefaultComponent implements OnInit{
     }
 
     ngOnInit(){
-        console.log('default.component cargado correctamente!!');
         if(isUndefined(this._userService.getIdentity())){
             this._router.navigate(["login"]);
         }

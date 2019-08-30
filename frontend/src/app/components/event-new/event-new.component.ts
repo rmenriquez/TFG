@@ -116,7 +116,6 @@ export class EventNewComponent implements OnInit {
           }
         },
         error=> {
-          console.log(<any> error);
           this.status = 'error';
           this.errors = error.error;
         }
@@ -147,7 +146,6 @@ export class EventNewComponent implements OnInit {
           this.foodsCreated = true;
         },
         error => {
-          console.log(<any> error);
           this.errors = error.error;
         }
     );
@@ -158,13 +156,11 @@ export class EventNewComponent implements OnInit {
         .map((v, i) => v ? this.staff[i].id_staff : null)
         .filter(v => v !== null);
 
-    console.log(selectedStaffIds);
     this._eventService.setStaffEvent(this.event.id_event, selectedStaffIds).subscribe(
         response => {
 
         },
         error => {
-          console.log(<any> error);
           this.errors = error.error;
         }
     );
@@ -175,7 +171,6 @@ export class EventNewComponent implements OnInit {
           this._router.navigate(['eventDetail/',this.event.id_event]);
         },
         error => {
-          console.log(<any> error);
           this.errors = error.error;
         }
     );

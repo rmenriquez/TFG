@@ -24,8 +24,6 @@ export class UserService {
     }
 
     register(user):Observable<any>{
-        console.log(user);
-        console.log(user['password']);
         let pwd = user['password'];
         user['password'] = Md5.init(pwd);
         let params = JSON.stringify(user as User);
@@ -36,8 +34,7 @@ export class UserService {
     }
 
     signUp(login: string, password: string): Observable<any>{
-        console.log('credentials', login, password);
-        
+
         let headers = new HttpHeaders({'Content-Type': 'application/json',
             'Authorization': 'Basic ' + btoa(login + ':'+Md5.init(password))});
 
@@ -46,13 +43,7 @@ export class UserService {
             tap(response => {
                 this.identity = response as User;
                 this.identity.password = Md5.init(password);
-                //this.token = 'Basic ' + btoa(user.user + ':'+user.password);
-                //console.log(this.token);
-                ///localStorage.setItem('token', this.token);
-                //this.identity = this.user;
-                //localStorage.setItem('identity', JSON.stringify(this.identity));
 
-                //console.log(this.identity);
                 localStorage.setItem('identity', JSON.stringify(this.identity));
 
             })
@@ -63,8 +54,7 @@ export class UserService {
         let storedIdentity = localStorage.getItem('identity');
 
         let identity = JSON.parse(storedIdentity);
-        //console.log('identity en getIdentity ');
-        //console.log(identity);
+
         if(identity != undefined) {
             this.identity = identity as User;
         }else{
@@ -81,7 +71,6 @@ export class UserService {
 
     viewUser(){
         let id_user = this.identity.id_user;
-        console.log(id_user);
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this._http.get(this.url + 'user/' + id_user + '/view',{headers: headers});
     }

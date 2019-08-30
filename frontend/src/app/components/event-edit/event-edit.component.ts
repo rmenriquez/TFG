@@ -86,7 +86,6 @@ export class EventEditComponent implements OnInit {
                 this.getStaff();
             },
             error => {
-                console.log(<any> error);
                 this.status = 'error';
                 this.errors = error.error;
                 this._router.navigate(['allEvents']);
@@ -104,7 +103,6 @@ export class EventEditComponent implements OnInit {
 
             },
             error => {
-                console.log(<any> error);
                 this.status = 'error';
                 this.errors = error.error;
             }
@@ -153,7 +151,6 @@ export class EventEditComponent implements OnInit {
             },
             error => {
                 this.foodsEdited = 'error';
-                console.log(<any> error);
                 this.errors = error.error;
             }
         );
@@ -185,7 +182,6 @@ export class EventEditComponent implements OnInit {
             .map((v, i) => v ? this.staff[i].id_staff : null)
             .filter(v => v !== null);
 
-        console.log(selectedStaffIds);
 
         let toDelete = [];
         let toAdd = [];
@@ -221,14 +217,12 @@ export class EventEditComponent implements OnInit {
             },
             error => {
                 this.staffEdited = 'error';
-                console.log(<any> error);
                 this.errors = error.error;
             }
         );
     }
 
     getStaff(){
-        console.log(this.event.id_event);
         this._staffService.getStaff().subscribe((staff: Staff[]) => {
             this.staff = staff;
             let controls = [];

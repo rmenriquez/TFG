@@ -33,7 +33,6 @@ export class StaffAllComponent implements OnInit {
     } else {
       this._staffService.getStaff().subscribe(
           response => {
-            //console.log(response);
             this.staff = response;
           },
           error => {
@@ -46,7 +45,6 @@ export class StaffAllComponent implements OnInit {
   getFoods(){
     this._staffService.getStaff().subscribe(
         response => {
-          //console.log(response);
           this.staff = response;
         },
         error => {

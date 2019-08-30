@@ -37,8 +37,6 @@ export class UserDetailComponent implements OnInit {
     viewUser(){
         this._userService.viewUser().subscribe(
             response => {
-                console.log(response);
-                //console.log('estoy dentro');
                 this.user = response;
                 if(isUndefined(this.user)){
                     this._router.navigate(['home']);
@@ -46,7 +44,6 @@ export class UserDetailComponent implements OnInit {
 
             },
             error => {
-                console.log(<any> error);
                 this._router.navigate(['login']);
             }
         );
