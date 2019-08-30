@@ -57,7 +57,7 @@ CREATE TABLE `event` (
   `id_event` int(10) NOT NULL,
   `type` varchar(8) COLLATE utf8_spanish_ci NOT NULL,
   `name` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
-  `moment` varchar(6) COLLATE utf8_spanish_ci NOT NULL,
+  `moment` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
   `date` date NOT NULL,
   `guests` int(3) NOT NULL,
   `children` int(3) NOT NULL,
@@ -641,6 +641,12 @@ CREATE TABLE `user` (
 
 --
 -- Volcado de datos para la tabla `user`
+-- User: Novaino Pass: novaino
+-- User: PazoMonterrey Pass: monterrey
+-- User: Galileo Pass: galileo
+-- User: SuriTheCat Pass: surielmejor
+-- User: LagunasPower2 Pass: prueba
+-- User: OLar Pass: prueba1
 --
 
 INSERT INTO `user` (`id_user`, `name`, `user`, `password`, `n_cli_wedding`, `n_cli_christening`, `n_cli_communion`, `n_cli_others`, `email`) VALUES
