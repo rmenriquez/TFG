@@ -11,6 +11,11 @@
   "register.title":"Register",
   "register.submit":"Register me",
   "register.charactersNotAllowed":"Accents and ñ letters are not allowed",
+  "register.registered":"Registration completed successfully",
+  "register.login":"Login here",
+  "register.registerError":"Registration is NOT completed successfully",
+  "register.nameError":"Name can't be empty",
+  "register.userError":"User can't be empty",
   "user.userName":"Username",
   "user.password":"Password",
   "login.notLogin":"Login is NOT completed successfully",
@@ -135,5 +140,14 @@
   "Surnames are mandatory":"Surnames are mandatory",
   "The email is mandatory":"The email is mandatory",
   "staff is not valid":"Staff is not valid",
-  "id_staff is mandatory":"Id is mandatory"
+  "id_staff is mandatory":"Id is mandatory",
+  "Name must have letters":"Name must have letters",
+  "User must have letters too":"User must have letters too",
+  "Name too large. Max.255 characters":"Name too large. Max.255 characters",
+  "User too large. Max.255 characters":"User too large. Max.255 characters",
+  "Number of wedding's waiters must be at max 999":"Number of wedding's waiters must be at max 999",
+  "Number of christening's waiters must be at max 999":"Number of christening's waiters must be at max 999",
+  "Number of communion's waiters must be at max 999":"Number of communion's waiters must be at max 999",
+  "Number of other's waiters must be at max 999":"Number of other's waiters must be at max 999",
+  "Password must be at max 15 characters length":"Password must be at max 15 characters length"
 }

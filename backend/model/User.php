@@ -264,29 +264,65 @@ class User {
 	public function checkIsValidForRegister() {
 		$errors = array();
 		if (strlen($this->name) < 2) {
-			$errors["name"] = "Name must be at least 5 characters length";
-
+			$errors["name"] = "Name must be at least 2 characters length";
 		}
+        if (strlen($this->name) > 255) {
+            $errors["name"] = "Name too large. Max.255 characters";
+        }
+        if(strlen($this->name) == 0){
+            $errors["name"] = "Name can't be empty";
+        }
+		if(!preg_match('[A-Za-z]+', $this->name)){
+            $errors["name"] = "Name must have letters";
+        }
+
+        if(!preg_match('[A-Za-z]+', $this->user)){
+            $errors["user"] = "User must have letters too";
+        }
+        if(strlen($this->user) == 0){
+            $errors["user"] = "User can't be empty";
+        }
+        if (strlen($this->name) > 255) {
+            $errors["user"] = "User too large. Max.255 characters";
+        }
 		if (strlen($this->password) < 5) {
 			$errors["password"] = "Password must be at least 5 characters length";
 		}
+		if(strlen($this->password) > 15){
+            $errors["password"] = "Password must be at max 15 characters length";
+        }
 		if (strlen($this->user) < 3){
 		    $errors["user"] = "User must be at least 3 characters";
         }
         if (!preg_match('/\d/', $this->n_cli_wedding)) {
             $errors["n_cli_wedding"] = "Number of wedding's waiters must be at least 0";
         }
+        if ($this->n_cli_wedding > 999) {
+            $errors["n_cli_wedding"] = "Number of wedding's waiters must be at max 999";
+        }
         if (!preg_match('/\d/',$this->n_cli_christening)) {
             $errors["n_cli_christening"] = "Number of christening's waiters must be at least 0";
+        }
+        if ($this->n_cli_christening > 999) {
+            $errors["n_cli_christening"] = "Number of christening's waiters must be at max 999";
         }
         if (!preg_match('/\d/',$this->n_cli_communion)) {
             $errors["n_cli_communion"] = "Number of communion's waiters must be at least 0";
         }
+        if ($this->n_cli_communion > 999) {
+            $errors["n_cli_communion"] = "Number of communion's waiters must be at max 999";
+        }
         if (!preg_match('/\d/',$this->n_cli_others)) {
             $errors["n_cli_others"] = "Number of other's waiters must be at least 0";
         }
+        if ($this->n_cli_others > 999) {
+            $errors["n_cli_others"] = "Number of other's waiters must be at max 999";
+        }
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
             $errors["email"] = "The email is incorrect";
+        }
+        if(strlen($this->email) > 255){
+            $errors["email"] = "Email too long";
         }
 		if (sizeof($errors)>0){
 			throw new ValidationException($errors, "user is not valid");

@@ -3,11 +3,11 @@
     <h2>{{'register.title' | translate}}</h2>
 
     <div class="alert alert-success" *ngIf="status == 'success'">
-        El registro se ha completado correctamente, <a [routerLink]="['/login']">identifícate aqui</a>
+        {{'register.registered' | translate }}, <a [routerLink]="['/login']">{{'register.login' | translate }}</a>
     </div>
 
     <div class="alert alert-danger" *ngIf="status == 'error'">
-        El registro NO se ha completado correctamente
+        {{'register.registerError' | translate}}
     </div>
 
     <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-md-5">
@@ -15,42 +15,42 @@
             <label for="name">{{'user.bossName' | translate}}</label>
             <input ngModel type="text"  name="name" id="name" class="form-control" required />
         </p>
-        <div *ngIf="errors.name !== undefined" class="alert alert-danger">{{errors.name}}</div>
+        <div *ngIf="errors.name !== undefined" class="alert alert-danger">{{errors.name | translate}}</div>
         <p> <label for="user">{{'user.userName' | translate}}</label>
             <input ngModel type="text"  name="user" id="user" class="form-control" required />
         </p>
         <div class="alert alert-warning" role="alert">
             {{'register.charactersNotAllowed' | translate}}
         </div>
-        <div *ngIf="errors.user !== undefined" class="alert alert-danger">{{errors.user}}</div>
+        <div *ngIf="errors.user !== undefined" class="alert alert-danger">{{errors.user | translate}}</div>
         <p> <label for="password">{{'user.password'| translate}}</label>
             <input ngModel type="password" name="password" id="password" class="form-control" required />
 
         </p>
-        <div *ngIf="errors.password !== undefined" class="alert alert-danger">{{errors.password}}</div>
+        <div *ngIf="errors.password !== undefined" class="alert alert-danger">{{errors.password | translate}}</div>
         <p> <label for="n_cli_wedding">{{'user.num_cli_wed'| translate}}</label>
             <input ngModel type="text"  name="n_cli_wedding" id="n_cli_wedding" class="form-control" required />
 
         </p>
-        <div *ngIf="errors.n_cli_wedding !== undefined" class="alert alert-danger">{{errors.n_cli_wedding}}</div>
+        <div *ngIf="errors.n_cli_wedding !== undefined" class="alert alert-danger">{{errors.n_cli_wedding | translate}}</div>
         <p> <label for="n_cli_christening">{{'user.num_cli_chr'| translate}}</label>
             <input ngModel type="text"  name="n_cli_christening" id="n_cli_christening" class="form-control" required />
         </p>
-        <div *ngIf="errors.n_cli_christening !== undefined" class="alert alert-danger">{{errors.n_cli_christening}}</div>
+        <div *ngIf="errors.n_cli_christening !== undefined" class="alert alert-danger">{{errors.n_cli_christening | translate}}</div>
         <p> <label for="n_cli_communion">{{'user.num_cli_com'| translate}}</label>
             <input ngModel type="text"  name="n_cli_communion" id="n_cli_communion" class="form-control" required />
 
         </p>
-        <div *ngIf="errors.n_cli_communion !== undefined" class="alert alert-danger">{{errors.n_cli_communion}}</div>
+        <div *ngIf="errors.n_cli_communion !== undefined" class="alert alert-danger">{{errors.n_cli_communion | translate}}</div>
         <p> <label for="n_cli_others">{{'user.num_cli_oth'| translate}}</label>
             <input ngModel type="text"  name="n_cli_others" id="n_cli_others" class="form-control" required />
 
         </p>
-        <div *ngIf="errors.n_cli_others !== undefined" class="alert alert-danger">{{errors.n_cli_others}}</div>
+        <div *ngIf="errors.n_cli_others !== undefined" class="alert alert-danger">{{errors.n_cli_others | translate}}</div>
         <p> <label for="email">{{'standard.email' | translate}}</label>
             <input ngModel type="email"  name="email" id="email" class="form-control" required />
         </p>
-        <div *ngIf="errors.email !== undefined" class="alert alert-danger">{{errors.email}}</div>
+        <div *ngIf="errors.email !== undefined" class="alert alert-danger">{{errors.email | translate}}</div>
 
         <input type="submit" value="{{'register.submit' | translate}}" class="btn btn-success">
 

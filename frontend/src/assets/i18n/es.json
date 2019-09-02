@@ -11,6 +11,11 @@
   "register.title":"Regístrate",
   "register.submit":"Regístrame",
   "register.charactersNotAllowed":"No se permiten letras con acentos ni la ñ",
+  "register.registered":"El registro se ha completado correctamente",
+  "register.login":"identifícate aqui",
+  "register.registerError":"El registro NO se ha completado correctamente",
+  "register.nameError":"El nombre no puede estar vacío",
+  "register.userError":"El usuario no puede estar vacío",
   "user.userName":"Nombre de usuario",
   "user.password":"Contraseña",
   "login.notLogin":"El login NO se ha completado correctamente",
@@ -135,5 +140,15 @@
   "Surnames are mandatory":"Los apellidos son obligatorios",
   "The email is mandatory":"El correo electrónico es obligatorio",
   "staff is not valid":"Extra NO válido",
-  "id_staff is mandatory":"Id es obligatorio"
+  "id_staff is mandatory":"Id es obligatorio",
+  "Name must have letters":"El nombre debe de tener letras",
+  "User must have letters too":"El usuario debe de tener letras tambien",
+  "Name too large. Max.255 characters":"Nombre demasiado largo. Máx.255 caracteres",
+  "User too large. Max.255 characters":"Usuario demasiado largo. Máx.255 caracteres",
+  "Number of wedding's waiters must be at max 999":"Número de camareros para una boda máximo 999",
+  "Number of christening's waiters must be at max 999":"Número de camareros para un bautizo máximo 999",
+  "Number of communion's waiters must be at max 999":"Número de camareros para una comuniín máximo 999",
+  "Number of other's waiters must be at max 999":"Número de camareros para otros eventos máximo 999",
+  "Password must be at max 15 characters length":"La contraseña debe tener entre 3 y 15 caracteres"
+
 }
