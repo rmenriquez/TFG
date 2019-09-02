@@ -154,5 +154,8 @@
   "Price is too big. Máx 999,99":"El precio es muy alto. Máx 999,99",
   "Name is too large. Max 60 caracteres":"El nombre es muy largo. Máx 60 caracteres",
   "Surnames are too large. Max 150 caracteres":"Los apellidos son muy largos. Máx 150 caracteres",
-  "Email is too large. Max 150 caracteres":"El email es muy largo. Máx 150 caracteres"
+  "Email is too large. Max 150 caracteres":"El email es muy largo. Máx 150 caracteres",
+  "Name is too long. Max. 100 characters":"El nombre es muy largo. Máx 100 caracteres",
+  "Price too big":"El precio es demasiado alto. Máximo 99999999,99",
+  "Price can't be empty":"El precio no puede estar vacío"
 }

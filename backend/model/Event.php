@@ -330,6 +330,9 @@ class Event
         if (strlen(trim($this->name)) == 0){
             $errors["name"] = "name is mandatory";
         }
+        if (strlen($this->name) >= 100){
+            $errors["name"] = "Name is too long. Max. 100 characters";
+        }
         //date
         if($this->date == NULL || strlen(trim($this->date)) == 0){
 
@@ -362,6 +365,12 @@ class Event
 
         if (!isset($this->id_event)) {
             $errors["id_event"] = "id is mandatory";
+        }
+        if($this->price >= 100000000){
+            $errors["price"] = "Price too big. Máx 99999999,99";
+        }
+        if($this->price == 0 || $this->price == null){
+            $errors["price"] = "Price can't be empty";
         }
 
         try{
