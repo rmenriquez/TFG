@@ -149,7 +149,7 @@ CREATE TABLE `food` (
   `description` text COLLATE utf8_spanish_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `restaurant` int(11) NOT NULL,
-  `price` decimal(4,2) DEFAULT NULL
+  `price` decimal(4,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --

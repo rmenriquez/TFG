@@ -34,7 +34,7 @@
 
       <p>
         <label for="price">{{'food.price' | translate}}</label>
-        <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" placeholder="0,0" />
+        <input ngModel type="number" class="form-control" id="price" name="price" #price="ngModel" placeholder="0,0" required/>
       </p>
 
       <input type="submit" value="{{'standard.send' | translate}}" class="btn btn-success" [disabled]="!newFood.form.valid"/>

@@ -149,6 +149,7 @@
   "Number of christening's waiters must be at max 999":"Número de camareros para un bautizo máximo 999",
   "Number of communion's waiters must be at max 999":"Número de camareros para una comuniín máximo 999",
   "Number of other's waiters must be at max 999":"Número de camareros para otros eventos máximo 999",
-  "Password must be at max 15 characters length":"La contraseña debe tener entre 3 y 15 caracteres"
-
+  "Password must be at max 15 characters length":"La contraseña debe tener entre 3 y 15 caracteres",
+  "Title is too large. Máx 255 characters":"El título el muy largo. Máximo 255 caracteres",
+  "Price is too big. Máx 999,99":"El precio es muy alto. Máx 999,99"
 }

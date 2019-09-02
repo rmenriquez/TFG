@@ -149,5 +149,7 @@
   "Number of christening's waiters must be at max 999":"Number of christening's waiters must be at max 999",
   "Number of communion's waiters must be at max 999":"Number of communion's waiters must be at max 999",
   "Number of other's waiters must be at max 999":"Number of other's waiters must be at max 999",
-  "Password must be at max 15 characters length":"Password must be at max 15 characters length"
+  "Password must be at max 15 characters length":"Password must be at max 15 characters length",
+  "Title is too large. Máx 255 characters":"Title is too large. Máx 255 characters",
+  "Price is too big. Máx 999,99":"Price is too big. Máx 999,99"
 }

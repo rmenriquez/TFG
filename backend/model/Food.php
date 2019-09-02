@@ -158,6 +158,9 @@ class Food{
         if (strlen(trim($this->title)) == 0 ) {
             $errors["title"] = "Title is mandatory";
         }
+        if(strlen($this->title) > 255){
+            $errors["title"] = "Title is too large. Máx 255 characters";
+        }
         if (strlen(trim($this->description)) == 0 ) {
             $errors["description"] = "Content is mandatory";
         }
@@ -167,6 +170,9 @@ class Food{
         }
         if($this->price == null || $this->price == 0){
             $errors["price"] = "Price is mandatory";
+        }
+        if($this->price >= 10000){
+            $errors["price"] = "Price is too big. Máx 999,99";
         }
 
         if (sizeof($errors) > 0){
