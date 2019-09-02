@@ -151,5 +151,8 @@
   "Number of other's waiters must be at max 999":"Número de camareros para otros eventos máximo 999",
   "Password must be at max 15 characters length":"La contraseña debe tener entre 3 y 15 caracteres",
   "Title is too large. Máx 255 characters":"El título el muy largo. Máximo 255 caracteres",
-  "Price is too big. Máx 999,99":"El precio es muy alto. Máx 999,99"
+  "Price is too big. Máx 999,99":"El precio es muy alto. Máx 999,99",
+  "Name is too large. Max 60 caracteres":"El nombre es muy largo. Máx 60 caracteres",
+  "Surnames are too large. Max 150 caracteres":"Los apellidos son muy largos. Máx 150 caracteres",
+  "Email is too large. Max 150 caracteres":"El email es muy largo. Máx 150 caracteres"
 }

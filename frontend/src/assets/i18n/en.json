@@ -151,5 +151,8 @@
   "Number of other's waiters must be at max 999":"Number of other's waiters must be at max 999",
   "Password must be at max 15 characters length":"Password must be at max 15 characters length",
   "Title is too large. Máx 255 characters":"Title is too large. Máx 255 characters",
-  "Price is too big. Máx 999,99":"Price is too big. Máx 999,99"
+  "Price is too big. Máx 999,99":"Price is too big. Máx 999,99",
+  "Name is too large. Max 60 caracteres":"Name is too large. Max 60 caracteres",
+  "Surnames are too large. Max 150 caracteres":"Surnames are too large. Max 150 caracteres",
+  "Email is too large. Max 150 caracteres":"Email is too large. Max 150 caracteres"
 }

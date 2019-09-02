@@ -178,14 +178,23 @@ class Staff
         if (strlen(trim($this->name)) <= 3 ) {
             $errors["name"] = "Name is mandatory";
         }
+        if (strlen(trim($this->name)) >= 60 ) {
+            $errors["name"] = "Name is too large. Max 60 caracteres";
+        }
         if (strlen(trim($this->surnames)) == 0 ) {
             $errors["surnames"] = "Surnames are mandatory";
+        }
+        if (strlen($this->surnames) >= 150) {
+            $errors["surnames"] = "Surnames are too large. Max 150 caracteres";
         }
         if (strlen(trim($this->email)) == 0 ) {
             $errors["email"] = "The email is mandatory";
         }
         if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
             $errors["email"] = "The email is incorrect";
+        }
+        if (strlen($this->email) >= 150) {
+            $errors["email"] = "Email is too large. Max 150 caracteres";
         }
         if ($this->restaurant == NULL ) {
             $errors["restaurant"] = "Restaurant is mandatory";
