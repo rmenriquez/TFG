@@ -19,9 +19,9 @@ USE `tfg`;
 --
 -- Creación de usuario
 --
-CREATE USER 'tfguser' IDENTIFIED BY 'tfgtable'
-GRANT USAGE ON *.* TO 'tfguser'@localhost IDENTIFIED BY 'tfgtable'
-GRANT ALL privileges ON `tfg`.* TO 'tfguser'@localhost
+CREATE USER 'tfguser' IDENTIFIED BY 'tfgtable';
+GRANT USAGE ON *.* TO 'tfguser'@localhost IDENTIFIED BY 'tfgtable';
+GRANT ALL privileges ON `tfg`.* TO 'tfguser'@localhost;
 -- --------------------------------------------------------
 
 --
