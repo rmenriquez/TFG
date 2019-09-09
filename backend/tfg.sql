@@ -16,6 +16,12 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `tfg` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 USE `tfg`;
 
+--
+-- Creación de usuario
+--
+CREATE USER 'tfguser' IDENTIFIED BY 'tfgtable'
+GRANT USAGE ON *.* TO 'tfguser'@localhost IDENTIFIED BY 'tfgtable'
+GRANT ALL privileges ON `tfg`.* TO 'tfguser'@localhost
 -- --------------------------------------------------------
 
 --
